@@ -1,5 +1,5 @@
-import React from 'react';
-import { 
+import React from "react";
+import {
   ScrollView,
   Text,
   View,
@@ -7,108 +7,154 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
-  Platform,
-} from 'react-native';
+  Platform
+} from "react-native";
 import styles_layout from "./style/style_layout";
 import styles_add from "./style/style_add";
-import DateTimePicker from 'react-native-modal-datetime-picker';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { Button } from '../node_modules/react-native-elements';
+import DateTimePicker from "react-native-modal-datetime-picker";
+import Icon from "react-native-vector-icons/Ionicons";
+import { Button } from "../node_modules/react-native-elements";
+import axios from "axios";
 //import PopupDialog from 'react-native-popup-dialog';
 
 export default class Member extends React.Component {
   static navigationOptions = {
     headerTitle: (
-      <Image source={require('../assets/images/LogoFont_w.png')} style={styles_layout.titleLogo}/>
+      <Image
+        source={require("../assets/images/LogoFont_w.png")}
+        style={styles_layout.titleLogo}
+      />
     ),
-    headerStyle: styles_layout.titleDiv,
+    headerStyle: styles_layout.titleDiv
+  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      location: " ",
+      narrative: " ",
+      isDatePickerVisible: false,
+      isTimePickerVisible: false,
+      listDate: new Date().toDateString(),
+      listTime: new Date().toTimeString()
+    };
+  }
+
+  _showDatePicker = () =>
+    this.setState({
+      isDatePickerVisible: true
+    });
+  _showTimePicker = () =>
+    this.setState({
+      isTimePickerVisible: true
+    });
+  _hideDateTimePicker = () =>
+    this.setState({
+      isDatePickerVisible: false,
+      isTimePickerVisible: false
+    });
+
+  _handleDatePicked = date => {
+    var strDate = date.toDateString();
+    this.setState({ listDate: strDate });
+    this._hideDateTimePicker();
+  };
+  _handleTimePicked = date => {
+    var strTime = date.toTimeString();
+    this.setState({ listTime: strTime });
+    this._hideDateTimePicker();
   };
 
-  state = {
-    isDatePickerVisible: false,
-    isTimePickerVisible: false,
-    listDate: new Date().toDateString(),
-    listTime: new Date().toTimeString(),
-  };
- 
-  _showDatePicker = () => this.setState({ 
-    isDatePickerVisible: true
-  });
-  _showTimePicker = () => this.setState({ 
-    isTimePickerVisible: true 
-  });
-  _hideDateTimePicker = () => this.setState({ 
-    isDatePickerVisible: false, 
-    isTimePickerVisible: false 
-  });
- 
-  _handleDatePicked = (date) => {
-    var strDate = date.toDateString();
-    this.setState({listDate: strDate});
-    this._hideDateTimePicker();
-  };
-  _handleTimePicked = (date) => {
-    var strTime = date.toTimeString();
-    this.setState({listTime: strTime});
-    this._hideDateTimePicker();
+  InsertDataToServer = () => {
+    var narrative = this.state.narrative;
+    var location = this.state.location;
+    var URLSearchParams = require("url-search-params");
+    const params = new URLSearchParams();
+    params.append("narrative", narrative);
+    params.append("location", location);
+    //console.log(params.toString());
+    axios({
+      url: "http://192.168.1.111:8181/urbandiary/test/test.php",
+      method: "post",
+      data: params.toString()
+    })
+      .then(function(response) {
+        console.log(response.data);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   };
 
   render() {
     return (
-      <ScrollView 
-      contentContainerStyle={{flexGrow: 1}}
-        keyboardShouldPersistTaps='handled' 
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
         style={styles_add.container}
       >
         <View style={styles_add.header}>
           <Text style={styles_add.headerTxt}>新增待辦事項</Text>
         </View>
         <View style={styles_add.addDiv}>
-          <TextInput style={styles_add.addInput} multiline={true} placeholder='敘述'>
-          </TextInput>
-          <TextInput style={styles_add.addInput} multiline={true} placeholder='地點'>
-          </TextInput>
+          <TextInput
+            style={styles_add.addInput}
+            multiline={true}
+            placeholder="敘述"
+            ref={el => {
+              this.narrative = el;
+            }}
+            onChangeText={text => this.setState({ narrative: text })}
+          />
+          <TextInput
+            style={styles_add.addInput}
+            multiline={true}
+            placeholder="地點"
+            ref={el => {
+              this.location = el;
+            }}
+            onChangeText={text => this.setState({ location: text })}
+          />
           <View style={styles_add.timeDiv}>
-            <Icon 
-                name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} 
-                style={styles_add.btnIcon} 
-              />
+            <Icon
+              name={Platform.OS === "ios" ? "ios-calendar" : "md-calendar"}
+              style={styles_add.btnIcon}
+            />
             <TouchableOpacity onPress={this._showDatePicker}>
               <View style={styles_add.btnTime}>
-                <Text>
-                  {this.state.listDate} 
-                </Text>
+                <Text>{this.state.listDate}</Text>
               </View>
             </TouchableOpacity>
           </View>
           <View style={styles_add.timeDiv}>
-            <Icon 
-                name={Platform.OS === 'ios' ? 'ios-time' : 'md-time'} 
-                style={styles_add.btnIcon} 
-              />
+            <Icon
+              name={Platform.OS === "ios" ? "ios-time" : "md-time"}
+              style={styles_add.btnIcon}
+            />
             <TouchableOpacity onPress={this._showTimePicker}>
               <View style={styles_add.btnTime}>
-                <Text>
-                  {this.state.listTime}
-                </Text>
+                <Text>{this.state.listTime}</Text>
               </View>
             </TouchableOpacity>
           </View>
           <DateTimePicker
-            mode='date'
+            mode="date"
             isVisible={this.state.isDatePickerVisible}
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
           />
           <DateTimePicker
-            mode='time'
+            mode="time"
             isVisible={this.state.isTimePickerVisible}
             onConfirm={this._handleTimePicked}
             onCancel={this._hideDateTimePicker}
           />
-          <Button buttonStyle={styles_add.addBtn} textStyle={styles_add.addBtnTxt} title='儲存' />
+          <Button
+            buttonStyle={styles_add.addBtn}
+            textStyle={styles_add.addBtnTxt}
+            title="儲存"
+            onPress={this.InsertDataToServer}
+          />
         </View>
-        
       </ScrollView>
     );
   }
