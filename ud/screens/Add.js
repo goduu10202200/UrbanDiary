@@ -69,7 +69,7 @@ export default class Member extends React.Component {
     var location = this.state.location;
 
     axios({
-      url: "http://172.20.10.2:8181/urbandiary/test/test.php",
+      url: "http://172.20.10.2:8181/urbandiary/ud_backend/test.php",
       method: "post",
       data: {
         narrative: narrative,

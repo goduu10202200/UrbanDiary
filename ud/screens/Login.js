@@ -12,20 +12,48 @@ import "@expo/vector-icons";
 import { Button, Icon, SocialIcon } from "react-native-elements";
 import styles from "./style/style_login";
 import styles_layout from "./style/style_layout";
-
+import axios from "axios";
 export default class Login extends React.Component {
   static navigationOptions = {
     title: "登入",
     headerStyle: {
-      height: 50,
+      height: 50
     },
     headerTitleStyle: {
       fontSize: 20,
       letterSpacing: 2,
-      color: '#333',
-    },
+      color: "#333"
+    }
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: " ",
+      password: " "
+    };
+  }
+
+  SendDataAJAX = () => {
+    var account = this.state.account;
+    var password = this.state.password;
+
+    axios({
+      url: "http://172.20.10.2:8181/urbandiary/ud_backend/login_backend.php",
+      method: "post",
+      data: {
+        account: account,
+        password: password
+      }
+    })
+      .then(function(response) {
+        //this.props.navigation.navigate("Main");
+        console.log(response.data);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
   render() {
     return (
       <ScrollView
@@ -49,8 +77,10 @@ export default class Login extends React.Component {
           <TextInput
             style={styles.TextInput}
             placeholder="請輸入帳號"
-            //placeholderTextColor="#a3a6a7"
-            // onChangeText={text => this.setState({ input: text })}
+            ref={el => {
+              this.account = el;
+            }}
+            onChangeText={text => this.setState({ account: text })}
           />
         </View>
         <View style={styles.View_TextInput}>
@@ -58,8 +88,10 @@ export default class Login extends React.Component {
             style={styles.TextInput}
             placeholder="請輸入密碼"
             secureTextEntry={true}
-           // placeholderTextColor="#c2c2c4"
-            // onChangeText={text => this.setState({ input: text })}
+            ref={el => {
+              this.password = el;
+            }}
+            onChangeText={text => this.setState({ password: text })}
           />
         </View>
         {/* <View
@@ -69,21 +101,21 @@ export default class Login extends React.Component {
             alignItems: "center"
           }}
         > */}
-          <Button
-            icon={
-              {
-                // name: 'arrow-right',
-                // size: 15,
-                // color: 'white'
-              }
+        <Button
+          icon={
+            {
+              // name: 'arrow-right',
+              // size: 15,
+              // color: 'white'
             }
-            title="登入"
-            textStyle={styles.textStyle}
-            // backgroundColor="#f3f7fa"
-            buttonStyle={styles.someButtonStyle}
-            // containerViewStyle={{ marginTop: 50 }}
-            onPress={() => this.props.navigation.navigate("Main")}
-          />
+          }
+          title="登入"
+          textStyle={styles.textStyle}
+          // backgroundColor="#f3f7fa"
+          buttonStyle={styles.someButtonStyle}
+          // containerViewStyle={{ marginTop: 50 }}
+          onPress={this.SendDataAJAX}
+        />
         {/* </View> */}
         <Text
           style={{
