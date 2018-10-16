@@ -67,15 +67,14 @@ export default class Member extends React.Component {
   InsertDataToServer = () => {
     var narrative = this.state.narrative;
     var location = this.state.location;
-    var URLSearchParams = require("url-search-params");
-    const params = new URLSearchParams();
-    params.append("narrative", narrative);
-    params.append("location", location);
-    //console.log(params.toString());
+
     axios({
-      url: "http://192.168.1.111:8181/urbandiary/test/test.php",
+      url: "http://172.20.10.2:8181/urbandiary/test/test.php",
       method: "post",
-      data: params.toString()
+      data: {
+        narrative: narrative,
+        location: location
+      }
     })
       .then(function(response) {
         console.log(response.data);
