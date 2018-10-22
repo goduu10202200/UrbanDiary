@@ -22,8 +22,8 @@ export default class MapDiary extends React.Component {
     super();
     this.state = {
       region: {
-        latitude: 0,
-        longitude: 0,
+        latitude: 24.957249398540547,
+        longitude: 121.24323277169101,
         latitudeDelta: 0.001,
         longitudeDelta: 0.001,
         accuracy: ""
@@ -54,7 +54,6 @@ export default class MapDiary extends React.Component {
         const lat = position.coords.latitude;
         const long = position.coords.longitude;
         const accuracy = position.coords.accuracy;
-
         this.calDelta(lat, long, accuracy);
       },
 
