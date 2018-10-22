@@ -7,7 +7,7 @@ var styles_add = {
   },
   header: {
     width: '100%',
-    height: '15%',
+    height: '10%',
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
@@ -18,8 +18,11 @@ var styles_add = {
   },
   addDiv: {
     width: '90%',
-    height: '85%',
+    height: '80%',
     alignSelf: 'center',
+    padding: '3%',
+    borderRadius: 5,
+    backgroundColor: 'rgba(200, 200, 200, .3)',
   },
   addInput: {
     width: '100%',
@@ -55,11 +58,12 @@ var styles_add = {
   },
 
   addBtn:{
-    width: '100%',
-    height: 50,
+    width: '90%',
+    height: 40,
     borderRadius: 6,
     backgroundColor: '#1072b5',
-    marginTop:50,
+    marginTop:10,
+    alignSelf: 'center',
   },
   addBtnTxt: {
     letterSpacing: 3,

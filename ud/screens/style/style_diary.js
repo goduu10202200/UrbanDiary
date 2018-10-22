@@ -16,6 +16,10 @@ var styles_member = {
     lineHeight: 40,
     textAlign: 'center',
   },
+  titleCheck:{
+    width: 100,
+    height: 100,
+  },
   diary: {
     width: '100%',
     height: '94%',
@@ -49,6 +53,78 @@ var styles_member = {
     height: 22,
     color: 'white',
   },
+
+  tag_div:{
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    backgroundColor: "rgba(232, 232, 232, 0.8)",
+  },
+  tag_box:{
+    width: "45%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    backgroundColor: "#19446a",
+    paddingLeft: "10%",
+    paddingTop: "5%",
+    zIndex: 100,
+  },
+  tag:{
+    width: "80%",
+    // height: 40,
+    padding: 1,
+    marginTop: 10,
+    backgroundColor: "rgba(122, 190, 249, .3)",
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tag_txt:{
+    lineHeight: 40,
+    fontSize: 22,
+    color: "#fff",
+  },
+  tag_img:{
+    width: 120,
+    height: 50,
+    resizeMode: 'contain',
+    // heig
+    marginTop: 10,
+  },
+  
+  dialog:{
+    width: "85%",
+    height: "30%",
+    backgroundColor: '#f7f7f7',
+    position: 'absolute',
+    top: "23%",
+  },
+  dialog_input:{
+    width: '90%',
+    backgroundColor: "#fff",
+    fontSize: 16,
+    alignSelf: "center",
+    padding: 10,
+    marginTop: 10,
+    marginBottom: 30,
+    borderRadius: 3,
+    borderWidth: 0.8,
+    borderColor: "#ddd",
+  },
+  dialog_btn:{
+    backgroundColor: "#5b9bd5",
+    width: "100%",
+    height: 50,
+    borderColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 5,
+    alignSelf: 'center',
+  },
+
 };
 
 export default styles_member;

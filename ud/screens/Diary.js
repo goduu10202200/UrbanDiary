@@ -7,7 +7,8 @@ import {
   Image,
   Platform,
   Dimensions,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity,
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -22,30 +23,49 @@ const window = Dimensions.get("window");
 
 export default class Diary extends React.Component {
   static navigationOptions = {
-    headerTitle: (
-      <Image
-        source={require("../assets/images/LogoFont_w.png")}
-        style={styles_layout.titleLogo}
-      />
+    title: "日記",
+    headerRight: (
+      <TouchableOpacity>
+        {/* <Image
+          source={require("../assets/images/LogoFont_w.png")}
+          style={styles_layout.titleLogo}
+        /> */}
+        <Icon
+            name={Platform.OS === "ios" ? "ios-checkmark" : "md-checkmark"}
+            style={{width:100,height:100}}
+          />
+      </TouchableOpacity>
+
+
     ),
-    headerStyle: styles_layout.titleDiv
+    // headerTitle: (
+    //   // <Image
+    //   //   source={require("../assets/images/LogoFont_w.png")}
+    //   //   style={styles_layout.titleLogo}
+    //   // />
+    //   <Text fontStyle="styles_layout.titleTxt">日記</Text>
+    // ),
+    headerStyle: styles_layout.titleDiv,
+    // headerTintColor: "#fff",
+    headerTitleStyle : styles_layout.titleTxt,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      key: "",
+      // key: "",
       taginput: "",
       isHidden: false,
-      MainOpacity: 1,
+      // MainOpacity: 1,
       MainNumber: 0,
-      MainView: "100%",
-      connection_text: "",
-      TextInputValueHolder: ""
+      // MainView: "100%",
+      // connection_text: "",
+      diaryContent: ""
     };
     this.onPress = this.onPress.bind(this);
   }
 
+  /* Date */ 
   ShowCurrentDate = () => {
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -65,27 +85,30 @@ export default class Diary extends React.Component {
     //Click urban diary's tag number End
 
     // Click urban diary's tag Start
-    if (this.state.MainNumber % 2 == 0) {
-      this.setState({ MainView: "55%" });
-      this.setState({ MainOpacity: 0.6 });
-    } else {
-      this.setState({ MainView: "100%" });
-      this.setState({ MainOpacity: 1 });
-    }
+    // if (this.state.MainNumber % 2 == 0) {
+    //   this.setState({ MainView: "55%" });
+    //   this.setState({ MainOpacity: 0.6 });
+    // } else {
+    //   this.setState({ MainView: "100%" });
+    //   this.setState({ MainOpacity: 1 });
+    // }
     // Click urban diary's tag End
   }
   // This is hidden window function End
 
   // Display Input Text Start
-  renderTodo = () => {
-    return this.state.TextInputValueHolder;
-  };
+  // renderTodo = () => {
+  //   return this.state.diaryContent;
+  // };
   // Display Input Text End
 
   connection_inputtext(text) {
-    var showtext = this.state.TextInputValueHolder + text;
-    this.setState({ TextInputValueHolder: showtext });
+    /* diary add tag input */
+    var showtext = this.state.diaryContent + text;
+    this.setState({ diaryContent: showtext });
   }
+
+
   render() {
     return (
       <ScrollView
@@ -96,28 +119,21 @@ export default class Diary extends React.Component {
         <View style={styles_diary.header}>
           <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
         </View>
-        <View
-          style={{
-            height: "94%",
-            backgroundColor: "#ededed",
-            width: "100%",
-            // width: this.state.MainView,
-            // opacity: this.state.MainOpacity
-          }}
-        >
+        <View style={styles_diary.diary}>
           <TextInput
             style={styles_diary.diary_input}
             multiline={true}
             placeholder="今天發生了什麼趣事呢？"
-            value={this.renderTodo()}
-            multiline={true}
+            ref= {(el) => { this.diaryContent = el; }}
+            onChangeText={(diaryContent) => this.setState({diaryContent})}
+            value={this.state.diaryContent}
           />
 
-          <Button
+          {/* <Button
             buttonStyle={styles_diary.diary_btn}
             textStyle={styles_diary.diary_btn_txt}
             title="儲存"
-          />
+          /> */}
         </View>
 
         {/* This is hidden window */}
@@ -129,181 +145,134 @@ export default class Diary extends React.Component {
           }}
           dialogTitle={<DialogTitle 
             title="標籤" 
-
           />}
-          dialogStyle={{ 
-            width: "85%",
-            height: "30%",
-            backgroundColor: '#f7f7f7',
-            position: 'absolute',
-            top: "23%",
-          }}
-          containerStyle={{
-          }}
+          dialogStyle={styles_diary.dialog}
           // dialogTitle={<DialogTitle title="Weather" />}
         >
-          <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
-            keyboardShouldPersistTaps="handled"
-            style={styles_diary.container}
-          > 
               <TextInput
-                style={{ 
-                  width: '90%',
-                  backgroundColor: "#fff",
-                  fontSize: 16,
-                  alignSelf: "center",
-                  padding: 10,
-                  marginTop: 10,
-                  marginBottom: 30,
-                  borderRadius: 3,
-                  borderWidth: 0.8,
-                  borderColor: "#ddd",
-                }}
-                value={this.state.taginput}
+                style={styles_diary.dialog_input}
                 placeholderTextColor="#a3a6a7"
-                ref={el => {
-                  this.TextInputValueHolder = el;
-                }}
-                onChangeText={text =>
-                  this.setState({
-                    connection_text: text
-                  })
-                }
+                ref= {(el) => { this.taginput = el; }}
+                onChangeText={(taginput) => this.setState({taginput})}
+                value={this.state.taginput}
               />
               <Button
                 title="送出"
                 titleStyle={{ fontWeight: "700" }}
-                // textStyle={{
-                //   marginLeft: -30
-                // }}
-                buttonStyle={{
-                  backgroundColor: "#5b9bd5",
-                  width: "100%",
-                  height: 50,
-                  borderColor: "transparent",
-                  borderWidth: 0,
-                  borderRadius: 5,
-                  alignSelf: 'center',
-                }}
+                buttonStyle={styles_diary.dialog_btn}
                 onPress={() => {
-                  this.connection_inputtext(this.state.connection_text);
+                  this.connection_inputtext(this.state.taginput);
                   this.popupDialog.dismiss();
+                  this.setState({ isHidden: !this.state.isHidden });
                 }}
               />
-          </ScrollView> 
         </PopupDialog>
         {/* Click urban diary's tag => diaplay window */}
 
         {this.state.isHidden ? (
-          <View
-            style={{
-              top: 0,
-              right: 0,
-              width: "45%",
-              position: "absolute",
-              height: window.height,
-              backgroundColor: "#19446a",
-              paddingLeft: "10%",
-              paddingTop: "5%",
-            }}
+          <View  
+            style={styles_diary.tag_div} 
           >
-            {/* urban diary's  mood tag  Staret*/}
-            <TouchableHighlight
-              onPress={() => {
-                this.popupDialog.show();
-                this.setState({ taginput: " 今天早上心情很好" });
-              }}
-            >
-              <Image
-                style={{
-                  width: 120,
-                  height: 50,
-                  marginTop: "5%",
+            <TouchableOpacity 
+              style={{
+                width: "55%",
+                height: "100%",
+                position: "absolute",
+                top: 0,
+                right: 0,
+              }} 
+              onPress={this.onPress}
+            />
+            <View style={styles_diary.tag_box}>
+              {/* urban diary's  mood tag  Staret*/}
+              <TouchableHighlight
+                onPress={() => {
+                  this.popupDialog.show();
+                  this.setState({ taginput: " 跟女朋友吵架了.... " });
                 }}
-                source={require("../assets/images/tag_mood.png")}
-              />
-            </TouchableHighlight>
-            {/* urban diary's mood tag  End*/}
+              >
+                <Image
+                  style={styles_diary.tag_img}
+                  source={require("../assets/images/tag_love.png")}
+                />
+                {/* <View style={styles_diary.tag}>
+                  <Text style={styles_diary.tag_txt}>#感情</Text>
+                </View> */}
+              </TouchableHighlight>
+              {/* urban diary's mood tag  End*/}
 
-            {/* urban diary's weather tag  Start*/}
-            <TouchableHighlight
-              onPress={() => {
-                this.popupDialog.show();
-                this.setState({ taginput: "今天下午天氣很差 " });
-              }}
-            >
-              <Image
-                style={{
-                  width: 120,
-                  height: 50,
-                  marginTop: "5%",
+              {/* urban diary's weather tag  Start*/}
+              <TouchableHighlight
+                onPress={() => {
+                  this.popupDialog.show();
+                  this.setState({ taginput: "今天吃了... " });
                 }}
-                source={require("../assets/images/tag_weather.png")}
-              />
-            </TouchableHighlight>
-            {/* urban diary's weather tag  End*/}
+              >
+                <Image
+                  style={styles_diary.tag_img}
+                  source={require("../assets/images/tag_eat.png")}
+                />
+                {/* <View style={styles_diary.tag}>
+                  <Text style={styles_diary.tag_txt}>#食記</Text>
+                </View> */}
+              </TouchableHighlight>
+              {/* urban diary's weather tag  End*/}
 
-            <TouchableHighlight
-              onPress={() => {
-                this.popupDialog.show();
-                this.setState({ taginput: "跟男朋友吵架了.... " });
-              }}
-            >
-              <Image
-                style={{
-                  width: 120,
-                  height: 50,
-                  marginTop: "5%",
+              <TouchableHighlight
+                onPress={() => {
+                  this.popupDialog.show();
+                  this.setState({ taginput: "今天去了" });
                 }}
-                source={require("../assets/images/tag_love.png")}
-              />
-            </TouchableHighlight>
+              >
+                <Image
+                  style={styles_diary.tag_img}
+                  source={require("../assets/images/tag_trip.png")}
+                />
+                {/* <View style={styles_diary.tag}>
+                  <Text style={styles_diary.tag_txt}>#旅遊</Text>
+                </View> */}
+              </TouchableHighlight>
 
-            <TouchableHighlight
-              onPress={() => {
-                this.popupDialog.show();
-                this.setState({ taginput: "今天都沒有功課!!" });
-              }}
-            >
-              <Image
-                style={{
-                  width: 120,
-                  height: 50,
-                  marginTop: "5%",
+              <TouchableHighlight
+                onPress={() => {
+                  this.popupDialog.show();
+                  this.setState({ taginput: "今天開會重點是" });
                 }}
-                source={require("../assets/images/tag_homework.png")}
-              />
-            </TouchableHighlight>
+              >
+                <Image
+                  style={styles_diary.tag_img}
+                  source={require("../assets/images/tag_work.png")}
+                />
+                {/* <View style={styles_diary.tag}>
+                  <Text style={styles_diary.tag_txt}>#工作</Text>
+                </View> */}
+              </TouchableHighlight>
 
-            <TouchableHighlight
-              onPress={() => {
-                this.popupDialog.show();
-                this.setState({ taginput: "晚餐吃百元鍋～" });
-              }}
-            >
-              <Image
-                style={{
-                  width: 120,
-                  height: 50,
-                  marginTop: "5%",
+              <TouchableHighlight
+                onPress={() => {
+                  this.popupDialog.show();
+                  this.setState({ taginput: "今天都沒有功課!!" });
                 }}
-                source={require("../assets/images/tag_eat.png")}
-              />
-            </TouchableHighlight>
+              >
+                <Image
+                  style={styles_diary.tag_img}
+                  source={require("../assets/images/tag_homework.png")}
+                />
+                {/* <View style={styles_diary.tag}>
+                  <Text style={styles_diary.tag_txt}>#課業</Text>
+                </View> */}
+              </TouchableHighlight>
+            </View>
           </View>
         ) : null}
 
         <ActionButton
-          position="left"
-          buttonColor="rgba(231,76,60,0.5)"
-          shadowStyle={{
-            shadowOffset: {
-              height: 0,
-              width: 0
-            }
-          }}
-          btnOutRange="rgba(231,76,60,1)"
+          position="right"
+          buttonColor="rgba(231, 76, 60, 0.5)"
+          btnOutRange="rgba(231, 76, 60, 1)"
+          hideShadow = {true}
+          offsetX = {15}
+          offsetY = {15}
         >
           <ActionButton.Item
             buttonColor="#3498db"

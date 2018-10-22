@@ -8,6 +8,14 @@ var styles_layout = {
     height: 50,
     backgroundColor: '#316191',
   },
+  titleTxt: {
+    width: "90%",
+    fontSize: 20,
+    textAlign: 'center',
+    alignSelf: 'center',
+    color: "#fff",
+    
+  },
   titleLogo: {
     width: '50%',
     height: '60%',
