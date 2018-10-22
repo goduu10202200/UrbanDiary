@@ -1,49 +1,89 @@
-import React from 'react';
+import React from "react";
 import {
   ScrollView,
   StyleSheet,
   Text,
   View,
-  AppRegistry,
+  Alert,
   TextInput,
-  Image,
-} from 'react-native';
+  Image
+} from "react-native";
+import axios from "axios";
 import "@expo/vector-icons";
-import { Button, Icon, SocialIcon } from 'react-native-elements';
+import { Button, Icon, SocialIcon } from "react-native-elements";
 import styles from "./style/style_login";
-import { MapView } from 'expo';
-
 
 export default class Signup extends React.Component {
   static navigationOptions = {
-    title: '註冊',
+    title: "註冊",
     headerStyle: {
-      height: 50,
+      height: 50
     },
     headerTitleStyle: {
       fontSize: 20,
       letterSpacing: 2,
-      color: '#333',
-    },
+      color: "#333"
+    }
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: " ",
+      account: " ",
+      password: " ",
+      password_check: " "
+    };
+  }
+
+  SignupAJAX = () => {
+    signup = () => {
+      this.props.navigation.navigate("Main");
+    };
+    var name = this.state.name;
+    var account = this.state.account;
+    var password = this.state.password;
+    var password_check = this.state.password_check;
+
+    if (password == password_check) {
+      axios({
+        url: "http://172.20.10.2:8181/urbandiary/ud_api/signup_api.php",
+        method: "post",
+        data: {
+          name: name,
+          account: account,
+          password: password,
+          password_check: password_check
+        }
+      })
+        .then(function(response) {
+          this.signup();
+          console.log(response.data);
+        })
+        .catch(function(error) {
+          alert("註冊失敗");
+          //console.log(error);
+        });
+    } else {
+      Alert.alert("密碼驗證", "請輸入相同的密碼", [{ text: "確認" }]);
+    }
   };
 
   render() {
     return (
-      <ScrollView 
-        contentContainerStyle={{flexGrow: 1}}
-        keyboardShouldPersistTaps='handled' 
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
         style={styles.container}
       >
         <View
           style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: '0%',
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "0%"
           }}
         >
-          <Text style={styles.pagetitle}>
-            你的日記，從註冊開始
-        </Text>
+          <Text style={styles.pagetitle}>你的日記，從註冊開始</Text>
         </View>
         {/* <Text>
           這邊有上傳圖片
@@ -51,7 +91,7 @@ export default class Signup extends React.Component {
         <View
           style={{
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "center"
           }}
         >
           <SocialIcon
@@ -75,9 +115,23 @@ export default class Signup extends React.Component {
         <View style={styles.View_TextInput}>
           <TextInput
             style={styles.TextInput}
-            placeholder="請輸入帳號"
+            placeholder="請輸入姓名"
             placeholderTextColor="#a3a6a7"
-            onChangeText={(text) => this.setState({ input: text })}
+            ref={el => {
+              this.name = el;
+            }}
+            onChangeText={text => this.setState({ name: text })}
+          />
+        </View>
+        <View style={styles.View_TextInput}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="請輸入E-mail"
+            placeholderTextColor="#a3a6a7"
+            ref={el => {
+              this.account = el;
+            }}
+            onChangeText={text => this.setState({ account: text })}
           />
         </View>
         <View style={styles.View_TextInput}>
@@ -86,8 +140,10 @@ export default class Signup extends React.Component {
             placeholder="請輸入密碼"
             secureTextEntry={true}
             placeholderTextColor="#c2c2c4"
-
-            onChangeText={(text) => this.setState({ input: text })}
+            ref={el => {
+              this.password = el;
+            }}
+            onChangeText={text => this.setState({ password: text })}
           />
         </View>
         <View style={styles.View_TextInput}>
@@ -96,47 +152,22 @@ export default class Signup extends React.Component {
             placeholder="確認密碼"
             secureTextEntry={true}
             placeholderTextColor="#c2c2c4"
-
-            onChangeText={(text) => this.setState({ input: text })}
+            onChangeText={text => this.setState({ input: text })}
+            ref={el => {
+              this.password_check = el;
+            }}
+            onChangeText={text => this.setState({ password_check: text })}
           />
         </View>
-        {/* <View style={styles.View_TextInput}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="請輸入信箱：XXX@gmail.com"
-            placeholderTextColor="#a3a6a7"
-            onChangeText={(text) => this.setState({ input: text })}
-          />
-        </View> */}
-
-        {/* <View
-          style={{
-            //height: 60,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        > */}
-          <Button
-            icon={{
-              // name: 'arrow-right',
-              // size: 15,
-              // color: 'white'
-            }}
-            title='註冊'
-            textStyle={styles.textStyle}
-            backgroundColor="#f3f7fa"
-            buttonStyle={styles.someButtonStyle}
-            containerViewStyle={{ marginTop: 10 }}
-            onPress={() =>
-              this.props.navigation.navigate('Main')
-            }
-          />
-
-         {/* </View> */}
+        <Button
+          title="註冊"
+          textStyle={styles.textStyle}
+          backgroundColor="#f3f7fa"
+          buttonStyle={styles.someButtonStyle}
+          containerViewStyle={{ marginTop: 10 }}
+          onPress={this.SignupAJAX}
+        />
       </ScrollView>
     );
   }
 }
-
-

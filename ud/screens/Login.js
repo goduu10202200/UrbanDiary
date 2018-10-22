@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  AppRegistry,
-  TextInput,
-  Image
-} from "react-native";
+import { ScrollView, Text, View, Alert, TextInput } from "react-native";
 import "@expo/vector-icons";
 import { Button, Icon, SocialIcon } from "react-native-elements";
 import styles from "./style/style_login";
@@ -35,11 +27,14 @@ export default class Login extends React.Component {
   }
 
   SendDataAJAX = () => {
+    login = () => {
+      this.props.navigation.navigate("Main");
+    };
     var account = this.state.account;
     var password = this.state.password;
 
     axios({
-      url: "http://172.20.10.2:8181/urbandiary/ud_backend/login_backend.php",
+      url: "http://172.20.10.2:8181/urbandiary/ud_api/login_api.php",
       method: "post",
       data: {
         account: account,
@@ -47,13 +42,18 @@ export default class Login extends React.Component {
       }
     })
       .then(function(response) {
-        //this.props.navigation.navigate("Main");
-        console.log(response.data);
+        if (response.data == "successfully") {
+          this.login();
+        } else if (response.data == "0 results") {
+          Alert.alert("登入驗證", "帳號密碼錯誤", [{ text: "確認" }]);
+        }
+        //console.log(response.data);
       })
       .catch(function(error) {
         console.log(error);
       });
   };
+
   render() {
     return (
       <ScrollView
@@ -61,18 +61,6 @@ export default class Login extends React.Component {
         keyboardShouldPersistTaps="handled"
         style={styles.container}
       >
-        {/*<View
-          style={{
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: '0%',
-          }}
-        >
-          <Text style={styles.pagetitle}>
-            登入
-        </Text>
-        </View>
-        */}
         <View style={styles.View_TextInput}>
           <TextInput
             style={styles.TextInput}
@@ -94,29 +82,12 @@ export default class Login extends React.Component {
             onChangeText={text => this.setState({ password: text })}
           />
         </View>
-        {/* <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        > */}
         <Button
-          icon={
-            {
-              // name: 'arrow-right',
-              // size: 15,
-              // color: 'white'
-            }
-          }
           title="登入"
           textStyle={styles.textStyle}
-          // backgroundColor="#f3f7fa"
           buttonStyle={styles.someButtonStyle}
-          // containerViewStyle={{ marginTop: 50 }}
           onPress={this.SendDataAJAX}
         />
-        {/* </View> */}
         <Text
           style={{
             color: "#e4e4e4",
