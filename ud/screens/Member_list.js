@@ -17,7 +17,7 @@ import styles_member from "./style/style_member";
 
 //未來日記及待辦事項內容
 const future = [
-  { label: {time: '', name: '跑三圈操場'}, value: '1' },
+  // { label: {time: '', name: '跑三圈操場'}, value: '1' },
 ]
 const list = [
   { label: {time: '14:00', name: '準備推甄資料'}, value: '2' },

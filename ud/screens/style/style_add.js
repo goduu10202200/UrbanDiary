@@ -37,6 +37,15 @@ var styles_add = {
     alignSelf: 'center',
   },
 
+  listDiv:{
+    flexDirection: 'row',
+  },
+  listDiv_data:{
+    minWidth:180,
+    marginBottom: 20,
+    padding:0,
+    backgroundColor: '#d8d8d8',
+  },
   timeDiv: {
     flexDirection: 'row',
   },
@@ -46,6 +55,7 @@ var styles_add = {
     height: 40,
     padding: 5,
     color: '#474747',
+    justifyContent: "center",
   },
   btnTime: {
     padding: 5,

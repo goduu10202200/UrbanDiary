@@ -8,6 +8,12 @@ import Signup from '../screens/Signup';
 import MapDiary from '../screens/MapDiary';
 
 const AppNavigator = createStackNavigator({
+  Main: {
+    screen: MainTabNavigator, 
+    navigationOptions: {
+      header: null   //去除上方title
+    }
+  },
   Enter: {
     screen:Enter, 
     navigationOptions: {
@@ -16,12 +22,6 @@ const AppNavigator = createStackNavigator({
   },
   Signup: Signup,
   Login: Login,
-  Main: {
-    screen: MainTabNavigator, 
-    navigationOptions: {
-      header: null   //去除上方title
-    }
-  },
 });
 export default AppNavigator;
 

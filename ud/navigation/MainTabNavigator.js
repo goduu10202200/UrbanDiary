@@ -26,6 +26,11 @@ MapDiaryStack.navigationOptions = {
       name={Platform.OS === 'ios' ? `ios-pin${focused ? '' : '-outline'}` : 'md-pin'}
     />
   ),
+  
+  // tabBarIcon: ({tintColor}) => (
+  //   <FontAwesome5 name='thumbtack' size={30} color={tintColor}/>
+  // ),
+  // tabBarOptions: { activeTintColor:'#316191', }
 };
 
 /* 日記 */
@@ -41,6 +46,11 @@ DiaryStack.navigationOptions = {
       name={Platform.OS === 'ios' ? `ios-book${focused ? '' : '-outline'}` : 'md-book'}
     />
   ),
+  
+  // tabBarIcon: ({tintColor}) => (
+  //   <FontAwesome5 name='book' size={30} color={tintColor}/>
+  // ),
+  // tabBarOptions: { activeTintColor:'#316191', }
 };
 
 /* 新增待辦事項 */
@@ -56,6 +66,11 @@ AddStack.navigationOptions = {
       name={Platform.OS === 'ios' ? `ios-add${focused ? '' : '-outline'}` : 'md-add'}
     />
   ),
+  
+  // tabBarIcon: ({tintColor}) => (
+  //   <FontAwesome5 name='plus' size={30} color={tintColor}/>
+  // ),
+  // tabBarOptions: { activeTintColor:'#316191', }
 };
 
 /* 歷史日記 */
@@ -71,6 +86,10 @@ HistoryStack.navigationOptions = {
       name={Platform.OS === 'ios' ? `ios-albums${focused ? '' : '-outline'}` : 'md-albums'}
     />
   ),
+  // tabBarIcon: ({tintColor}) => (
+  //   <FontAwesome5 name='history' size={30} color={tintColor}/>
+  // ),
+  // tabBarOptions: { activeTintColor:'#316191', }
 };
 
 /* 會員中心 */
@@ -86,17 +105,17 @@ MemberStack.navigationOptions = {
       name={Platform.OS === 'ios' ? `ios-person${focused ? '' : '-outline'}` : 'md-person'}
     />
   ),
-  tabBarOptions: {
-    activeTintColor: 'black',
-    inactiveTintColor: 'grey',
-  },
+  // tabBarIcon: ({tintColor}) => (
+  //   <FontAwesome5 name='user' size={30} color={tintColor}/>
+  // ),
+  // tabBarOptions: { activeTintColor:'#316191', }
 };
 
 
 export default createBottomTabNavigator({
+  AddStack,
   DiaryStack,
   HistoryStack,
-  AddStack,
   MapDiaryStack,
   MemberStack,
 });

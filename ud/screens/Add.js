@@ -10,10 +10,11 @@ import {
   Platform, 
 } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { Button } from "../node_modules/react-native-elements";
+import { Button, ListItem } from "../node_modules/react-native-elements";
 import { Dropdown } from 'react-native-material-dropdown';
 import Icon from "react-native-vector-icons/Ionicons";
 import axios from "axios";
+import publicIP from 'react-native-public-ip';
 //import PopupDialog from 'react-native-popup-dialog';
 
 import styles_layout from "./style/style_layout";
@@ -35,8 +36,10 @@ export default class Member extends React.Component {
     this.inputRefs = {};
 
     this.state = {
+      title: " ",
+      // content: " ",
+      type: " ",
       location: " ",
-      narrative: " ",
       isDatePickerVisible: false,
       isTimePickerVisible: false,
       listDate: new Date().toDateString(),
@@ -70,15 +73,45 @@ export default class Member extends React.Component {
   };
 
   InsertDataToServer = () => {
-    var narrative = this.state.narrative;
+    var title = this.state.title;
+    // var content = this.state.content;
+    var type = this.state.type;
     var location = this.state.location;
+    var date = this.state.listDate;
+    var time = this.state.listTime;
+
+    // alert(
+    //   "title:"+ title+
+    //   "content:"+ content+
+    //   "type:"+ type+
+    //   "location:"+ location+
+    //   "date:"+ date+
+    //   "time:"+ time);
+
+    // alert(DeviceInfo.getIPAddress().toString());
+
+    // publicIP()
+    // .then(ip => {
+    //   console.log(ip);
+    //   alert(ip);
+    //   // '47.122.71.234'
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    //   // 'Unable to get IP address.'
+    // });
+
 
     axios({
-      url: "http://172.20.10.2:8181/urbandiary/ud_api/scheduled_api.php",
+      url: "http://172.20.10.2/urbandiary/ud_api/scheduled_api.php",
       method: "post",
       data: {
-        narrative: narrative,
-        location: location
+        title: title,
+        // content: content,
+        type: type,
+        location: location,
+        date: date,
+        time: time
       }
     })
       .then(function(response) {
@@ -92,15 +125,25 @@ export default class Member extends React.Component {
 
   render() {
     let list_type = [{
-      value: '感情',
+      label: '感情',
+      tag: 'heart',
+      value: 'love',
     }, {
-      value: '食記',
+      label: '食記',
+      tag: 'pizza',
+      value: 'eat',
     }, {
-      value: '旅遊',
+      label: '旅遊',
+      tag: 'bicycle',
+      value: 'trip',
     }, {
-      value: '工作',
+      label: '工作',
+      tag: 'hammer',
+      value: 'work',
     }, {
-      value: '學業',
+      label: '學業',
+      tag: 'brush',
+      value: 'schoolwork',
     }];
 
     return (
@@ -116,28 +159,37 @@ export default class Member extends React.Component {
           <TextInput
             style={styles_add.addInput}
             multiline={true}
-            placeholder="主題"
+            placeholder="說明"
             ref={el => {
-              this.narrative = el;
+              this.title = el;
             }}
-            onChangeText={text => this.setState({ narrative: text })}
+            onChangeText={text => this.setState({ title: text })}
           />
           
-          <TextInput
+          {/* <TextInput
             style={styles_add.addInput}
             multiline={true}
             placeholder="描述"
             ref={el => {
-              this.narrative = el;
+              this.content = el;
             }}
-            onChangeText={text => this.setState({ narrative: text })}
-          />
+            onChangeText={text => this.setState({ content: text })}
+          /> */}
 
-          <Dropdown
-            label='標籤類型'
-            data={list_type}
-          />
 
+          <View style={styles_add.listDiv}>
+            <Icon
+              // name={list_type.value}
+              name={Platform.OS === "ios" ? "ios-pricetag" : "md-pricetag"}
+              style={styles_add.btnIcon}
+            />
+            <Dropdown
+              label='標籤類型'
+              data={list_type} 
+              containerStyle={styles_add.listDiv_data}
+              onChangeText={data  => this.setState({ type: data })}
+            />
+          </View>
           <TextInput
             style={styles_add.addInput}
             multiline={true}

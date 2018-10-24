@@ -25,14 +25,15 @@ export default class Diary extends React.Component {
   static navigationOptions = {
     title: "日記",
     headerRight: (
-      <TouchableOpacity>
+      <TouchableOpacity onPress onPress={this.InsertDataToServer}>
         {/* <Image
           source={require("../assets/images/LogoFont_w.png")}
           style={styles_layout.titleLogo}
         /> */}
         <Icon
             name={Platform.OS === "ios" ? "ios-checkmark" : "md-checkmark"}
-            style={{width:100,height:100}}
+            iconStyle={{right: 20}}
+            size={50}
           />
       </TouchableOpacity>
 
@@ -60,7 +61,8 @@ export default class Diary extends React.Component {
       MainNumber: 0,
       // MainView: "100%",
       // connection_text: "",
-      diaryContent: ""
+      diaryContent: "",
+      location: "",
     };
     this.onPress = this.onPress.bind(this);
   }
@@ -108,6 +110,25 @@ export default class Diary extends React.Component {
     this.setState({ diaryContent: showtext });
   }
 
+  InsertDataToServer = () => {
+    var content = this.state.diaryContent;
+    var location = this.state.location;
+
+    axios({
+      url: "http://172.20.10.2/urbandiary/ud_api/diary_api.php",
+      method: "post",
+      data: {
+        content: content,
+        location: location
+      }
+    })
+      .then(function(response) {
+        console.log(response.data);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
   render() {
     return (
