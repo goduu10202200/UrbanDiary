@@ -14,7 +14,10 @@ import { Button, ListItem } from "../node_modules/react-native-elements";
 import { Dropdown } from 'react-native-material-dropdown';
 import Icon from "react-native-vector-icons/Ionicons";
 import axios from "axios";
-import publicIP from 'react-native-public-ip';
+
+import moment from 'moment';
+import momentLocale from 'moment/locale/zh-tw';
+
 //import PopupDialog from 'react-native-popup-dialog';
 
 import styles_layout from "./style/style_layout";
@@ -30,11 +33,30 @@ export default class Member extends React.Component {
     ),
     headerStyle: styles_layout.titleDiv
   };
+
+
   constructor(props) {
     super(props);
 
-    this.inputRefs = {};
+    // 日期格式化
+    Date.prototype.Format = function (fmt) {  
+        var o = {
+            "M+": this.getMonth() + 1, //月份 
+            "d+": this.getDate(), //日 
+            "h+": this.getHours(), //小时 
+            "m+": this.getMinutes(), //分 
+            "s+": this.getSeconds(), //秒 
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+            "S": this.getMilliseconds() //毫秒 
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    };
 
+
+    this.inputRefs = {};
     this.state = {
       title: " ",
       // content: " ",
@@ -42,10 +64,13 @@ export default class Member extends React.Component {
       location: " ",
       isDatePickerVisible: false,
       isTimePickerVisible: false,
-      listDate: new Date().toDateString(),
-      listTime: new Date().toTimeString(),
+      listDate: new Date().Format("yyyy-MM-dd"),
+      listTime: new Date().Format("hh:mm"),
     };
   }
+
+
+
 
   _showDatePicker = () =>
     this.setState({
@@ -62,12 +87,12 @@ export default class Member extends React.Component {
     });
 
   _handleDatePicked = date => {
-    var strDate = date.toDateString();
+    var strDate = date.Format("yyyy-MM-dd");
     this.setState({ listDate: strDate });
     this._hideDateTimePicker();
   };
   _handleTimePicked = date => {
-    var strTime = date.toTimeString();
+    var strTime = date.Format("hh:mm");
     this.setState({ listTime: strTime });
     this._hideDateTimePicker();
   };
