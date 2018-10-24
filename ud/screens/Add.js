@@ -7,11 +7,11 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
-  Platform, 
+  Platform
 } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { Button } from "../node_modules/react-native-elements";
-import { Dropdown } from 'react-native-material-dropdown';
+import { Dropdown } from "react-native-material-dropdown";
 import Icon from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 //import PopupDialog from 'react-native-popup-dialog';
@@ -40,7 +40,7 @@ export default class Member extends React.Component {
       isDatePickerVisible: false,
       isTimePickerVisible: false,
       listDate: new Date().toDateString(),
-      listTime: new Date().toTimeString(),
+      listTime: new Date().toTimeString()
     };
   }
 
@@ -72,7 +72,6 @@ export default class Member extends React.Component {
   InsertDataToServer = () => {
     var narrative = this.state.narrative;
     var location = this.state.location;
-
     axios({
       url: "http://172.20.10.2:8181/urbandiary/ud_api/scheduled_api.php",
       method: "post",
@@ -89,19 +88,24 @@ export default class Member extends React.Component {
       });
   };
 
-
   render() {
-    let list_type = [{
-      value: '感情',
-    }, {
-      value: '食記',
-    }, {
-      value: '旅遊',
-    }, {
-      value: '工作',
-    }, {
-      value: '學業',
-    }];
+    let list_type = [
+      {
+        value: "感情"
+      },
+      {
+        value: "食記"
+      },
+      {
+        value: "旅遊"
+      },
+      {
+        value: "工作"
+      },
+      {
+        value: "學業"
+      }
+    ];
 
     return (
       <ScrollView
@@ -122,7 +126,7 @@ export default class Member extends React.Component {
             }}
             onChangeText={text => this.setState({ narrative: text })}
           />
-          
+
           <TextInput
             style={styles_add.addInput}
             multiline={true}
@@ -133,10 +137,7 @@ export default class Member extends React.Component {
             onChangeText={text => this.setState({ narrative: text })}
           />
 
-          <Dropdown
-            label='標籤類型'
-            data={list_type}
-          />
+          <Dropdown label="標籤類型" data={list_type} />
 
           <TextInput
             style={styles_add.addInput}
@@ -182,14 +183,13 @@ export default class Member extends React.Component {
             onCancel={this._hideDateTimePicker}
           />
         </View>
-          <Button
-            buttonStyle={styles_add.addBtn}
-            textStyle={styles_add.addBtnTxt}
-            title="儲存"
-            onPress={this.InsertDataToServer}
-          />
+        <Button
+          buttonStyle={styles_add.addBtn}
+          textStyle={styles_add.addBtnTxt}
+          title="儲存"
+          onPress={this.InsertDataToServer}
+        />
       </ScrollView>
     );
   }
 }
-

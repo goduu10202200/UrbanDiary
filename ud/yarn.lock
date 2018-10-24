@@ -5552,6 +5552,11 @@ react-native-modal@^6.2.0:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
 
+react-native-network-info@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-network-info/-/react-native-network-info-4.0.0.tgz#aade28ddcf38f5d2c4d8055078dd7f0d97c51cff"
+  integrity sha512-ONyOUMJEhBSP5sDHCgBFk037ePL3auLB//W4H8+m+GDIMkRHNksJ2lTYvjEQf1gaYQp+fYl+xcDIo1d/odZwpA==
+
 react-native-picker-select@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-native-picker-select/-/react-native-picker-select-5.0.0.tgz#564ff994ae004126fd67340c4fd1188533f4bf91"
@@ -5571,6 +5576,11 @@ react-native-popup-dialog@^0.15.0:
   dependencies:
     babel-plugin-flow-react-proptypes "^9.1.1"
     prop-types "^15.6.0"
+
+react-native-public-ip@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-public-ip/-/react-native-public-ip-1.0.1.tgz#f47c29efbb901135bde6af226eff882a1f3a94f5"
+  integrity sha512-o5wGIqajjwNnTzmrQk05/P4631vXJNNYjmVNIKrKX6SiPAHWDAPhWYv7H2QKHLyRn+W0Qh1ARWi06Db6Ro+xwg==
 
 react-native-really-awesome-button@^0.8.3:
   version "0.8.3"
