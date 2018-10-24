@@ -102,7 +102,8 @@ export default class Member extends React.Component {
     // });
 
     axios({
-      url: "http://172.20.10.2/urbandiary/ud_api/scheduled_api.php",
+      //url: "http://172.20.10.2/urbandiary/ud_api/scheduled_api.php",
+      url: "http://172.20.10.2:8181/urbandiary/ud_api/scheduled_api.php",
       method: "post",
       data: {
         title: title,
