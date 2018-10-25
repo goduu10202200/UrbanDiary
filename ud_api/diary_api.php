@@ -3,10 +3,10 @@
     $raw_post_data = json_decode(file_get_contents('php://input'), true);
     
     $content =  $raw_post_data['content'];
-    $location = $raw_post_data['location'];
+    $today = date("Y-m-d H:i:s");
 
-    $sql = "INSERT INTO diary (username, content, location, created_at)
-    VALUES (1, '".$content."','".$location."', '".$today."')";
+    $sql = "INSERT INTO diary (username, content, created_at)
+    VALUES (1, '".$content."', '".$today."')";
 
     if ($conn->query($sql) === true) {
         echo "New record created successfully";

@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import {
   ScrollView,
   Text,
@@ -9,10 +10,10 @@ import {
   Dimensions,
   TouchableHighlight,
   TouchableOpacity,
+  Alert
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-//import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button } from "../node_modules/react-native-elements";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 
@@ -25,55 +26,49 @@ export default class Diary extends React.Component {
   static navigationOptions = {
     title: "日記",
     headerRight: (
-      <TouchableOpacity onPress onPress={this.InsertDataToServer}>
-        {/* <Image
-          source={require("../assets/images/LogoFont_w.png")}
-          style={styles_layout.titleLogo}
-        /> */}
+      <TouchableOpacity
+      // onPress={() => {
+      //   InsertDataToServe;
+      // }}
+      >
         <Icon
-            name={Platform.OS === "ios" ? "ios-checkmark" : "md-checkmark"}
-            iconStyle={{right: 20}}
-            size={50}
-          />
+          name={Platform.OS === "ios" ? "ios-checkmark" : "md-checkmark"}
+          iconStyle={{ right: 20 }}
+          size={50}
+        />
       </TouchableOpacity>
-
-
     ),
-    // headerTitle: (
-    //   // <Image
-    //   //   source={require("../assets/images/LogoFont_w.png")}
-    //   //   style={styles_layout.titleLogo}
-    //   // />
-    //   <Text fontStyle="styles_layout.titleTxt">日記</Text>
-    // ),
     headerStyle: styles_layout.titleDiv,
-    // headerTintColor: "#fff",
-    headerTitleStyle : styles_layout.titleTxt,
+    headerTitleStyle: styles_layout.titleTxt
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      // key: "",
       taginput: "",
       isHidden: false,
-      // MainOpacity: 1,
       MainNumber: 0,
-      // MainView: "100%",
-      // connection_text: "",
-      diaryContent: "",
-      location: "",
+      diaryContent: ""
     };
     this.onPress = this.onPress.bind(this);
   }
 
-  /* Date */ 
+  /* Date */
+
   ShowCurrentDate = () => {
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
     var year = new Date().getFullYear();
     var day = new Date().getDay();
-    var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    var weekday = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ];
 
     return year + " / " + month + " / " + date + "   " + weekday[day] + " ☀";
   };
@@ -81,55 +76,53 @@ export default class Diary extends React.Component {
   // This is hidden window function Start
   onPress() {
     this.setState({ isHidden: !this.state.isHidden });
-
-    //Click urban diary's tag number Start
     this.setState({ MainNumber: this.MainNumber + 1 });
-    //Click urban diary's tag number End
-
-    // Click urban diary's tag Start
-    // if (this.state.MainNumber % 2 == 0) {
-    //   this.setState({ MainView: "55%" });
-    //   this.setState({ MainOpacity: 0.6 });
-    // } else {
-    //   this.setState({ MainView: "100%" });
-    //   this.setState({ MainOpacity: 1 });
-    // }
-    // Click urban diary's tag End
   }
   // This is hidden window function End
-
-  // Display Input Text Start
-  // renderTodo = () => {
-  //   return this.state.diaryContent;
-  // };
-  // Display Input Text End
 
   connection_inputtext(text) {
     /* diary add tag input */
     var showtext = this.state.diaryContent + text;
     this.setState({ diaryContent: showtext });
   }
-
-  InsertDataToServer = () => {
-    var content = this.state.diaryContent;
-    var location = this.state.location;
-
+  labelAJAX(type) {
+    var self = this;
     axios({
-      url: "http://172.20.10.2/urbandiary/ud_api/diary_api.php",
+      url: "http://172.20.10.2:8181/urbandiary/ud_api/labeldiary_api.php",
+      //url: "http://172.20.10.2/urbandiary/ud_api/diary_api.php",
       method: "post",
       data: {
-        content: content,
-        location: location
+        type: type
       }
     })
       .then(function(response) {
+        self.setState({ taginput: response.data });
         console.log(response.data);
       })
       .catch(function(error) {
         console.log(error);
       });
-  };
+  }
 
+  InsertDataToServer = () => {
+    var self = this;
+    var content = this.state.diaryContent;
+    axios({
+      url: "http://172.20.10.2:8181/urbandiary/ud_api/diary_api.php",
+      //url: "http://172.20.10.2/urbandiary/ud_api/diary_api.php",
+      method: "post",
+      data: {
+        content: content
+      }
+    })
+      .then(function(response) {
+        //console.log(response.data);
+        self.setState({ diaryContent: "" });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
   render() {
     return (
       <ScrollView
@@ -137,6 +130,7 @@ export default class Diary extends React.Component {
         keyboardShouldPersistTaps="handled"
         style={styles_diary.container}
       >
+        <Button title="儲存" onPress={this.InsertDataToServer} />
         <View style={styles_diary.header}>
           <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
         </View>
@@ -145,16 +139,14 @@ export default class Diary extends React.Component {
             style={styles_diary.diary_input}
             multiline={true}
             placeholder="今天發生了什麼趣事呢？"
-            ref= {(el) => { this.diaryContent = el; }}
-            onChangeText={(diaryContent) => this.setState({diaryContent})}
+            ref={el => {
+              this.diaryContent = el;
+            }}
+            onChangeText={diaryContent =>
+              this.setState({ diaryContent: diaryContent })
+            }
             value={this.state.diaryContent}
           />
-
-          {/* <Button
-            buttonStyle={styles_diary.diary_btn}
-            textStyle={styles_diary.diary_btn_txt}
-            title="儲存"
-          /> */}
         </View>
 
         {/* This is hidden window */}
@@ -164,61 +156,55 @@ export default class Diary extends React.Component {
           ref={popupDialog => {
             this.popupDialog = popupDialog;
           }}
-          dialogTitle={<DialogTitle 
-            title="標籤" 
-          />}
+          dialogTitle={<DialogTitle title="標籤" />}
           dialogStyle={styles_diary.dialog}
-          // dialogTitle={<DialogTitle title="Weather" />}
         >
-              <TextInput
-                style={styles_diary.dialog_input}
-                placeholderTextColor="#a3a6a7"
-                ref= {(el) => { this.taginput = el; }}
-                onChangeText={(taginput) => this.setState({taginput})}
-                value={this.state.taginput}
-              />
-              <Button
-                title="送出"
-                titleStyle={{ fontWeight: "700" }}
-                buttonStyle={styles_diary.dialog_btn}
-                onPress={() => {
-                  this.connection_inputtext(this.state.taginput);
-                  this.popupDialog.dismiss();
-                  this.setState({ isHidden: !this.state.isHidden });
-                }}
-              />
+          <TextInput
+            style={styles_diary.dialog_input}
+            placeholderTextColor="#a3a6a7"
+            ref={el => {
+              this.taginput = el;
+            }}
+            onChangeText={taginput => this.setState({ taginput })}
+            value={this.state.taginput}
+          />
+          <Button
+            title="送出"
+            titleStyle={{ fontWeight: "700" }}
+            buttonStyle={styles_diary.dialog_btn}
+            onPress={() => {
+              this.connection_inputtext(this.state.taginput);
+              this.popupDialog.dismiss();
+              this.setState({ isHidden: !this.state.isHidden });
+            }}
+          />
         </PopupDialog>
         {/* Click urban diary's tag => diaplay window */}
 
         {this.state.isHidden ? (
-          <View  
-            style={styles_diary.tag_div} 
-          >
-            <TouchableOpacity 
+          <View style={styles_diary.tag_div}>
+            <TouchableOpacity
               style={{
                 width: "55%",
                 height: "100%",
                 position: "absolute",
                 top: 0,
-                right: 0,
-              }} 
+                right: 0
+              }}
               onPress={this.onPress}
             />
             <View style={styles_diary.tag_box}>
               {/* urban diary's  mood tag  Staret*/}
               <TouchableHighlight
                 onPress={() => {
+                  this.labelAJAX("love");
                   this.popupDialog.show();
-                  this.setState({ taginput: " 跟女朋友吵架了.... " });
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_love.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#感情</Text>
-                </View> */}
               </TouchableHighlight>
               {/* urban diary's mood tag  End*/}
 
@@ -226,62 +212,50 @@ export default class Diary extends React.Component {
               <TouchableHighlight
                 onPress={() => {
                   this.popupDialog.show();
-                  this.setState({ taginput: "今天吃了... " });
+                  this.labelAJAX("eat");
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_eat.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#食記</Text>
-                </View> */}
               </TouchableHighlight>
               {/* urban diary's weather tag  End*/}
 
               <TouchableHighlight
                 onPress={() => {
+                  this.labelAJAX("trip");
                   this.popupDialog.show();
-                  this.setState({ taginput: "今天去了" });
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_trip.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#旅遊</Text>
-                </View> */}
               </TouchableHighlight>
 
               <TouchableHighlight
                 onPress={() => {
+                  this.labelAJAX("work");
                   this.popupDialog.show();
-                  this.setState({ taginput: "今天開會重點是" });
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_work.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#工作</Text>
-                </View> */}
               </TouchableHighlight>
 
               <TouchableHighlight
                 onPress={() => {
                   this.popupDialog.show();
-                  this.setState({ taginput: "今天都沒有功課!!" });
+                  this.labelAJAX("schoolwork");
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_homework.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#課業</Text>
-                </View> */}
               </TouchableHighlight>
             </View>
           </View>
@@ -291,9 +265,9 @@ export default class Diary extends React.Component {
           position="right"
           buttonColor="rgba(231, 76, 60, 0.5)"
           btnOutRange="rgba(231, 76, 60, 1)"
-          hideShadow = {true}
-          offsetX = {15}
-          offsetY = {15}
+          hideShadow={true}
+          offsetX={15}
+          offsetY={15}
         >
           <ActionButton.Item
             buttonColor="#3498db"
