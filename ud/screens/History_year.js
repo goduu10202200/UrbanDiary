@@ -9,12 +9,12 @@ export default class Page extends React.Component {
           <Text style={styles.Title_History}>2018年</Text>
           <Image
             style={styles.Image_History}
-            source={require("../assets/images/t1.jpg")}
+            source={require("../assets/images/t7.jpg")}
           />
           <Text style={styles.buttonText}>
-            今天英文考了93分，好高興
+            今天去打撞球，消夜又吃亞美
             {"\n"}
-            晚餐吃了欣葉慶祝一下!!
+            不小心就吃掉300塊了
           </Text>
         </TouchableOpacity>
       </View>

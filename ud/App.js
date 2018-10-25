@@ -39,11 +39,15 @@ export default class App extends React.Component {
         require("./assets/images/tag_weather.png"),
         require("./assets/images/tag_love.png"),
         require("./assets/images/tag_homework.png"),
-        require("./assets/images/tag_eat.png")
-        // require('./assets/images/checkbox_box.png'),
-        // require('./assets/images/checkbox_checked.png'),
-        //require('./assets/images/robot-dev.png'),
-        //require('./assets/images/robot-prod.png'),
+        require("./assets/images/tag_eat.png"),
+        require("./assets/images/tag_life.png"),
+        require("./assets/images/t1.jpg"),
+        require("./assets/images/t2.jpg"),
+        require("./assets/images/t3.jpg"),
+        require("./assets/images/t4.jpg"),
+        require("./assets/images/t5.jpg"),
+        require("./assets/images/t6.jpg"),
+        require("./assets/images/t7.jpg")
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar

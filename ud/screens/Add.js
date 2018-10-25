@@ -7,16 +7,13 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
-  Platform, 
+  Platform
 } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { Button, ListItem } from "../node_modules/react-native-elements";
-import { Dropdown } from 'react-native-material-dropdown';
+import { Dropdown } from "react-native-material-dropdown";
 import Icon from "react-native-vector-icons/Ionicons";
 import axios from "axios";
-
-import moment from 'moment';
-import momentLocale from 'moment/locale/zh-tw';
 
 //import PopupDialog from 'react-native-popup-dialog';
 
@@ -34,43 +31,47 @@ export default class Member extends React.Component {
     headerStyle: styles_layout.titleDiv
   };
 
-
   constructor(props) {
     super(props);
 
     // 日期格式化
-    Date.prototype.Format = function (fmt) {  
-        var o = {
-            "M+": this.getMonth() + 1, //月份 
-            "d+": this.getDate(), //日 
-            "h+": this.getHours(), //小时 
-            "m+": this.getMinutes(), //分 
-            "s+": this.getSeconds(), //秒 
-            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-            "S": this.getMilliseconds() //毫秒 
-        };
-        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-        for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-        return fmt;
+    Date.prototype.Format = function(fmt) {
+      var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        S: this.getMilliseconds() //毫秒
+      };
+      if (/(y+)/.test(fmt))
+        fmt = fmt.replace(
+          RegExp.$1,
+          (this.getFullYear() + "").substr(4 - RegExp.$1.length)
+        );
+      for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+          fmt = fmt.replace(
+            RegExp.$1,
+            RegExp.$1.length == 1
+              ? o[k]
+              : ("00" + o[k]).substr(("" + o[k]).length)
+          );
+      return fmt;
     };
-
 
     this.inputRefs = {};
     this.state = {
-      title: " ",
-      // content: " ",
+      title: "",
       type: " ",
-      location: " ",
+      location: "",
       isDatePickerVisible: false,
       isTimePickerVisible: false,
       listDate: new Date().Format("yyyy-MM-dd"),
-      listTime: new Date().Format("hh:mm"),
+      listTime: new Date().Format("hh:mm")
     };
   }
-
-
-
 
   _showDatePicker = () =>
     this.setState({
@@ -98,37 +99,15 @@ export default class Member extends React.Component {
   };
 
   InsertDataToServer = () => {
+    var self = this;
     var title = this.state.title;
-    // var content = this.state.content;
     var type = this.state.type;
     var location = this.state.location;
     var date = this.state.listDate;
     var time = this.state.listTime;
 
-    // alert(
-    //   "title:"+ title+
-    //   "content:"+ content+
-    //   "type:"+ type+
-    //   "location:"+ location+
-    //   "date:"+ date+
-    //   "time:"+ time);
-
-    // alert(DeviceInfo.getIPAddress().toString());
-
-    // publicIP()
-    // .then(ip => {
-    //   console.log(ip);
-    //   alert(ip);
-    //   // '47.122.71.234'
-    // })
-    // .catch(error => {
-    //   console.log(error);
-    //   // 'Unable to get IP address.'
-    // });
-
-
     axios({
-      url: "http://172.20.10.2/urbandiary/ud_api/scheduled_api.php",
+      url: "http://172.20.10.2:8181/urbandiary/ud_api/scheduled_api.php",
       method: "post",
       data: {
         title: title,
@@ -140,6 +119,8 @@ export default class Member extends React.Component {
       }
     })
       .then(function(response) {
+        self.setState({ title: "" });
+        self.setState({ location: "" });
         console.log(response.data);
       })
       .catch(function(error) {
@@ -147,29 +128,39 @@ export default class Member extends React.Component {
       });
   };
 
-
   render() {
-    let list_type = [{
-      label: '感情',
-      tag: 'heart',
-      value: 'love',
-    }, {
-      label: '食記',
-      tag: 'pizza',
-      value: 'eat',
-    }, {
-      label: '旅遊',
-      tag: 'bicycle',
-      value: 'trip',
-    }, {
-      label: '工作',
-      tag: 'hammer',
-      value: 'work',
-    }, {
-      label: '學業',
-      tag: 'brush',
-      value: 'schoolwork',
-    }];
+    let list_type = [
+      {
+        label: "感情",
+        tag: "heart",
+        value: "love"
+      },
+      {
+        label: "食記",
+        tag: "pizza",
+        value: "eat"
+      },
+      {
+        label: "旅遊",
+        tag: "bicycle",
+        value: "trip"
+      },
+      {
+        label: "工作",
+        tag: "hammer",
+        value: "work"
+      },
+      {
+        label: "學業",
+        tag: "brush",
+        value: "schoolwork"
+      },
+      {
+        label: "生活",
+        tag: "life",
+        value: "life"
+      }
+    ];
 
     return (
       <ScrollView
@@ -184,13 +175,14 @@ export default class Member extends React.Component {
           <TextInput
             style={styles_add.addInput}
             multiline={true}
-            placeholder="說明"
+            placeholder="請輸入待辦事項"
             ref={el => {
               this.title = el;
             }}
             onChangeText={text => this.setState({ title: text })}
+            value={this.state.title}
           />
-          
+
           {/* <TextInput
             style={styles_add.addInput}
             multiline={true}
@@ -201,7 +193,6 @@ export default class Member extends React.Component {
             onChangeText={text => this.setState({ content: text })}
           /> */}
 
-
           <View style={styles_add.listDiv}>
             <Icon
               // name={list_type.value}
@@ -209,10 +200,10 @@ export default class Member extends React.Component {
               style={styles_add.btnIcon}
             />
             <Dropdown
-              label='標籤類型'
-              data={list_type} 
+              label="標籤類型"
+              data={list_type}
               containerStyle={styles_add.listDiv_data}
-              onChangeText={data  => this.setState({ type: data })}
+              onChangeText={data => this.setState({ type: data })}
             />
           </View>
           <TextInput
@@ -223,6 +214,7 @@ export default class Member extends React.Component {
               this.location = el;
             }}
             onChangeText={text => this.setState({ location: text })}
+            value={this.state.location}
           />
           <View style={styles_add.timeDiv}>
             <Icon
@@ -259,14 +251,13 @@ export default class Member extends React.Component {
             onCancel={this._hideDateTimePicker}
           />
         </View>
-          <Button
-            buttonStyle={styles_add.addBtn}
-            textStyle={styles_add.addBtnTxt}
-            title="儲存"
-            onPress={this.InsertDataToServer}
-          />
+        <Button
+          buttonStyle={styles_add.addBtn}
+          textStyle={styles_add.addBtnTxt}
+          title="儲存"
+          onPress={this.InsertDataToServer}
+        />
       </ScrollView>
     );
   }
 }
-

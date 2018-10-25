@@ -14,6 +14,12 @@
     // } else {
     //     echo "No Results Found.";
     // }
-    echo($row['title']);
+    $data = $row['title'];
+    if ($data != "") {
+        echo("在".$row['location'].",".$row['title']);
+    } else {
+        echo "";
+    }
+   
     $conn->close();
     //{"id":"1","date":"2018-10-24","time":"14:00","location":"操場","content":"跑步", "status":"0"}

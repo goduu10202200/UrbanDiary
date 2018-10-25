@@ -1,32 +1,37 @@
-import React from 'react';
-import { Platform, View, Button, Text } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import React from "react";
+import { Platform, View, Button, Text } from "react-native";
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 
-import TabBarIcon from '../components/TabBarIcon';
+import TabBarIcon from "../components/TabBarIcon";
 
-import MapDiary from '../screens/MapDiary';
-import Diary from '../screens/Diary';
-import Add from '../screens/Add';
-import History from '../screens/History';
-import Member from '../screens/Member';
+import MapDiary from "../screens/MapDiary";
+import Diary from "../screens/Diary";
+import Add from "../screens/Add";
+import History from "../screens/History";
+import Member from "../screens/Member";
 
-import PopupDialog from 'react-native-popup-dialog';
+import PopupDialog from "react-native-popup-dialog";
 import styles_layout from "../screens/style/style_layout";
 
 /* 地圖 */
 const MapDiaryStack = createStackNavigator({
-  MapDiary: MapDiary,
+  MapDiary: MapDiary
 });
 
 MapDiaryStack.navigationOptions = {
-  tabBarLabel: <View/>,     //隱藏bar文字
+  tabBarLabel: <View />, //隱藏bar文字
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-pin${focused ? '' : '-outline'}` : 'md-pin'}
+      name={
+        Platform.OS === "ios" ? `ios-pin${focused ? "" : "-outline"}` : "md-pin"
+      }
     />
-  ),
-  
+  )
+
   // tabBarIcon: ({tintColor}) => (
   //   <FontAwesome5 name='thumbtack' size={30} color={tintColor}/>
   // ),
@@ -35,18 +40,22 @@ MapDiaryStack.navigationOptions = {
 
 /* 日記 */
 const DiaryStack = createStackNavigator({
-  Diary: Diary,
+  Diary: Diary
 });
 
 DiaryStack.navigationOptions = {
-  tabBarLabel: <View/>,     //隱藏bar文字
+  tabBarLabel: <View />, //隱藏bar文字
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-book${focused ? '' : '-outline'}` : 'md-book'}
+      name={
+        Platform.OS === "ios"
+          ? `ios-book${focused ? "" : "-outline"}`
+          : "md-book"
+      }
     />
-  ),
-  
+  )
+
   // tabBarIcon: ({tintColor}) => (
   //   <FontAwesome5 name='book' size={30} color={tintColor}/>
   // ),
@@ -55,18 +64,20 @@ DiaryStack.navigationOptions = {
 
 /* 新增待辦事項 */
 const AddStack = createStackNavigator({
-  Add: Add,
+  Add: Add
 });
 
 AddStack.navigationOptions = {
-  tabBarLabel: <View/>,     //隱藏bar文字
+  tabBarLabel: <View />, //隱藏bar文字
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-add${focused ? '' : '-outline'}` : 'md-add'}
+      name={
+        Platform.OS === "ios" ? `ios-add${focused ? "" : "-outline"}` : "md-add"
+      }
     />
-  ),
-  
+  )
+
   // tabBarIcon: ({tintColor}) => (
   //   <FontAwesome5 name='plus' size={30} color={tintColor}/>
   // ),
@@ -75,17 +86,21 @@ AddStack.navigationOptions = {
 
 /* 歷史日記 */
 const HistoryStack = createStackNavigator({
-  History: History,
+  History: History
 });
 
 HistoryStack.navigationOptions = {
-  tabBarLabel: <View/>,     //隱藏bar文字
+  tabBarLabel: <View />, //隱藏bar文字
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-albums${focused ? '' : '-outline'}` : 'md-albums'}
+      name={
+        Platform.OS === "ios"
+          ? `ios-albums${focused ? "" : "-outline"}`
+          : "md-albums"
+      }
     />
-  ),
+  )
   // tabBarIcon: ({tintColor}) => (
   //   <FontAwesome5 name='history' size={30} color={tintColor}/>
   // ),
@@ -94,28 +109,31 @@ HistoryStack.navigationOptions = {
 
 /* 會員中心 */
 const MemberStack = createStackNavigator({
-  Member: Member,
+  Member: Member
 });
 
 MemberStack.navigationOptions = {
-  tabBarLabel: <View/>,     //隱藏bar文字
+  tabBarLabel: <View />, //隱藏bar文字
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? `ios-person${focused ? '' : '-outline'}` : 'md-person'}
+      name={
+        Platform.OS === "ios"
+          ? `ios-person${focused ? "" : "-outline"}`
+          : "md-person"
+      }
     />
-  ),
+  )
   // tabBarIcon: ({tintColor}) => (
   //   <FontAwesome5 name='user' size={30} color={tintColor}/>
   // ),
   // tabBarOptions: { activeTintColor:'#316191', }
 };
 
-
 export default createBottomTabNavigator({
-  MemberStack,
   DiaryStack,
+  MemberStack,
   AddStack,
   HistoryStack,
-  MapDiaryStack,
+  MapDiaryStack
 });

@@ -1,30 +1,29 @@
-import React from 'react';
-import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import React from "react";
+import { createStackNavigator, createSwitchNavigator } from "react-navigation";
 
-import MainTabNavigator from './MainTabNavigator';
-import Enter from '../screens/Enter';
-import Login from '../screens/Login';
-import Signup from '../screens/Signup';
-import MapDiary from '../screens/MapDiary';
+import MainTabNavigator from "./MainTabNavigator";
+import Enter from "../screens/Enter";
+import Login from "../screens/Login";
+import Signup from "../screens/Signup";
+import MapDiary from "../screens/MapDiary";
 
 const AppNavigator = createStackNavigator({
-  Main: {
-    screen: MainTabNavigator, 
-    navigationOptions: {
-      header: null   //去除上方title
-    }
-  },
   Enter: {
-    screen:Enter, 
+    screen: Enter,
     navigationOptions: {
-      header: null   //去除上方title
+      header: null //去除上方title
     }
   },
   Signup: Signup,
   Login: Login,
+  Main: {
+    screen: MainTabNavigator,
+    navigationOptions: {
+      header: null //去除上方title
+    }
+  }
 });
 export default AppNavigator;
-
 
 /*
  export default createSwitchNavigator({

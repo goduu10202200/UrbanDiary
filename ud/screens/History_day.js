@@ -6,7 +6,7 @@ export default class Page extends React.Component {
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.Title_History}>2018/10/03</Text>
+          <Text style={styles.Title_History}>2018/10/04</Text>
           <Image
             style={styles.Image_History}
             source={require("../assets/images/t1.jpg")}
@@ -22,35 +22,35 @@ export default class Page extends React.Component {
           <Text style={styles.Title_History}>2018/10/03</Text>
           <Image
             style={styles.Image_History}
-            source={require("../assets/images/t1.jpg")}
+            source={require("../assets/images/t2.jpg")}
           />
           <Text style={styles.buttonText}>
-            今天有點難過，因為小花不 {"\n"}
-            理我， 是不是做錯了什麼
+            明天要考會計院小考，我要{"\n"}
+            設鬧鐘起床讀書
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.Title_History}>2018/10/03</Text>
+          <Text style={styles.Title_History}>2018/10/02</Text>
           <Image
             style={styles.Image_History}
-            source={require("../assets/images/t1.jpg")}
+            source={require("../assets/images/t3.jpg")}
           />
           <Text style={styles.buttonText}>
-            為了小花，我要長高，所以
+            我想守護我想珍惜的人，希
             {"\n"}
-            我買了燈大人，希望有用
+            望一切一定會更好
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.Title_History}>2018/10/03</Text>
+          <Text style={styles.Title_History}>2018/10/01</Text>
           <Image
             style={styles.Image_History}
-            source={require("../assets/images/t1.jpg")}
+            source={require("../assets/images/t4.jpg")}
           />
           <Text style={styles.buttonText}>
-            今天班聚吃了6片披薩，5塊
+            今天去朋友家烤肉，吃了超多
             {"\n"}
-            炸雞，我想明天再減肥好了!
+            雞屁股聽到很多八卦哈哈哈
           </Text>
         </TouchableOpacity>
       </View>

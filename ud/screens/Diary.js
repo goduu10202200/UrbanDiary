@@ -31,11 +31,11 @@ export default class Diary extends React.Component {
       //   InsertDataToServe;
       // }}
       >
-        <Icon
+        {/* <Icon
           name={Platform.OS === "ios" ? "ios-checkmark" : "md-checkmark"}
           iconStyle={{ right: 20 }}
           size={50}
-        />
+        /> */}
       </TouchableOpacity>
     ),
     headerStyle: styles_layout.titleDiv,
@@ -130,7 +130,16 @@ export default class Diary extends React.Component {
         keyboardShouldPersistTaps="handled"
         style={styles_diary.container}
       >
-        <Button title="儲存" onPress={this.InsertDataToServer} />
+        <Button
+          title="儲存"
+          onPress={this.InsertDataToServer}
+          buttonStyle={{
+            width: 100,
+            height: 100,
+            position: "absolute",
+            right: 0
+          }}
+        />
         <View style={styles_diary.header}>
           <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
         </View>
@@ -257,6 +266,18 @@ export default class Diary extends React.Component {
                   source={require("../assets/images/tag_homework.png")}
                 />
               </TouchableHighlight>
+
+              <TouchableHighlight
+                onPress={() => {
+                  this.popupDialog.show();
+                  this.labelAJAX("life");
+                }}
+              >
+                <Image
+                  style={styles_diary.tag_img}
+                  source={require("../assets/images/tag_life.png")}
+                />
+              </TouchableHighlight>
             </View>
           </View>
         ) : null}
@@ -267,7 +288,7 @@ export default class Diary extends React.Component {
           btnOutRange="rgba(231, 76, 60, 1)"
           hideShadow={true}
           offsetX={15}
-          offsetY={15}
+          offsetY={90}
         >
           <ActionButton.Item
             buttonColor="#3498db"
@@ -290,6 +311,24 @@ export default class Diary extends React.Component {
             />
           </ActionButton.Item>
         </ActionButton>
+
+        <Button
+          title="✓"
+          titleStyle={{ fontWeight: "700" }}
+          buttonStyle={{
+            backgroundColor: "rgba(92, 99,216, 1)",
+            width: 55,
+            height: 55,
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 50,
+            position: "absolute",
+            bottom: 20,
+            right: 0
+          }}
+          containerStyle={{ marginTop: 20 }}
+          onPress={this.InsertDataToServer}
+        />
       </ScrollView>
     );
   }
