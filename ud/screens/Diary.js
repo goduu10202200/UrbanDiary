@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
-//import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button } from "../node_modules/react-native-elements";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 
@@ -28,17 +27,10 @@ export default class Diary extends React.Component {
     title: "日記",
     headerRight: (
       <TouchableOpacity
-        // onPress={() => {
-        //   this.InsertDataToServe;
-        // }}
-        onPress={() => {
-          InsertDataToServe;
-        }}
+      // onPress={() => {
+      //   InsertDataToServe;
+      // }}
       >
-        {/* <Image
-          source={require("../assets/images/LogoFont_w.png")}
-          style={styles_layout.titleLogo}
-        /> */}
         <Icon
           name={Platform.OS === "ios" ? "ios-checkmark" : "md-checkmark"}
           iconStyle={{ right: 20 }}
@@ -46,28 +38,16 @@ export default class Diary extends React.Component {
         />
       </TouchableOpacity>
     ),
-    // headerTitle: (
-    //   // <Image
-    //   //   source={require("../assets/images/LogoFont_w.png")}
-    //   //   style={styles_layout.titleLogo}
-    //   // />
-    //   <Text fontStyle="styles_layout.titleTxt">日記</Text>
-    // ),
     headerStyle: styles_layout.titleDiv,
-    // headerTintColor: "#fff",
     headerTitleStyle: styles_layout.titleTxt
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      // key: "",
       taginput: "",
       isHidden: false,
-      // MainOpacity: 1,
       MainNumber: 0,
-      // MainView: "100%",
-      // connection_text: "",
       diaryContent: ""
     };
     this.onPress = this.onPress.bind(this);
@@ -96,32 +76,14 @@ export default class Diary extends React.Component {
   // This is hidden window function Start
   onPress() {
     this.setState({ isHidden: !this.state.isHidden });
-
-    //Click urban diary's tag number Start
     this.setState({ MainNumber: this.MainNumber + 1 });
-    //Click urban diary's tag number End
-
-    // Click urban diary's tag Start
-    // if (this.state.MainNumber % 2 == 0) {
-    //   this.setState({ MainView: "55%" });
-    //   this.setState({ MainOpacity: 0.6 });
-    // } else {
-    //   this.setState({ MainView: "100%" });
-    //   this.setState({ MainOpacity: 1 });
-    // }
-    // Click urban diary's tag End
   }
   // This is hidden window function End
-
-  // Display Input Text Start
-  // renderTodo = () => {
-  //   return this.state.diaryContent;
-  // };
-  // Display Input Text End
 
   connection_inputtext(text) {
     /* diary add tag input */
     var showtext = this.state.diaryContent + text;
+    this.setState({ diaryContent: showtext });
   }
   labelAJAX(type) {
     var self = this;
@@ -143,6 +105,7 @@ export default class Diary extends React.Component {
   }
 
   InsertDataToServer = () => {
+    var self = this;
     var content = this.state.diaryContent;
     axios({
       url: "http://172.20.10.2:8181/urbandiary/ud_api/diary_api.php",
@@ -153,7 +116,8 @@ export default class Diary extends React.Component {
       }
     })
       .then(function(response) {
-        console.log(response.data);
+        //console.log(response.data);
+        self.setState({ diaryContent: "" });
       })
       .catch(function(error) {
         console.log(error);
@@ -181,19 +145,8 @@ export default class Diary extends React.Component {
             onChangeText={diaryContent =>
               this.setState({ diaryContent: diaryContent })
             }
-            // ref={el => {
-            //   this.title = el;
-            // }}
-            // onChangeText={text => this.setState({ title: text })}
-
             value={this.state.diaryContent}
           />
-
-          {/* <Button
-            buttonStyle={styles_diary.diary_btn}
-            textStyle={styles_diary.diary_btn_txt}
-            title="儲存"
-          /> */}
         </View>
 
         {/* This is hidden window */}
@@ -205,7 +158,6 @@ export default class Diary extends React.Component {
           }}
           dialogTitle={<DialogTitle title="標籤" />}
           dialogStyle={styles_diary.dialog}
-          // dialogTitle={<DialogTitle title="Weather" />}
         >
           <TextInput
             style={styles_diary.dialog_input}
@@ -245,18 +197,14 @@ export default class Diary extends React.Component {
               {/* urban diary's  mood tag  Staret*/}
               <TouchableHighlight
                 onPress={() => {
-                  this.popupDialog.show();
-                  //this.setState({ taginput: " 跟女朋友吵架了.... " });
                   this.labelAJAX("love");
+                  this.popupDialog.show();
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_love.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#感情</Text>
-                </View> */}
               </TouchableHighlight>
               {/* urban diary's mood tag  End*/}
 
@@ -264,62 +212,50 @@ export default class Diary extends React.Component {
               <TouchableHighlight
                 onPress={() => {
                   this.popupDialog.show();
-                  this.setState({ taginput: "今天吃了... " });
+                  this.labelAJAX("eat");
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_eat.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#食記</Text>
-                </View> */}
               </TouchableHighlight>
               {/* urban diary's weather tag  End*/}
 
               <TouchableHighlight
                 onPress={() => {
+                  this.labelAJAX("trip");
                   this.popupDialog.show();
-                  this.setState({ taginput: "今天去了" });
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_trip.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#旅遊</Text>
-                </View> */}
               </TouchableHighlight>
 
               <TouchableHighlight
                 onPress={() => {
+                  this.labelAJAX("work");
                   this.popupDialog.show();
-                  this.setState({ taginput: "今天開會重點是" });
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_work.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#工作</Text>
-                </View> */}
               </TouchableHighlight>
 
               <TouchableHighlight
                 onPress={() => {
                   this.popupDialog.show();
-                  this.setState({ taginput: "今天都沒有功課!!" });
+                  this.labelAJAX("schoolwork");
                 }}
               >
                 <Image
                   style={styles_diary.tag_img}
                   source={require("../assets/images/tag_homework.png")}
                 />
-                {/* <View style={styles_diary.tag}>
-                  <Text style={styles_diary.tag_txt}>#課業</Text>
-                </View> */}
               </TouchableHighlight>
             </View>
           </View>
