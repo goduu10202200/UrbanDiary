@@ -34,9 +34,9 @@ export default class History extends React.Component {
     ]
   };
 
-  jumpPage = (page) => {
-    this.props.navigation.navigate(page)
-  }
+  jumpPage = page => {
+    this.props.navigation.navigate(page);
+  };
 
   // 傳遞索引
   _handleIndexChange = index => this.setState({ index });
@@ -47,18 +47,12 @@ export default class History extends React.Component {
   // 分頁中的三個部分，傳遞 jump function 到孫頁面
   _renderScene = ({ route }) => {
     switch (route.key) {
-      case 'day':
-        return (
-          <Day jump={ this.jumpPage } />
-        );
-      case 'year':
-        return (
-          <Year jump={ this.jumpPage } />
-        );
-      case 'month':
-        return (
-          <Month jump={ this.jumpPage } />
-        );
+      case "day":
+        return <Day jump={this.jumpPage} />;
+      case "year":
+        return <Year jump={this.jumpPage} />;
+      case "month":
+        return <Month jump={this.jumpPage} />;
       default:
         return null;
     }
@@ -67,9 +61,7 @@ export default class History extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View
-          style={{ flex: 1, backgroundColor: "#1982f3" }}
-        >
+        <View style={{ flex: 1, backgroundColor: "#1982f3" }}>
           <TabView
             navigationState={this.state}
             renderScene={this._renderScene}
