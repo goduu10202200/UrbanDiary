@@ -36,13 +36,17 @@ var styles_member = {
   },
   
   itemDiv:{
-    width: '100%',
-    height: 50,
-    backgroundColor: 'rgba(211, 211, 211, .5)',
-    flexDirection: 'row',
-    borderRadius: 6,
+    flexDirection: "row", 
+    alignItems: "center",
+    // width: '100%',
+    // height: 50,
+    // backgroundColor: 'rgba(211, 211, 211, .5)',
+    // flexDirection: 'row',
+    borderWidth: 0,
+    borderRadius: 8,
+    backgroundColor: "#fff",
     marginTop: 10,
-    padding: 0,
+    padding: 10,
   },
   itemDiv_check: {
     padding: 0,
@@ -50,6 +54,11 @@ var styles_member = {
     backgroundColor: 'rgba(211, 211, 211, .3)',
     width: 30,
     borderWidth: 0,
+  },
+  itemDiv_check: {
+    fontSize: 30,
+    marginRight:5,
+    alignSelf: 'center',
   },
   itemDiv_icon: {
     fontSize: 30,
@@ -66,7 +75,7 @@ var styles_member = {
     fontSize: 16,
     color: '#333',
     alignSelf: 'center',
-    padding: 5,
+    padding: 10,
   },
 
   dataDiv: {
@@ -88,6 +97,21 @@ var styles_member = {
     borderRadius: 5,
     color: '#333',
   },
+
+  listView: {
+    width: "90%",
+    alignSelf: "center",
+  },
+  listView_list: {
+    fontSize: 20,
+    paddingLeft: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginTop: 10,
+    borderWidth: 0,
+    borderRadius: 5,
+    backgroundColor: "#fff",
+  }
 };
 
 export default styles_member;
