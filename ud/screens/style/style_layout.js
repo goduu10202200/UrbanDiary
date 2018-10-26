@@ -10,11 +10,11 @@ var styles_layout = {
   },
   titleTxt: {
     width: "90%",
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
     alignSelf: 'center',
     color: "#fff",
-    
+    letterSpacing: 1,
   },
   titleLogo: {
     width: '50%',
@@ -22,6 +22,11 @@ var styles_layout = {
     alignSelf: 'center',
     resizeMode: 'contain',
     marginTop: 5,
+  },
+  titleSubmit: {
+    fontSize: 16,
+    color: "#0072d6",
+    marginRight: 5,
   },
   pagetitle: {
     fontSize: 30,
