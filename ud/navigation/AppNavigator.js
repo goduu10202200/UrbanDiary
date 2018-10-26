@@ -6,7 +6,8 @@ import Enter from "../screens/Enter";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 import MapDiary from "../screens/MapDiary";
-
+import History_year from "../screens/History_year";
+import History_day from "../screens/History_day";
 const AppNavigator = createStackNavigator({
   Main: {
     screen: MainTabNavigator,
@@ -20,8 +21,10 @@ const AppNavigator = createStackNavigator({
       header: null //去除上方title
     }
   },
-  Signup: Signup,
-  Login: Login
+  Signup: { screen: Signup },
+  Login: { screen: Login },
+  History_year: { screen: History_year },
+  History_day: { screen: History_day }
 });
 
 export default AppNavigator;

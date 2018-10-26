@@ -1,11 +1,19 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
-export default class Page extends React.Component {
+var navigation = null;
+export default class History_year extends React.Component {
+  constructor(props) {
+    super(props);
+    navigation = this.props.navigation;
+  }
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Login")}
+        >
           <Text style={styles.Title_History}>2018年</Text>
           <Image
             style={styles.Image_History}

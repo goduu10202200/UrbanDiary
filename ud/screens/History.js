@@ -21,9 +21,12 @@ const initialLayout = {
 export default class History extends React.Component {
   static navigationOptions = {
     headerTitle: (
-      <Image source={require('../assets/images/LogoFont_w.png')} style={styles_layout.titleLogo}/>
+      <Image
+        source={require("../assets/images/LogoFont_w.png")}
+        style={styles_layout.titleLogo}
+      />
     ),
-    headerStyle: styles_layout.titleDiv,
+    headerStyle: styles_layout.titleDiv
   };
 
   state = {
@@ -45,26 +48,25 @@ export default class History extends React.Component {
     month: month
   });
 
-
   render() {
     return (
       <View style={styles.container}>
-      <View
-        style={{
-          flex: 1,
-          // paddingTop: Constants.statusBarHeight,
-          backgroundColor: "#1982f3"
-        }}
-      >
-        <TabView
-          navigationState={this.state}
-          renderScene={this._renderScene}
-          renderHeader={this._renderHeader}
-          onIndexChange={this._handleIndexChange}
-          initialLayout={initialLayout}
-        />
+        <View
+          style={{
+            flex: 1,
+            // paddingTop: Constants.statusBarHeight,
+            backgroundColor: "#1982f3"
+          }}
+        >
+          <TabView
+            navigationState={this.state}
+            renderScene={this._renderScene}
+            renderHeader={this._renderHeader}
+            onIndexChange={this._handleIndexChange}
+            initialLayout={initialLayout}
+          />
+        </View>
       </View>
-    </View>
     );
   }
 }
@@ -74,4 +76,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#cfe2ee"
   }
 });
-

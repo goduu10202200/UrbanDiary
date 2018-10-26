@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
-export default class Page extends React.Component {
+export default class History_day extends React.Component {
   render() {
     return (
       <View style={styles.container}>
@@ -25,7 +25,8 @@ export default class Page extends React.Component {
             source={require("../assets/images/t2.jpg")}
           />
           <Text style={styles.buttonText}>
-            明天要考會計院小考，我要{"\n"}
+            明天要考會計院小考，我要
+            {"\n"}
             設鬧鐘起床讀書
           </Text>
         </TouchableOpacity>
