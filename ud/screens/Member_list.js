@@ -11,7 +11,7 @@ import {
   ListView,
   ActivityIndicator,
   TouchableHighlight,
-  
+  TouchableOpacity
 } from "react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -20,7 +20,7 @@ import { Button, ListItem, CheckBox } from "../node_modules/react-native-element
 import styles_layout from "./style/style_layout";
 import styles_member from "./style/style_member";
 
-export default class Member extends React.Component { 
+export default class Member extends React.Component {
   static navigationOptions = {
     headerTitle: (
       <Image
@@ -35,24 +35,25 @@ export default class Member extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      checked: false
+      dataSource: ""
     }
   }
-  GetItem () {
-   
+
+  //onload
+  componentDidMount() {
+    this.ViewCheckAJAX();
   }
 
-
-  componentDidMount() {
-
+  //顯示list
+  ViewCheckAJAX() {
     return fetch('http://172.20.10.2/urbandiary/ud_api/viewList_api.php')
       .then((response) => response.json())
       .then((responseJson) => {
-        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.setState({
           isLoading: false,
           dataSource: ds.cloneWithRows(responseJson),
-        }, function() {
+        }, function () {
           // In this block you can do something with new state.
         });
       })
@@ -61,34 +62,50 @@ export default class Member extends React.Component {
       });
   }
 
-  ListViewItemSeparator = () => {
-    return (
-      <View
-        style={{
-          height: .5,
-          width: "100%",
-          backgroundColor: "#000",
-        }}
-      />
-    );
+
+  //修改手機上圖案勾選狀態
+  list_check(status) {
+    if (status == 1) {
+      return "checkbox-marked";
+    }
+    else {
+      return "checkbox-blank-outline";
+    }
   }
-  get icon () {
-    const platform = Platform.OS === 'ios' ? 'ios' : 'md';
-    const iconName = this.item.completed ? `${platform}-checkbox` : `${platform}-square-outline`;
-    const iconColor = this.item.completed ? 'green' : 'black';
-    return <Icon name={iconName} color={iconColor} size={20} style={{marginRight: 8}} />;
-}
-onCompleteItem (e) {
-  e.preventDefault();
-  if (this.props.onCompleteItem !== null) {
-      this.props.onCompleteItem(this.item.id, !this.item.completed);
-  }
-}
+
+  //修改資料庫勾選狀態
+  ListCheckAJAX(id, status) {
+    var self = this;
+    if (status == 0) {
+      status = 1;
+    }
+    else {
+      status = 0;
+    }
+
+    axios({
+      url: "http://172.20.10.2/urbandiary/ud_api/CheckList.php",
+      // url: "http://172.20.10.2:8181/urbandiary/ud_api/signup_api.php",
+      method: "post",
+      data: {
+        id: id,
+        status: status
+      }
+    })
+      .then(function (response) {
+        console.log(response.data);
+        self.ViewCheckAJAX();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
 
   render() {
     if (this.state.isLoading) {
       return (
-        <View style={{flex: 1, paddingTop: 20}}>
+        <View style={{ flex: 1, paddingTop: 20 }}>
           <ActivityIndicator />
         </View>
       );
@@ -103,29 +120,31 @@ onCompleteItem (e) {
         <ListView
           style={styles_member.listView}
           dataSource={this.state.dataSource}
-          renderSeparator= {this.ListViewItemSeparator}
-          renderRow={(rowData) => 
-            <View style={styles_member.itemDiv} onPress={this.GetItem.bind(this, rowData.id)}>
-              {/* <Icon
-                name={this.state.check}
-                style={styles_member.itemDiv_check}
-                color="#ddd"
-              /> */}
-              <CheckBox
-                checked={this.state.checked}
-                onValueChange={() => this.setState({ checked: !this.state.checked })}
-              />
-              <Icon
-                name={"pencil-circle"}
-                style={styles_member.itemDiv_icon}
-                color="#edb900"
-              />
-              <Text style={styles_member.itemDiv_time}>{rowData.time}</Text>
-              <Text style={styles_member.itemDiv_item}>{rowData.content}</Text>
-            </View>
-          // <Text style={styles_member.listView_list} 
-          // onPress={this.GetItem.bind(this, rowData.id)} >{rowData.id}</Text>
-        }
+          renderRow={(rowData) =>
+            <TouchableOpacity
+              style={styles_member.itemDiv}
+              onPress={this.ListCheckAJAX.bind(this, rowData.id, rowData.status)}
+            >
+              <View style={styles_member.itemDiv_top} >
+                <Icon
+                  name={this.list_check(rowData.status)}
+                  style={styles_member.itemDiv_check}
+                  color="#666"
+                  size={30}
+                />
+                <Icon
+                  name={"pencil-circle"}
+                  style={styles_member.itemDiv_icon}
+                  color="#edb900"
+                />
+                <Text style={styles_member.itemDiv_item}>{rowData.content}</Text>
+              </View>
+              <View style={styles_member.itemDiv_bottom} >
+                <Text style={styles_member.itemDiv_time}>{rowData.time}</Text>
+                <Text style={styles_member.itemDiv_location}>{rowData.location}</Text>
+              </View>
+            </TouchableOpacity>
+          }
         />
 
       </ScrollView>

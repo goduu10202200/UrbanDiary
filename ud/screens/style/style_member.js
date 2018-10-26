@@ -1,14 +1,15 @@
 var styles_member = {
+  //member
   container: {
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
   },
-  container_bottom:{
+  container_bottom: {
     width: '100%',
     height: '75%',
   },
-  userDiv:{
+  userDiv: {
     width: '100%',
     height: '25%',
     alignSelf: 'center',
@@ -19,65 +20,75 @@ var styles_member = {
     resizeMode: 'contain',
   },
 
-  futureDiv:{
+  futureDiv: {
     width: '90%',
     maxHeight: 60,
     alignSelf: 'center',
   },
-  listDiv:{
+  listDiv: {
     width: '90%',
     alignSelf: 'center',
   },
 
-  checkbox:{
-    width: '10%',
-    alignSelf: 'center',
-    marginLeft: 10,
+  //member_list
+  listView: {
+    width: "90%",
+    alignSelf: "center",
   },
-  
-  itemDiv:{
-    flexDirection: "row", 
+  itemDiv: {
+    // flexDirection: "row", 
     alignItems: "center",
-    // width: '100%',
-    // height: 50,
-    // backgroundColor: 'rgba(211, 211, 211, .5)',
-    // flexDirection: 'row',
     borderWidth: 0,
     borderRadius: 8,
     backgroundColor: "#fff",
     marginTop: 10,
     padding: 10,
   },
+  itemDiv_top: {
+    width: "100%",
+    flexDirection: "row",
+  },
+  itemDiv_bottom: {
+    width: "80%",
+    flexDirection: "row",
+    alignSelf: 'flex-end'
+  },
   itemDiv_check: {
+    width: "10%",
     padding: 0,
     alignSelf: 'center',
-    backgroundColor: 'rgba(211, 211, 211, .3)',
-    width: 30,
-    borderWidth: 0,
-  },
-  itemDiv_check: {
-    fontSize: 30,
-    marginRight:5,
-    alignSelf: 'center',
+    // backgroundColor: 'rgba(211, 211, 211, .3)',
+    // width: 30,
+    // borderWidth: 0,
   },
   itemDiv_icon: {
+    width: "10%",
     fontSize: 30,
     alignSelf: 'center',
   },
-  itemDiv_time: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#333',
-    alignSelf: 'center',
-    padding: 5,
-  },
   itemDiv_item: {
-    fontSize: 16,
+    width: "70%",
+    fontSize: 18,
     color: '#333',
     alignSelf: 'center',
-    padding: 10,
+    justifyContent: 'center',
+    paddingLeft: 10,
+  },
+  itemDiv_time: {
+    fontSize: 12,
+    color: '#888',
+    alignSelf: 'center',
+    paddingLeft: 10,
+  },
+  itemDiv_location: {
+    fontSize: 12,
+    color: '#888',
+    alignSelf: 'center',
+    paddingLeft: 10,
   },
 
+
+  //member_data
   dataDiv: {
     width: '80%',
     flexDirection: 'row',
@@ -98,20 +109,6 @@ var styles_member = {
     color: '#333',
   },
 
-  listView: {
-    width: "90%",
-    alignSelf: "center",
-  },
-  listView_list: {
-    fontSize: 20,
-    paddingLeft: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginTop: 10,
-    borderWidth: 0,
-    borderRadius: 5,
-    backgroundColor: "#fff",
-  }
 };
 
 export default styles_member;
