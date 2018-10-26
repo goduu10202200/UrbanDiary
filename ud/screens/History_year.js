@@ -1,18 +1,22 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 
-var navigation = null;
 export default class History_year extends React.Component {
   constructor(props) {
-    super(props);
-    navigation = this.props.navigation;
+    super(props)
   }
+
+  // 跳頁功能 (參數是頁面名稱)
+  jump = (page) => {
+    this.props.jump(page)
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => this.props.navigation.navigate("Login")}
+          onPress={() => this.jump('Login')}
         >
           <Text style={styles.Title_History}>2018年</Text>
           <Image

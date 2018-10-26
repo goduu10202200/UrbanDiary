@@ -1,14 +1,18 @@
 import React from "react";
-import { createStackNavigator, createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 
 import MainTabNavigator from "./MainTabNavigator";
+
 import Enter from "../screens/Enter";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
-import MapDiary from "../screens/MapDiary";
+
 import History_year from "../screens/History_year";
 import History_day from "../screens/History_day";
-const AppNavigator = createStackNavigator({
+
+// import MapDiary from "../screens/MapDiary";
+
+const RootStack = createStackNavigator({
   Main: {
     screen: MainTabNavigator,
     navigationOptions: {
@@ -21,13 +25,20 @@ const AppNavigator = createStackNavigator({
       header: null //去除上方title
     }
   },
-  Signup: { screen: Signup },
-  Login: { screen: Login },
-  History_year: { screen: History_year },
-  History_day: { screen: History_day }
+  Signup: Signup,
+  Login: Login,
+  History_year: History_year,
+  History_day: History_day
+},{
+  initialRouteName: 'Main',
 });
 
-export default AppNavigator;
+export default class App extends React.Component {
+  render() {
+    return <RootStack />;
+  }
+}
+
 
 /*
  export default createSwitchNavigator({

@@ -58,7 +58,7 @@ export default class Member extends React.Component {
   //顯示list
   ViewCheckAJAX() {
     // return fetch('http://172.20.10.2/urbandiary/ud_api/viewList_api.php')
-    return fetch("http://172.20.10.2:8181/urbandiary/ud_api/viewList_api.php")
+    return fetch("//urbandiary/ud_api/viewList_api.php")
       .then(response => response.json())
       .then(responseJson => {
         let ds = new ListView.DataSource({
@@ -99,7 +99,7 @@ export default class Member extends React.Component {
 
     axios({
       //url: "http://172.20.10.2/urbandiary/ud_api/CheckList.php",
-      url: "http://172.20.10.2:8181/urbandiary/ud_api/CheckList.php",
+      url: "//urbandiary/ud_api/CheckList.php",
       method: "post",
       data: {
         id: id,

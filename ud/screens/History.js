@@ -1,17 +1,13 @@
 import React from "react";
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  Dimensions,
-  Image
-} from "react-native";
-import { TabView, TabBar, SceneMap } from "react-native-tab-view"; // 0.0.67
-import year from "./History_year";
-import month from "./History_month";
-import day from "./History_day";
+import { StyleSheet, View, Dimensions, Image } from "react-native";
+import { TabView, TabBar } from "react-native-tab-view"; // 0.0.67
+
+// 分頁內容
+import Year from "./History_year";
+import Month from "./History_month";
+import Day from "./History_day";
+
+// Layout
 import styles_layout from "./style/style_layout";
 
 const initialLayout = {
@@ -38,25 +34,41 @@ export default class History extends React.Component {
     ]
   };
 
+  jumpPage = (page) => {
+    this.props.navigation.navigate(page)
+  }
+
+  // 傳遞索引
   _handleIndexChange = index => this.setState({ index });
 
+  // 傳遞 Header
   _renderHeader = props => <TabBar {...props} />;
 
-  _renderScene = SceneMap({
-    day: day,
-    year: year,
-    month: month
-  });
+  // 分頁中的三個部分，傳遞 jump function 到孫頁面
+  _renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'day':
+        return (
+          <Day jump={ this.jumpPage } />
+        );
+      case 'year':
+        return (
+          <Year jump={ this.jumpPage } />
+        );
+      case 'month':
+        return (
+          <Month jump={ this.jumpPage } />
+        );
+      default:
+        return null;
+    }
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <View
-          style={{
-            flex: 1,
-            // paddingTop: Constants.statusBarHeight,
-            backgroundColor: "#1982f3"
-          }}
+          style={{ flex: 1, backgroundColor: "#1982f3" }}
         >
           <TabView
             navigationState={this.state}
