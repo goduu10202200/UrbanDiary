@@ -155,7 +155,8 @@ export default class Member extends React.Component {
       isDatePickerVisible: false,
       isTimePickerVisible: false,
       listDate: new Date().Format("yyyy-MM-dd"),
-      listTime: new Date().Format("hh:mm")
+      listTime: new Date().Format("hh:mm"),
+      url_api: "http://172.20.10.2/urbandiary/ud_api/"
     };
   }
 
@@ -193,8 +194,7 @@ export default class Member extends React.Component {
     var time = this.state.listTime;
 
     axios({
-      // url: "http://172.20.10.2:8181/urbandiary/ud_api/scheduled_api.php",
-      url: "http://172.20.10.2/urbandiary/ud_api/scheduled_api.php",
+      url: this.state.url_api + "scheduled_api.php",
       method: "post",
       data: {
         title: title,
@@ -269,7 +269,7 @@ export default class Member extends React.Component {
             }}
             onChangeText={text => this.setState({ title: text })}
             value={this.state.title}
-            fontSize={16}
+            fontSize={18}
           />
           {/* <TextInput
             style={styles_add.addInput}
@@ -281,7 +281,7 @@ export default class Member extends React.Component {
             onChangeText={text => this.setState({ content: text })}
           /> */}
         </View>
-        <View style={styles_add.addDiv}>
+        <View style={styles_add.itemDiv}>
           <View style={styles_add.listDiv}>
             <Icon
               // name={list_type.value}
@@ -412,6 +412,27 @@ export default class Member extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
+          <Button
+            title="新增"
+            textStyle={{
+              fontWeight: "400",
+              letterSpacing: 2,
+              color: "#0b83c4"
+            }}
+            buttonStyle={{
+              backgroundColor: "#f7f7f7",
+              height: 50,
+            }}
+            containerViewStyle={{
+              width: "100%",
+            }}
+            containerStyle={{
+              marginTop: 20,
+              letterSpacing: 2,
+            }}
+            fontSize={20}
+            onPress={this.InsertDataToServer}
+          />
         </View>
         <DateTimePicker
           mode="date"
@@ -431,7 +452,7 @@ export default class Member extends React.Component {
           title="儲存"
           onPress={this.InsertDataToServer}
         /> */}
-        <Button
+        {/* <Button
           title="✓"
           titleStyle={{ fontWeight: "700" }}
           buttonStyle={{
@@ -447,7 +468,7 @@ export default class Member extends React.Component {
           }}
           containerStyle={{ marginTop: 20 }}
           onPress={this.InsertDataToServer}
-        />
+        /> */}
       </ScrollView >
     );
   }

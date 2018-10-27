@@ -20,10 +20,8 @@ var styles_add = {
   },
   addDiv: {
     width: '100%',
-    height: '50%',
+    height: '40%',
     alignSelf: 'center',
-    padding: 10,
-    borderRadius: 5,
     // backgroundColor: 'rgba(200, 200, 200, .3)',
   },
   addInput: {
@@ -31,30 +29,29 @@ var styles_add = {
     height: 100,
     backgroundColor: '#fff',
     lineHeight: 40,
+    padding: 15,
   },
 
   itemDiv: {
     width: '100%',
-    height: '50%',
-    alignSelf: 'center',
-    padding: 10,
-    borderRadius: 5,
-    position: "absolute",
-    bottom: 0,
+    height: '60%',
+    justifyContent: 'flex-end',
+    alignItems: "center"
   },
   listDiv: {
     width: "100%",
-    padding: 5,
+    padding: 10,
     flexDirection: 'row',
+    backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: "#ddd",
-    backgroundColor: '#fff',
   },
   listIcon: {
     fontSize: 25,
     width: "10%",
     height: 40,
     padding: 5,
+    paddingLeft: 10,
     color: '#474747',
     justifyContent: "center",
   },
@@ -68,7 +65,7 @@ var styles_add = {
   listDiv_dataTxt: {
     width: "100%",
     fontSize: 16,
-    color: '#474747',
+    // color: '#474747',
     justifyContent: "center",
   },
   // btnTime: {
