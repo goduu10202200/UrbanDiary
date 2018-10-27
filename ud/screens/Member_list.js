@@ -6,7 +6,8 @@ import {
   Image,
   ListView,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  RefreshControl
 } from "react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -31,23 +32,34 @@ export default class Member extends React.Component {
     this.state = {
       isLoading: true,
       dataSource: "",
-      curTime: ""
+      curTime: "",
+      refreshing: false
     };
   }
 
   //onload
   componentDidMount() {
     this.ViewCheckAJAX();
-    setInterval(() => {
-      this.setState({
-        curTime: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
-      });
-    }, 1000);
   }
+
+  //reload
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.ViewCheckAJAX().then(() => {
+      this.setState({ refreshing: false });
+    });
+  }
+
 
   //顯示list
   ViewCheckAJAX() {
-    return fetch(ServiceApiNet.getURL() + "viewList_api.php")
+    var today = moment(new Date()).format("YYYY-MM-DD");
+    return fetch(ServiceApiNet.getURL() + "viewList_api.php", {
+      method: "POST",
+      body: JSON.stringify({
+        today: today,
+      })
+    })
       .then(response => response.json())
       .then(responseJson => {
         let ds = new ListView.DataSource({
@@ -58,7 +70,7 @@ export default class Member extends React.Component {
             isLoading: false,
             dataSource: ds.cloneWithRows(responseJson)
           },
-          function() {
+          function () {
             // In this block you can do something with new state.
           }
         );
@@ -77,7 +89,7 @@ export default class Member extends React.Component {
     }
   }
 
-  //修改資料庫勾選狀態
+  // 修改資料庫勾選狀態
   ListCheckAJAX(id, status) {
     var self = this;
     if (status == 0) {
@@ -94,11 +106,11 @@ export default class Member extends React.Component {
         status: status
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         console.log(response.data);
         self.ViewCheckAJAX();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -116,10 +128,13 @@ export default class Member extends React.Component {
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         style={styles_member.container_bottom}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
       >
-        <View>
-          <Text>{this.state.curTime}</Text>
-        </View>
         <ListView
           style={styles_member.listView}
           dataSource={this.state.dataSource}

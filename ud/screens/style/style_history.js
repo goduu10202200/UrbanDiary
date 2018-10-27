@@ -1,4 +1,4 @@
-var styles_member = {
+var styles_history = {
   //member
   container: {
     flex: 1,
@@ -34,7 +34,6 @@ var styles_member = {
   listView: {
     width: "90%",
     alignSelf: "center",
-    marginBottom: 15
   },
   itemDiv: {
     // flexDirection: "row", 
@@ -112,4 +111,4 @@ var styles_member = {
 
 };
 
-export default styles_member;
+export default styles_history;

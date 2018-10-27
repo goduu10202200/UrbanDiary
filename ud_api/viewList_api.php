@@ -1,7 +1,10 @@
 <?php
     include 'DBConnection.php';
+    $raw_post_data = json_decode(file_get_contents('php://input'), true);
     
-    $sql = "SELECT * FROM scheduled";
+    $today =  $raw_post_data['today'];
+
+    $sql = "SELECT * FROM scheduled WHERE date = '".$today."'";
     $result = $conn->query($sql);
     if ($result->num_rows >0) {
         while ($row_chat = $result -> fetch_assoc()) {
@@ -17,6 +20,7 @@
     } else {
         echo "No Results Found.";
     }
+
     echo json_encode($response_data);
     $conn->close();
-    //{"id":"1","date":"2018-10-24","time":"14:00","location":"操場","content":"跑步", "status":"0"}
+

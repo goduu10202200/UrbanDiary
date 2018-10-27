@@ -28,7 +28,7 @@ var styles_add = {
     width: '100%',
     height: 100,
     backgroundColor: '#fff',
-    lineHeight: 40,
+    // lineHeight: 40,
     padding: 15,
   },
 
@@ -92,6 +92,13 @@ var styles_add = {
     color: '#fff',
   },
 
+
+  //Add_location
+  locationInput: {
+    flex: 1,
+    // flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
 };
 
 export default styles_add;

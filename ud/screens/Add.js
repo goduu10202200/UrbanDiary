@@ -17,11 +17,12 @@ import ServiceApiNet from "./ServiceApiNet";
 // Import file
 import styles_layout from "./style/style_layout";
 import styles_add from "./style/style_add";
+import moment from "moment";
 
 export default class Member extends React.Component {
   //地點回傳資料
-  returnData(return_location) {
-    this.setState({ return_location: return_location });
+  returnData(location) {
+    this.setState({ location: location });
   }
   static navigationOptions = {
     title: "新增待辦事項 ",
@@ -45,32 +46,32 @@ export default class Member extends React.Component {
   constructor(props) {
     super(props);
 
-    // 日期格式化
-    Date.prototype.Format = function(fmt) {
-      var o = {
-        "M+": this.getMonth() + 1, //月份
-        "d+": this.getDate(), //日
-        "h+": this.getHours(), //小时
-        "m+": this.getMinutes(), //分
-        "s+": this.getSeconds(), //秒
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        S: this.getMilliseconds() //毫秒
-      };
-      if (/(y+)/.test(fmt))
-        fmt = fmt.replace(
-          RegExp.$1,
-          (this.getFullYear() + "").substr(4 - RegExp.$1.length)
-        );
-      for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt))
-          fmt = fmt.replace(
-            RegExp.$1,
-            RegExp.$1.length == 1
-              ? o[k]
-              : ("00" + o[k]).substr(("" + o[k]).length)
-          );
-      return fmt;
-    };
+    // // 日期格式化
+    // Date.prototype.Format = function (fmt) {
+    //   var o = {
+    //     "M+": this.getMonth() + 1, //月份
+    //     "d+": this.getDate(), //日
+    //     "h+": this.getHours(), //小时
+    //     "m+": this.getMinutes(), //分
+    //     "s+": this.getSeconds(), //秒
+    //     "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+    //     S: this.getMilliseconds() //毫秒
+    //   };
+    //   if (/(y+)/.test(fmt))
+    //     fmt = fmt.replace(
+    //       RegExp.$1,
+    //       (this.getFullYear() + "").substr(4 - RegExp.$1.length)
+    //     );
+    //   for (var k in o)
+    //     if (new RegExp("(" + k + ")").test(fmt))
+    //       fmt = fmt.replace(
+    //         RegExp.$1,
+    //         RegExp.$1.length == 1
+    //           ? o[k]
+    //           : ("00" + o[k]).substr(("" + o[k]).length)
+    //       );
+    //   return fmt;
+    // };
 
     this.inputRefs = {};
     this.state = {
@@ -79,8 +80,8 @@ export default class Member extends React.Component {
       location: "地點",
       isDatePickerVisible: false,
       isTimePickerVisible: false,
-      listDate: new Date().Format("yyyy-MM-dd"),
-      listTime: new Date().Format("hh:mm"),
+      listDate: moment(new Date()).format("YYYY-MM-DD"),
+      listTime: moment(new Date()).format("HH:mm"),
       id: "",
       name: ""
     };
@@ -101,12 +102,12 @@ export default class Member extends React.Component {
     });
 
   _handleDatePicked = date => {
-    var strDate = date.Format("yyyy-MM-dd");
+    var strDate = moment(date).format("YYYY-MM-DD");
     this.setState({ listDate: strDate });
     this._hideDateTimePicker();
   };
   _handleTimePicked = date => {
-    var strTime = date.Format("hh:mm");
+    var strTime = moment(date).format("HH:mm");
     this.setState({ listTime: strTime });
     this._hideDateTimePicker();
   };
@@ -130,12 +131,12 @@ export default class Member extends React.Component {
         time: time
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         self.setState({ title: "" });
-        self.setState({ location: "" });
+        self.setState({ location: "地點" });
         console.log(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -189,8 +190,7 @@ export default class Member extends React.Component {
               this.title = el;
             }}
             onChangeText={text => this.setState({ title: text })}
-            // value={this.state.title}
-            value={this.state.return_location}
+            value={this.state.title}
             fontSize={18}
           />
           {/* <TextInput

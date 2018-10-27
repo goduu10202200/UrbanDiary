@@ -1,4 +1,4 @@
-var styles_member = {
+var styles_diary = {
   container: {
     flex: 1,
     width: '100%',
@@ -16,7 +16,7 @@ var styles_member = {
     lineHeight: 40,
     textAlign: 'center',
   },
-  titleCheck:{
+  titleCheck: {
     width: 100,
     height: 100,
   },
@@ -33,13 +33,13 @@ var styles_member = {
     padding: 10,
     lineHeight: 30,
   },
-  diary_btn:{
+  diary_btn: {
     width: 80,
     height: 40,
     borderRadius: 6,
     backgroundColor: '#1072b5',
-    position: 'absolute', 
-    bottom: 20, 
+    position: 'absolute',
+    bottom: 20,
     right: 10,
   },
   diary_btn_txt: {
@@ -54,7 +54,7 @@ var styles_member = {
     color: 'white',
   },
 
-  tag_div:{
+  tag_div: {
     width: "100%",
     height: "100%",
     position: "absolute",
@@ -62,7 +62,7 @@ var styles_member = {
     right: 0,
     backgroundColor: "rgba(232, 232, 232, 0.8)",
   },
-  tag_box:{
+  tag_box: {
     width: "45%",
     height: "100%",
     position: "absolute",
@@ -73,7 +73,7 @@ var styles_member = {
     paddingTop: "5%",
     zIndex: 100,
   },
-  tag:{
+  tag: {
     width: "80%",
     // height: 40,
     padding: 1,
@@ -83,27 +83,27 @@ var styles_member = {
     alignItems: "center",
     justifyContent: "center",
   },
-  tag_txt:{
+  tag_txt: {
     lineHeight: 40,
     fontSize: 22,
     color: "#fff",
   },
-  tag_img:{
+  tag_img: {
     width: 120,
     height: 50,
     resizeMode: 'contain',
     // heig
     marginTop: 10,
   },
-  
-  dialog:{
+
+  dialog: {
     width: "85%",
     height: "30%",
     backgroundColor: '#f7f7f7',
     position: 'absolute',
     top: "23%",
   },
-  dialog_input:{
+  dialog_input: {
     width: '90%',
     backgroundColor: "#fff",
     fontSize: 16,
@@ -115,7 +115,7 @@ var styles_member = {
     borderWidth: 0.8,
     borderColor: "#ddd",
   },
-  dialog_btn:{
+  dialog_btn: {
     backgroundColor: "#5b9bd5",
     width: "100%",
     height: 50,
@@ -127,4 +127,4 @@ var styles_member = {
 
 };
 
-export default styles_member;
+export default styles_diary;
