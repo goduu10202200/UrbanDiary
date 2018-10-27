@@ -1,19 +1,19 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation";
-
 import MainTabNavigator from "./MainTabNavigator";
 
 import Enter from "../screens/Enter";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
-
 import History_year from "../screens/History_year";
 import History_day from "../screens/History_day";
 import Add_location from "../screens/Add_location";
+import { View } from "react-native-animatable";
 
 // import MapDiary from "../screens/MapDiary";
-    }, {
-  const RootStack = createStackNavigator({
+//}, {
+const RootStack = createStackNavigator(
+  {
     Main: {
       screen: MainTabNavigator,
       navigationOptions: {
@@ -31,16 +31,23 @@ import Add_location from "../screens/Add_location";
     History_year: History_year,
     History_day: History_day,
     Add_location: Add_location
-  }, {
-      initialRouteName: 'Main',
-    });
-
-  export default class App extends React.Component {
-    render() {
-      return <RootStack />;
-    }
+  },
+  {
+    initialRouteName: "Main"
   }
+);
 
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: "3333333"
+    };
+  }
+  render() {
+    return <RootStack />;
+  }
+}
 
 /*
  export default createSwitchNavigator({

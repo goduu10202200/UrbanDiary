@@ -1,11 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-
 export default class History_day extends React.Component {
+  // 跳頁功能 (參數是頁面名稱)
+  jump = page => {
+    this.props.jump(page);
+  };
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.jump("Diary")}
+        >
           <Text style={styles.Title_History}>2018/10/04</Text>
           <Image
             style={styles.Image_History}

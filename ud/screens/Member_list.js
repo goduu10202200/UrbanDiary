@@ -1,28 +1,18 @@
 import React from "react";
 import {
   ScrollView,
-  StyleSheet,
   Text,
   View,
   Image,
-  TextInput,
-  checkedIcon,
-  uncheckedIcon,
   ListView,
   ActivityIndicator,
-  TouchableHighlight,
   TouchableOpacity
 } from "react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import SelectMultiple from "react-native-select-multiple";
-import {
-  Button,
-  ListItem,
-  CheckBox
-} from "../node_modules/react-native-elements";
 import styles_layout from "./style/style_layout";
 import styles_member from "./style/style_member";
+import ServiceApiNet from "./ServiceApiNet";
 import moment from "moment";
 
 export default class Member extends React.Component {
@@ -57,26 +47,28 @@ export default class Member extends React.Component {
 
   //顯示list
   ViewCheckAJAX() {
-    // return fetch('http://172.20.10.2/urbandiary/ud_api/viewList_api.php')
-    return fetch("//urbandiary/ud_api/viewList_api.php")
-      .then(response => response.json())
-      .then(responseJson => {
-        let ds = new ListView.DataSource({
-          rowHasChanged: (r1, r2) => r1 !== r2
-        });
-        this.setState(
-          {
-            isLoading: false,
-            dataSource: ds.cloneWithRows(responseJson)
-          },
-          function() {
-            // In this block you can do something with new state.
-          }
-        );
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    return (
+      //fetch("http://172.20.10.2:8181/urbandiary/ud_api/viewList_api.php")
+      fetch(ServiceApiNet.getURL() + "viewList_api.php")
+        .then(response => response.json())
+        .then(responseJson => {
+          let ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+          });
+          this.setState(
+            {
+              isLoading: false,
+              dataSource: ds.cloneWithRows(responseJson)
+            },
+            function() {
+              // In this block you can do something with new state.
+            }
+          );
+        })
+        .catch(error => {
+          console.error(error);
+        })
+    );
   }
 
   //修改手機上圖案勾選狀態
@@ -99,7 +91,7 @@ export default class Member extends React.Component {
 
     axios({
       //url: "http://172.20.10.2/urbandiary/ud_api/CheckList.php",
-      url: "//urbandiary/ud_api/CheckList.php",
+      url: ServiceApiNet.getURL() + "CheckList.php",
       method: "post",
       data: {
         id: id,

@@ -19,7 +19,7 @@ import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 
 import styles_layout from "./style/style_layout";
 import styles_diary from "./style/style_diary";
-
+import History_day from "./History_day";
 const window = Dimensions.get("window");
 
 export default class Diary extends React.Component {
