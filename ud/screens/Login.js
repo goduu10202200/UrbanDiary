@@ -5,6 +5,7 @@ import { Button, Icon, SocialIcon } from "react-native-elements";
 import styles from "./style/style_login";
 import styles_layout from "./style/style_layout";
 import axios from "axios";
+import ServiceApiNet from "./ServiceApiNet";
 export default class Login extends React.Component {
   static navigationOptions = {
     title: "登入",
@@ -34,7 +35,7 @@ export default class Login extends React.Component {
     var password = this.state.password;
 
     axios({
-      url: "http://172.20.10.2:8181/urbandiary/ud_api/login_api.php",
+      url: ServiceApiNet.getURL() + "login_api.php",
       method: "post",
       data: {
         account: account,

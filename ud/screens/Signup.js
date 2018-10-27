@@ -12,7 +12,7 @@ import axios from "axios";
 import "@expo/vector-icons";
 import { Button, Icon, SocialIcon } from "react-native-elements";
 import styles from "./style/style_login";
-
+import ServiceApiNet from "./ServiceApiNet";
 export default class Signup extends React.Component {
   static navigationOptions = {
     title: "註冊",
@@ -47,7 +47,7 @@ export default class Signup extends React.Component {
 
     if (password == password_check) {
       axios({
-        url: "http://172.20.10.2:8181/urbandiary/ud_api/signup_api.php",
+        url: ServiceApiNet.getURL() + "signup_api.php",
         method: "post",
         data: {
           name: name,

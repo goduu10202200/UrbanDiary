@@ -17,7 +17,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import { Button, ListItem, List } from "../node_modules/react-native-elements";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import location from "./Add_location";
-
+import ServiceApiNet from "./ServiceApiNet";
 // Import file
 import styles_layout from "./style/style_layout";
 import styles_add from "./style/style_add";
@@ -121,7 +121,7 @@ export default class Member extends React.Component {
     super(props);
 
     // 日期格式化
-    Date.prototype.Format = function (fmt) {
+    Date.prototype.Format = function(fmt) {
       var o = {
         "M+": this.getMonth() + 1, //月份
         "d+": this.getDate(), //日
@@ -194,7 +194,7 @@ export default class Member extends React.Component {
     var time = this.state.listTime;
 
     axios({
-      url: this.state.url_api + "scheduled_api.php",
+      url: ServiceApiNet.getURL() + "scheduled_api.php",
       method: "post",
       data: {
         title: title,
@@ -205,13 +205,13 @@ export default class Member extends React.Component {
         time: time
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         self.setState({ title: "" });
         self.setState({ location: "" });
         //self.GooglePlacesRef.clearInput();
         console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
@@ -293,7 +293,7 @@ export default class Member extends React.Component {
                 label=""
                 labelFontSize={0}
                 dropdownOffset={{ top: 20, left: 0 }}
-                inputContainerStyle={{ borderBottomColor: 'transparent' }}
+                inputContainerStyle={{ borderBottomColor: "transparent" }}
                 itemCount={list_type.length}
                 data={list_type}
                 onChangeText={data => this.setState({ type: data })}
@@ -320,7 +320,7 @@ export default class Member extends React.Component {
             <View style={styles_add.listDiv_data}>
               <Text
                 style={styles_add.listDiv_dataTxt}
-                onPress={() => this.props.navigation.navigate('Add_location')}
+                onPress={() => this.props.navigation.navigate("Add_location")}
               >
                 {this.state.location}
               </Text>
@@ -397,7 +397,9 @@ export default class Member extends React.Component {
             />
             <TouchableOpacity onPress={this._showDatePicker}>
               <View style={styles_add.listDiv_data}>
-                <Text style={styles_add.listDiv_dataTxt}>{this.state.listDate}</Text>
+                <Text style={styles_add.listDiv_dataTxt}>
+                  {this.state.listDate}
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -408,7 +410,9 @@ export default class Member extends React.Component {
             />
             <TouchableOpacity onPress={this._showTimePicker}>
               <View style={styles_add.listDiv_data}>
-                <Text style={styles_add.listDiv_dataTxt}>{this.state.listTime}</Text>
+                <Text style={styles_add.listDiv_dataTxt}>
+                  {this.state.listTime}
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -421,14 +425,14 @@ export default class Member extends React.Component {
             }}
             buttonStyle={{
               backgroundColor: "#f7f7f7",
-              height: 50,
+              height: 50
             }}
             containerViewStyle={{
-              width: "100%",
+              width: "100%"
             }}
             containerStyle={{
               marginTop: 20,
-              letterSpacing: 2,
+              letterSpacing: 2
             }}
             fontSize={20}
             onPress={this.InsertDataToServer}
@@ -469,7 +473,7 @@ export default class Member extends React.Component {
           containerStyle={{ marginTop: 20 }}
           onPress={this.InsertDataToServer}
         /> */}
-      </ScrollView >
+      </ScrollView>
     );
   }
 }

@@ -16,6 +16,7 @@ import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Button } from "../node_modules/react-native-elements";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
+import ServiceApiNet from "./ServiceApiNet";
 
 import styles_layout from "./style/style_layout";
 import styles_diary from "./style/style_diary";
@@ -88,7 +89,7 @@ export default class Diary extends React.Component {
   labelAJAX(type) {
     var self = this;
     axios({
-      url: "http://172.20.10.2:8181/urbandiary/ud_api/labeldiary_api.php",
+      url: ServiceApiNet.getURL() + "labeldiary_api.php",
       //url: "http://172.20.10.2/urbandiary/ud_api/diary_api.php",
       method: "post",
       data: {
@@ -108,7 +109,7 @@ export default class Diary extends React.Component {
     var self = this;
     var content = this.state.diaryContent;
     axios({
-      url: "http://172.20.10.2:8181/urbandiary/ud_api/diary_api.php",
+      url: ServiceApiNet.getURL() + "diary_api.php",
       //url: "http://172.20.10.2/urbandiary/ud_api/diary_api.php",
       method: "post",
       data: {

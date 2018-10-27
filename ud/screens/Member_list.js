@@ -47,28 +47,25 @@ export default class Member extends React.Component {
 
   //顯示list
   ViewCheckAJAX() {
-    return (
-      //fetch("http://172.20.10.2:8181/urbandiary/ud_api/viewList_api.php")
-      fetch(ServiceApiNet.getURL() + "viewList_api.php")
-        .then(response => response.json())
-        .then(responseJson => {
-          let ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-          });
-          this.setState(
-            {
-              isLoading: false,
-              dataSource: ds.cloneWithRows(responseJson)
-            },
-            function() {
-              // In this block you can do something with new state.
-            }
-          );
-        })
-        .catch(error => {
-          console.error(error);
-        })
-    );
+    return fetch(ServiceApiNet.getURL() + "viewList_api.php")
+      .then(response => response.json())
+      .then(responseJson => {
+        let ds = new ListView.DataSource({
+          rowHasChanged: (r1, r2) => r1 !== r2
+        });
+        this.setState(
+          {
+            isLoading: false,
+            dataSource: ds.cloneWithRows(responseJson)
+          },
+          function() {
+            // In this block you can do something with new state.
+          }
+        );
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   //修改手機上圖案勾選狀態
@@ -90,7 +87,6 @@ export default class Member extends React.Component {
     }
 
     axios({
-      //url: "http://172.20.10.2/urbandiary/ud_api/CheckList.php",
       url: ServiceApiNet.getURL() + "CheckList.php",
       method: "post",
       data: {
