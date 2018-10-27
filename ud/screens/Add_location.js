@@ -38,20 +38,24 @@ const GooglePlacesInput = () => {
         language: "zh-TW", // language of the results
         types: "" // default: 'geocode'
       }}
-      styles={
-        ({
-          textInputContainer: {
-            width: "100%"
-          },
-          description: {
-            fontWeight: "bold"
-          },
-          predefinedPlacesDescription: {
-            color: "#1faadb"
-          }
+      styles={{
+        textInputContainer: {
+          width: "100%",
         },
-          styles_add.addInput)
-      }
+        description: {
+          fontWeight: "bold"
+        },
+        predefinedPlacesDescription: {
+          color: "#1faadb"
+        },
+        textInput: {
+          marginLeft: 0,
+          marginRight: 0,
+          height: 40,
+          color: '#5d5d5d',
+          fontSize: 26
+        },
+      }}
       currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
       currentLocationLabel="Current location"
       nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
@@ -135,24 +139,25 @@ export default class Member extends React.Component {
             language: "zh-TW", // language of the results
             types: "" // default: 'geocode'
           }}
-          styles={
-            ({
-              textInputContainer: {
-                width: "100%",
-                backgroundColor: "#fff",
-                fontSize: 20,
-              },
-              description: {
-                fontWeight: "bold",
-                backgroundColor: "#fff",
-              },
-              predefinedPlacesDescription: {
-                color: "#1faadb",
-                backgroundColor: "#fff",
-              },
+          styles={{
+            textInputContainer: {
+              width: "100%",
+              padding: 2,
+              height: 60,
+              backgroundColor: "#ddd",
             },
-              styles_add.addInput)
-          }
+            description: {
+              // fontWeight: "bold",
+              backgroundColor: "#fff",
+              fontSize: 14,
+              height: 50,
+            },
+            textInput: {
+              height: 40,
+              color: '#5d5d5d',
+              fontSize: 16
+            },
+          }}
           currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
           currentLocationLabel="Current location"
           nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
