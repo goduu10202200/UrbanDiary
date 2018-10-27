@@ -44,7 +44,7 @@ export default class History extends React.Component {
   // 傳遞 Header
   _renderHeader = props => <TabBar {...props} />;
 
-  // 分頁中的三個部分，傳遞 jump function 到孫頁面
+  // 分頁中的三個部分，傳遞 jump function 到子頁面
   _renderScene = ({ route }) => {
     switch (route.key) {
       case "day":

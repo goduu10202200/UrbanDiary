@@ -3,9 +3,7 @@ import {
   ScrollView,
   Text,
   View,
-  Image,
   TextInput,
-  Keyboard,
   TouchableOpacity,
   Platform
 } from "react-native";
@@ -15,91 +13,18 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Dropdown } from "react-native-material-dropdown";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { Button, ListItem, List } from "../node_modules/react-native-elements";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import location from "./Add_location";
 import ServiceApiNet from "./ServiceApiNet";
 // Import file
 import styles_layout from "./style/style_layout";
 import styles_add from "./style/style_add";
 
-const homePlace = {
-  description: "Home",
-  geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }
-};
-const workPlace = {
-  description: "Work",
-  geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }
-};
-
-// const GooglePlacesInput = () => {
-//   return (
-//     <GooglePlacesAutocomplete
-//       text={this.state.location}
-//       placeholder="地點"
-//       minLength={2} // minimum length of text to search
-//       autoFocus={false}
-//       returnKeyType={"done"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-//       listViewDisplayed="false" // true/false/undefined
-//       fetchDetails={true}
-//       renderDescription={row => row.description} // custom description render
-//       onPress={(data, details = null) => {
-//         // 'details' is provided when fetchDetails = true
-//         console.log(data, details);
-//         console.log(data["description"]);
-//         this.setState({ location: data["description"] });
-//       }}
-//       getDefaultValue={() => ""}
-//       query={{
-//         // available options: https://developers.google.com/places/web-service/autocomplete
-//         key: "AIzaSyCa6NbQaDltVUE8Cdu0k0vj_O5nK78oGhw",
-//         language: "zh-TW", // language of the results
-//         types: "" // default: 'geocode'
-//       }}
-//       styles={
-//         ({
-//           textInputContainer: {
-//             width: "100%"
-//           },
-//           description: {
-//             fontWeight: "bold"
-//           },
-//           predefinedPlacesDescription: {
-//             color: "#1faadb"
-//           }
-//         },
-//           styles_add.addInput)
-//       }
-//       currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-//       currentLocationLabel="Current location"
-//       nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-//       GoogleReverseGeocodingQuery={
-//         {
-//           // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-//         }
-//       }
-//       GooglePlacesSearchQuery={{
-//         // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-//         rankby: "distance",
-//         types: "food"
-//       }}
-//       filterReverseGeocodingByTypes={[
-//         "locality",
-//         "administrative_area_level_3"
-//       ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-//       //predefinedPlaces={[homePlace, workPlace]}
-//       debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-//       renderLeftButton={() => (
-//         // <Image source={require("path/custom/left-icon")} />
-//         <Image />
-//       )}
-//     // renderRightButton={() => <Text>Custom text after the input</Text>}
-//     />
-//   );
-// };
-
 export default class Member extends React.Component {
+  //地點回傳資料
+  returnData(return_location) {
+    this.setState({ return_location: return_location });
+  }
   static navigationOptions = {
-    title: "新增待辦事項",
+    title: "新增待辦事項 ",
     headerRight: (
       <TouchableOpacity
       // onPress={() => {
@@ -156,7 +81,8 @@ export default class Member extends React.Component {
       isTimePickerVisible: false,
       listDate: new Date().Format("yyyy-MM-dd"),
       listTime: new Date().Format("hh:mm"),
-      url_api: "http://172.20.10.2/urbandiary/ud_api/"
+      id: "",
+      name: ""
     };
   }
 
@@ -198,7 +124,6 @@ export default class Member extends React.Component {
       method: "post",
       data: {
         title: title,
-        // content: content,
         type: type,
         location: location,
         date: date,
@@ -208,7 +133,6 @@ export default class Member extends React.Component {
       .then(function(response) {
         self.setState({ title: "" });
         self.setState({ location: "" });
-        //self.GooglePlacesRef.clearInput();
         console.log(response.data);
       })
       .catch(function(error) {
@@ -256,9 +180,6 @@ export default class Member extends React.Component {
         keyboardShouldPersistTaps="handled"
         style={styles_add.container}
       >
-        {/* <View style={styles_add.header}>
-          <Text style={styles_add.headerTxt}>新增待辦事項</Text>
-        </View> */}
         <View style={styles_add.addDiv}>
           <TextInput
             style={styles_add.addInput}
@@ -268,7 +189,8 @@ export default class Member extends React.Component {
               this.title = el;
             }}
             onChangeText={text => this.setState({ title: text })}
-            value={this.state.title}
+            // value={this.state.title}
+            value={this.state.return_location}
             fontSize={18}
           />
           {/* <TextInput
@@ -302,16 +224,6 @@ export default class Member extends React.Component {
               />
             </View>
           </View>
-          {/* <TextInput
-            style={styles_add.addInput}
-            multiline={true}
-            placeholder="地點"
-            ref={el => {
-              this.location = el;
-            }}
-            onChangeText={text => this.setState({ location: text })}
-            value={this.state.location}
-          /> */}
           <View style={styles_add.listDiv}>
             <Icon
               name={Platform.OS === "ios" ? "ios-pin" : "md-pin"}
@@ -320,75 +232,18 @@ export default class Member extends React.Component {
             <View style={styles_add.listDiv_data}>
               <Text
                 style={styles_add.listDiv_dataTxt}
-                onPress={() => this.props.navigation.navigate("Add_location")}
+                onPress={
+                  () =>
+                    this.props.navigation.navigate("Add_location", {
+                      returnData: this.returnData.bind(this),
+                      jump: this.returnData.bind(this.jumpPage)
+                    })
+                  // this.props.navigation.navigate("Add_location")
+                }
               >
                 {this.state.location}
               </Text>
             </View>
-            {/* <GooglePlacesAutocomplete
-              text={this.state.location}
-              placeholder="地點"
-              minLength={2} // minimum length of text to search
-              autoFocus={false}
-              returnKeyType={"done"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-              listViewDisplayed="false" // true/false/undefined
-              fetchDetails={true}
-              renderDescription={row => row.description} // custom description render
-              onPress={(data, details = null) => {
-                // 'details' is provided when fetchDetails = true
-                console.log(data, details);
-                console.log(data["description"]);
-                this.setState({ location: data["description"] });
-              }}
-              getDefaultValue={() => ""}
-              query={{
-                // available options: https://developers.google.com/places/web-service/autocomplete
-                key: "AIzaSyCa6NbQaDltVUE8Cdu0k0vj_O5nK78oGhw",
-                language: "zh-TW", // language of the results
-                types: "" // default: 'geocode'
-              }}
-              styles={
-                ({
-                  textInputContainer: {
-                    width: "100%",
-                    backgroundColor: "#fff",
-                  },
-                  description: {
-                    fontWeight: "bold",
-                    backgroundColor: "#fff",
-                  },
-                  predefinedPlacesDescription: {
-                    color: "#1faadb",
-                    backgroundColor: "#fff",
-                  },
-                },
-                  styles_add.addInput)
-              }
-              currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-              currentLocationLabel="Current location"
-              nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-              GoogleReverseGeocodingQuery={
-                {
-                  // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-                }
-              }
-              GooglePlacesSearchQuery={{
-                // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                rankby: "distance",
-                types: "food"
-              }}
-              filterReverseGeocodingByTypes={[
-                "locality",
-                "administrative_area_level_3"
-              ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-              //predefinedPlaces={[homePlace, workPlace]}
-              debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-              renderLeftButton={() => (
-                // <Image source={require("path/custom/left-icon")} />
-                <Image />
-              )}
-            // renderRightButton={() => <Text>Custom text after the input</Text>}
-            /> */}
           </View>
           <View style={styles_add.listDiv}>
             <Icon
