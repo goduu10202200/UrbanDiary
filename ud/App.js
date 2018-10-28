@@ -35,8 +35,6 @@ export default class App extends React.Component {
         require("./assets/images/LogoFont_b.png"),
         require("./assets/images/user.png"),
         // urban diary's tag
-        require("./assets/images/tag_mood.png"),
-        require("./assets/images/tag_weather.png"),
         require("./assets/images/tag_love.png"),
         require("./assets/images/tag_homework.png"),
         require("./assets/images/tag_eat.png"),

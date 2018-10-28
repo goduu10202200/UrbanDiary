@@ -4,7 +4,7 @@
     
     $today =  $raw_post_data['today'];
 
-    $sql = "SELECT * FROM scheduled WHERE date = '".$today."'";
+    $sql = "SELECT * FROM scheduled WHERE date = '".$today."' ORDER BY kind ";
     $result = $conn->query($sql);
     if ($result->num_rows >0) {
         while ($row_chat = $result -> fetch_assoc()) {
@@ -15,6 +15,7 @@
                 "location"   =>$row_chat['location'],
                 "content"     =>$row_chat['title'],
                 "status"        => $row_chat['status'] ,
+                "kind"        => $row_chat['kind'] ,
             );
         }
     } else {

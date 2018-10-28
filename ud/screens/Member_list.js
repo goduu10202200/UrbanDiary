@@ -31,9 +31,9 @@ export default class Member extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
-      dataSource: "",
       curTime: "",
       refreshing: false,
+      dataSource: "",
       isHidden: false,
     };
   }
@@ -123,6 +123,15 @@ export default class Member extends React.Component {
       });
   }
 
+  // onContentSize(contentWidth, contentHeight) {
+  //   alert("<<<<<< content >>>>>>>>>" + contentWidth + "," + contentHeight);
+  //   this.setNativeProps({
+  //     style: {
+  //       height: contentHeight
+  //     }
+  //   });
+  // }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -163,11 +172,18 @@ export default class Member extends React.Component {
                     color="#666"
                     size={30}
                   />
-                  <Icon
-                    name={"pencil-circle"}
-                    style={styles_member.itemDiv_icon}
-                    color="#edb900"
-                  />
+                  {rowData.kind == "future" ?
+                    <Icon
+                      name={"star-circle"}
+                      style={styles_member.itemDiv_icon}
+                      color="#edb900"
+                    />
+                    : <Icon
+                      name={"pencil-circle"}
+                      style={styles_member.itemDiv_icon}
+                      color="#518c73"
+                    />
+                  }
                   <Text style={styles_member.itemDiv_item}>
                     {rowData.content}
                   </Text>

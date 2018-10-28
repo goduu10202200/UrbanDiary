@@ -10,7 +10,7 @@ const { width, height } = Dimensions.get("window");
 
 export default class MapDiary extends React.Component {
   static navigationOptions = {
-    title: "城市足跡",
+    title: "城市日記",
     headerStyle: styles_layout.titleDiv,
     headerTitleStyle: styles_layout.titleTxt
   };
