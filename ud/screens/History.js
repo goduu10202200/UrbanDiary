@@ -16,13 +16,9 @@ const initialLayout = {
 };
 export default class History extends React.Component {
   static navigationOptions = {
-    headerTitle: (
-      <Image
-        source={require("../assets/images/LogoFont_w.png")}
-        style={styles_layout.titleLogo}
-      />
-    ),
-    headerStyle: styles_layout.titleDiv
+    title: "歷史日記",
+    headerStyle: styles_layout.titleDiv,
+    headerTitleStyle: styles_layout.titleTxt
   };
 
   state = {
@@ -61,7 +57,7 @@ export default class History extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1, backgroundColor: "#1982f3" }}>
+        <View style={{ flex: 1 }}>
           <TabView
             navigationState={this.state}
             renderScene={this._renderScene}

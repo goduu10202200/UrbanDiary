@@ -98,7 +98,7 @@ var styles_diary = {
 
   dialog: {
     width: "85%",
-    height: "30%",
+    height: "35%",
     backgroundColor: '#f7f7f7',
     position: 'absolute',
     top: "23%",
@@ -107,10 +107,11 @@ var styles_diary = {
     width: '90%',
     backgroundColor: "#fff",
     fontSize: 16,
+    lineHeight: 22,
     alignSelf: "center",
     padding: 10,
     marginTop: 10,
-    marginBottom: 30,
+    marginBottom: 25,
     borderRadius: 3,
     borderWidth: 0.8,
     borderColor: "#ddd",
@@ -122,7 +123,7 @@ var styles_diary = {
     borderColor: "transparent",
     borderWidth: 0,
     borderRadius: 5,
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
   },
 
 };

@@ -10,13 +10,9 @@ const { width, height } = Dimensions.get("window");
 
 export default class MapDiary extends React.Component {
   static navigationOptions = {
-    headerTitle: (
-      <Image
-        source={require("../assets/images/LogoFont_w.png")}
-        style={styles_layout.titleLogo}
-      />
-    ),
-    headerStyle: styles_layout.titleDiv
+    title: "城市足跡",
+    headerStyle: styles_layout.titleDiv,
+    headerTitleStyle: styles_layout.titleTxt
   };
 
   constructor() {

@@ -71,7 +71,7 @@ export default class Diary extends React.Component {
       "Saturday"
     ];
 
-    return year + " / " + month + " / " + date + "   " + weekday[day] + " ☀";
+    return year + " / " + month + " / " + date + "   " + weekday[day];
   };
 
   // This is hidden window function Start
@@ -96,11 +96,11 @@ export default class Diary extends React.Component {
         type: type
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         self.setState({ taginput: response.data });
         console.log(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -116,14 +116,16 @@ export default class Diary extends React.Component {
         content: content
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         //console.log(response.data);
-        self.setState({ diaryContent: "" });
+        // self.setState({ diaryContent: "" });
+        Alert.alert("儲存成功", "");
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
+
   render() {
     return (
       <ScrollView
@@ -177,6 +179,7 @@ export default class Diary extends React.Component {
             }}
             onChangeText={taginput => this.setState({ taginput })}
             value={this.state.taginput}
+          // multiline={true}
           />
           <Button
             title="送出"
@@ -209,6 +212,7 @@ export default class Diary extends React.Component {
                 onPress={() => {
                   this.labelAJAX("love");
                   this.popupDialog.show();
+                  this.taginput.focus();
                 }}
               >
                 <Image
@@ -221,8 +225,9 @@ export default class Diary extends React.Component {
               {/* urban diary's weather tag  Start*/}
               <TouchableHighlight
                 onPress={() => {
-                  this.popupDialog.show();
                   this.labelAJAX("eat");
+                  this.popupDialog.show();
+                  this.taginput.focus();
                 }}
               >
                 <Image
@@ -236,6 +241,7 @@ export default class Diary extends React.Component {
                 onPress={() => {
                   this.labelAJAX("trip");
                   this.popupDialog.show();
+                  this.taginput.focus();
                 }}
               >
                 <Image
@@ -248,6 +254,7 @@ export default class Diary extends React.Component {
                 onPress={() => {
                   this.labelAJAX("work");
                   this.popupDialog.show();
+                  this.taginput.focus();
                 }}
               >
                 <Image
@@ -258,8 +265,9 @@ export default class Diary extends React.Component {
 
               <TouchableHighlight
                 onPress={() => {
-                  this.popupDialog.show();
                   this.labelAJAX("schoolwork");
+                  this.popupDialog.show();
+                  this.taginput.focus();
                 }}
               >
                 <Image
@@ -270,8 +278,9 @@ export default class Diary extends React.Component {
 
               <TouchableHighlight
                 onPress={() => {
-                  this.popupDialog.show();
                   this.labelAJAX("life");
+                  this.popupDialog.show();
+                  this.taginput.focus();
                 }}
               >
                 <Image
@@ -304,7 +313,7 @@ export default class Diary extends React.Component {
           <ActionButton.Item
             buttonColor="#1abc9c"
             title="圖片"
-            onPress={() => {}}
+            onPress={() => { }}
           >
             <Icon
               name={Platform.OS === "ios" ? "ios-image" : "md-image"}

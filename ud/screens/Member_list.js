@@ -33,7 +33,8 @@ export default class Member extends React.Component {
       isLoading: true,
       dataSource: "",
       curTime: "",
-      refreshing: false
+      refreshing: false,
+      isHidden: false,
     };
   }
 
@@ -68,6 +69,7 @@ export default class Member extends React.Component {
         this.setState(
           {
             isLoading: false,
+            isHidden: true,
             dataSource: ds.cloneWithRows(responseJson)
           },
           function () {
@@ -76,7 +78,13 @@ export default class Member extends React.Component {
         );
       })
       .catch(error => {
-        console.error(error);
+        // console.error(error);
+        this.setState(
+          {
+            isLoading: false,
+            isHidden: false,
+          }
+        );
       });
   }
 
@@ -135,43 +143,45 @@ export default class Member extends React.Component {
           />
         }
       >
-        <ListView
-          style={styles_member.listView}
-          dataSource={this.state.dataSource}
-          renderRow={rowData => (
-            <TouchableOpacity
-              style={styles_member.itemDiv}
-              onPress={this.ListCheckAJAX.bind(
-                this,
-                rowData.id,
-                rowData.status
-              )}
-            >
-              <View style={styles_member.itemDiv_top}>
-                <Icon
-                  name={this.list_check(rowData.status)}
-                  style={styles_member.itemDiv_check}
-                  color="#666"
-                  size={30}
-                />
-                <Icon
-                  name={"pencil-circle"}
-                  style={styles_member.itemDiv_icon}
-                  color="#edb900"
-                />
-                <Text style={styles_member.itemDiv_item}>
-                  {rowData.content}
-                </Text>
-              </View>
-              <View style={styles_member.itemDiv_bottom}>
-                <Text style={styles_member.itemDiv_time}>{rowData.time}</Text>
-                <Text style={styles_member.itemDiv_location}>
-                  {rowData.location}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+        {this.state.isHidden ? (
+          <ListView
+            style={styles_member.listView}
+            dataSource={this.state.dataSource}
+            renderRow={rowData => (
+              <TouchableOpacity
+                style={styles_member.itemDiv}
+                onPress={this.ListCheckAJAX.bind(
+                  this,
+                  rowData.id,
+                  rowData.status
+                )}
+              >
+                <View style={styles_member.itemDiv_top}>
+                  <Icon
+                    name={this.list_check(rowData.status)}
+                    style={styles_member.itemDiv_check}
+                    color="#666"
+                    size={30}
+                  />
+                  <Icon
+                    name={"pencil-circle"}
+                    style={styles_member.itemDiv_icon}
+                    color="#edb900"
+                  />
+                  <Text style={styles_member.itemDiv_item}>
+                    {rowData.content}
+                  </Text>
+                </View>
+                <View style={styles_member.itemDiv_bottom}>
+                  <Text style={styles_member.itemDiv_time}>{rowData.time}</Text>
+                  <Text style={styles_member.itemDiv_location}>
+                    {rowData.location}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : null}
       </ScrollView>
     );
   }
