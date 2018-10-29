@@ -10,6 +10,12 @@
 
     if ($conn->query($sql) === true) {
         echo "New record created successfully";
+        header('Location: http://172.20.10.2:5000/jieba');
+        exit;
+    // $url = "localhost:5000/jieba";
+        // echo "<script type='text/javascript'>";
+        // echo "window.location.href='$url'";
+        // echo "</script>";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

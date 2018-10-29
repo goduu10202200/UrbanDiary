@@ -14,12 +14,6 @@ import { View } from "react-native-animatable";
 //}, {
 const RootStack = createStackNavigator(
   {
-    Main: {
-      screen: MainTabNavigator,
-      navigationOptions: {
-        header: null //去除上方title
-      }
-    },
     Enter: {
       screen: Enter,
       navigationOptions: {
@@ -28,13 +22,19 @@ const RootStack = createStackNavigator(
     },
     Signup: Signup,
     Login: Login,
+    Main: {
+      screen: MainTabNavigator,
+      navigationOptions: {
+        header: null //去除上方title
+      }
+    },
     History_year: History_year,
     History_day: History_day,
     Add_location: Add_location
-  },
-  {
-    initialRouteName: "Main"
   }
+  // {
+  //   //initialRouteName: "Main"
+  // }
 );
 
 export default class App extends React.Component {
