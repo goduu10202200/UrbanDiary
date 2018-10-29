@@ -4,10 +4,12 @@ var styles_member = {
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
+    backgroundColor: "#fff",
   },
   container_bottom: {
     width: '100%',
     height: '75%',
+    backgroundColor: "#cfe2ee",
   },
   userDiv: {
     width: '100%',
@@ -35,6 +37,7 @@ var styles_member = {
     width: "90%",
     alignSelf: "center",
     marginBottom: 15
+
   },
   itemDiv: {
     // flexDirection: "row", 
@@ -44,6 +47,16 @@ var styles_member = {
     backgroundColor: "#fff",
     marginTop: 10,
     padding: 10,
+  },
+  itemDiv_checked: {
+    // flexDirection: "row", 
+    alignItems: "center",
+    borderWidth: 0,
+    borderRadius: 8,
+    backgroundColor: "#bababa",
+    marginTop: 10,
+    padding: 10,
+    // opacity: 0.7,
   },
   itemDiv_top: {
     width: "100%",

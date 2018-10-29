@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
   ScrollView,
   StyleSheet,
   Text,
@@ -22,7 +22,7 @@ const initialLayout = {
 export default class Member extends React.Component {
   static navigationOptions = {
     headerTitle: (
-      <Image source={require('../assets/images/LogoFont_w.png')} style={styles_layout.titleLogo}/>
+      <Image source={require('../assets/images/LogoFont_w.png')} style={styles_layout.titleLogo} />
     ),
     headerStyle: styles_layout.titleDiv,
   };
@@ -49,10 +49,10 @@ export default class Member extends React.Component {
       <View style={styles_member.container}>
         <View style={styles_member.userDiv}>
           <Image
-              source={
-                  require('../assets/images/user.png')
-              }
-              style={styles_member.userLogo}
+            source={
+              require('../assets/images/ray.png')
+            }
+            style={styles_member.userLogo}
           />
         </View>
         <TabView

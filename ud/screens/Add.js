@@ -86,6 +86,7 @@ export default class Member extends React.Component {
     this._hideDateTimePicker();
   };
 
+
   InsertDataToServer = () => {
     var self = this;
     var title = this.state.title;
@@ -108,7 +109,12 @@ export default class Member extends React.Component {
       .then(function (response) {
         self.setState({ title: "" });
         self.setState({ location: "地點" });
-        Alert.alert("新增成功", "");
+        Alert.alert(
+          "新增成功",
+          "",
+          [
+            { text: 'OK', onPress: () => self.props.navigation.navigate('Member') },
+          ]);
         console.log(response.data);
       })
       .catch(function (error) {

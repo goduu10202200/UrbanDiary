@@ -123,6 +123,7 @@ export default class Member extends React.Component {
       });
   }
 
+
   // onContentSize(contentWidth, contentHeight) {
   //   alert("<<<<<< content >>>>>>>>>" + contentWidth + "," + contentHeight);
   //   this.setNativeProps({
@@ -158,7 +159,8 @@ export default class Member extends React.Component {
             dataSource={this.state.dataSource}
             renderRow={rowData => (
               <TouchableOpacity
-                style={styles_member.itemDiv}
+                style={[rowData.status == 1 ?
+                  styles_member.itemDiv_checked : styles_member.itemDiv]}
                 onPress={this.ListCheckAJAX.bind(
                   this,
                   rowData.id,

@@ -49,7 +49,7 @@ export default class Diary extends React.Component {
       taginput: "",
       isHidden: false,
       MainNumber: 0,
-      diaryContent: ""
+      diaryContent: "今天早上9：00去大安區圖書館，準備開會報告，希望可以順利～ 中午12：00去吃要排隊超久的一蘭拉麵，和好久不見的大學同學會聚餐，真開心吃完拉麵後，和小睿一起去台北地下街逛逛，還買了初音未來的模型哦！"
     };
     this.onPress = this.onPress.bind(this);
   }

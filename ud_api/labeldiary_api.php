@@ -16,7 +16,7 @@
     // }
     $data = $row['title'];
     if ($data != "") {
-        echo("在".$row['location'].",".$row['title']);
+        echo("在".$row['location']."，".$row['title']);
     } else {
         echo "";
     }
