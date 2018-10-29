@@ -131,8 +131,8 @@ MemberStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  DiaryStack,
   MemberStack,
+  DiaryStack,
   AddStack,
   HistoryStack,
   MapDiaryStack
