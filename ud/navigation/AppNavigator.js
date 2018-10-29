@@ -8,6 +8,8 @@ import Signup from "../screens/Signup";
 import History_year from "../screens/History_year";
 import History_day from "../screens/History_day";
 import Add_location from "../screens/Add_location";
+import Add from "../screens/Add";
+
 import { View } from "react-native-animatable";
 
 // import MapDiary from "../screens/MapDiary";
@@ -30,7 +32,8 @@ const RootStack = createStackNavigator(
     },
     History_year: History_year,
     History_day: History_day,
-    Add_location: Add_location
+    Add: Add,
+    Add_location: Add_location,
   }
   // {
   //   //initialRouteName: "Main"
