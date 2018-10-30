@@ -13,7 +13,7 @@ var styles = {
   },
   pagetitle: {
     fontSize: 20,
-    lineHeight: 40,
+    lineHeight: 32,
     color: '#ffffff',
     textAlign: 'center',
     marginBottom: 20,
@@ -49,7 +49,7 @@ var styles = {
     borderWidth: 0,
     borderRadius: 5,
     padding: 15,
-    marginTop: 30 ,
+    marginTop: 0,
     alignSelf: 'center',
   },
 };

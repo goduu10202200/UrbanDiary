@@ -13,50 +13,32 @@ import styles_add from "./style/style_add";
 import styles_layout from "./style/style_layout";
 
 export default class Add_location extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      location: ""
-    };
-  }
-  static navigationOptions = ({ navigation }) => ({
-    title: '地點',
-    // headerRight: (
-    //   <TouchableOpacity
-    //     onPress={() => {
-    //       //navigation.state.params.returnData("123", "Name ");
-    //       navigation.state.params.returnData(constructor.this.state.location);
-    //       navigation.goBack();
-    //     }}
-    //   >
-    //     <Text style={styles_layout.titleSubmit}>確定</Text>
-    //   </TouchableOpacity>
-    // )
-  });
+  static navigationOptions = ({ navigation }) => {
 
+    const { params = {} } = navigation.state
+    return {
+      title: '地點',
+      headerRight: (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.state.params.returnData(params.location);
+            navigation.goBack();
+          }}
+        >
+          <Text style={styles_layout.titleSubmit}>確定</Text>
+        </TouchableOpacity>
+      )
+    }
+  };
 
   //確定地點
 
   render() {
     return (
       <ScrollView style={styles_add.container}>
-        {/* <TouchableOpacity
-          style={{ marginBottom: 30 }}
-          onPress={() => {
-            this.props.navigation.state.params.returnData(this.state.location);
-            this.props.navigation.goBack();
-          }}
-        >
-          <Text>submit</Text>
-        </TouchableOpacity> */}
-
-        {/* <Icon
-          name={Platform.OS === "ios" ? "ios-pin" : "md-pin"}
-          style={styles_add.listIcon}
-        /> */}
         <View style={styles_add.locationInput}>
           <GooglePlacesAutocomplete
-            text={this.state.location}
+            text={this.props.navigation.state.params.location}
             placeholder="地點"
             minLength={2} // minimum length of text to search
             autoFocus={false}
@@ -68,7 +50,7 @@ export default class Add_location extends React.Component {
               // 'details' is provided when fetchDetails = true
               console.log(data, details);
               console.log(data["description"]);
-              this.setState({ location: data["description"] });
+              this.props.navigation.setParams({ location: data["description"] });
             }}
             getDefaultValue={() => ""}
             query={{
@@ -79,7 +61,7 @@ export default class Add_location extends React.Component {
             }}
             styles={{
               textInputContainer: {
-                width: "80%",
+                width: "100%",
                 padding: 2,
                 height: 60,
                 backgroundColor: "#ddd"
@@ -116,33 +98,8 @@ export default class Add_location extends React.Component {
             //predefinedPlaces={[homePlace, workPlace]}
             debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
             renderLeftButton={() => (
-              // <Image source={require("path/custom/left-icon")} />
               <Image />
             )}
-          // renderRightButton={() => <Text>Custom text after the input</Text>}
-          />
-          <Button
-            title="✓"
-            textStyle={{
-              fontWeight: "700",
-              fontSize: 20,
-            }}
-            buttonStyle={{
-              backgroundColor: '#316191',
-              width: "15%",
-              height: 65,
-              borderColor: "transparent",
-              borderWidth: 0,
-              borderRadius: 3,
-              position: "absolute",
-              bottom: 0,
-              right: 0,
-            }}
-            containerStyle={{ marginTop: 20 }}
-            onPress={() => {
-              this.props.navigation.state.params.returnData(this.state.location);
-              this.props.navigation.goBack();
-            }}
           />
         </View>
       </ScrollView>
