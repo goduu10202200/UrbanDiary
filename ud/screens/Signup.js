@@ -56,11 +56,11 @@ export default class Signup extends React.Component {
           password_check: password_check
         }
       })
-        .then(function(response) {
+        .then(function (response) {
           this.signup();
           console.log(response.data);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           alert("註冊失敗");
           //console.log(error);
         });
@@ -164,7 +164,6 @@ export default class Signup extends React.Component {
           textStyle={styles.textStyle}
           backgroundColor="#f3f7fa"
           buttonStyle={styles.someButtonStyle}
-          containerViewStyle={{ marginTop: 10 }}
           onPress={this.SignupAJAX}
         />
       </ScrollView>

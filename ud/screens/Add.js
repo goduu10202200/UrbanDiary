@@ -27,19 +27,6 @@ export default class Member extends React.Component {
   }
   static navigationOptions = {
     title: "新增待辦事項 ",
-    headerRight: (
-      <TouchableOpacity
-      // onPress={() => {
-      //   InsertDataToServe;
-      // }}
-      >
-        {/* <Icon
-          name={Platform.OS === "ios" ? "ios-checkmark" : "md-checkmark"}
-          iconStyle={{ right: 20 }}
-          size={50}
-        /> */}
-      </TouchableOpacity>
-    ),
     headerStyle: styles_layout.titleDiv,
     headerTitleStyle: styles_layout.titleTxt
   };
@@ -286,29 +273,6 @@ export default class Member extends React.Component {
           onConfirm={this._handleTimePicked}
           onCancel={this._hideDateTimePicker}
         />
-        {/* <Button
-          buttonStyle={styles_add.addBtn}
-          textStyle={styles_add.addBtnTxt}
-          title="儲存"
-          onPress={this.InsertDataToServer}
-        /> */}
-        {/* <Button
-          title="✓"
-          titleStyle={{ fontWeight: "700" }}
-          buttonStyle={{
-            backgroundColor: "rgba(92, 99,216, 1)",
-            width: 55,
-            height: 55,
-            borderColor: "transparent",
-            borderWidth: 0,
-            borderRadius: 50,
-            position: "absolute",
-            bottom: 270,
-            right: 0
-          }}
-          containerStyle={{ marginTop: 20 }}
-          onPress={this.InsertDataToServer}
-        /> */}
       </ScrollView>
     );
   }

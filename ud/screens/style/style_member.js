@@ -7,8 +7,7 @@ var styles_member = {
     backgroundColor: "#fff",
   },
   container_bottom: {
-    width: '100%',
-    height: '75%',
+    flex: 1,
     backgroundColor: "#cfe2ee",
   },
   userDiv: {
@@ -110,17 +109,17 @@ var styles_member = {
     alignSelf: 'center',
   },
   dataDiv_txt: {
-    width: '30%',
+    width: '25%',
     padding: 3,
-    fontSize: 22,
+    fontSize: 18,
   },
   dataDiv_input: {
-    width: '70%',
+    width: '75%',
     padding: 3,
-    fontSize: 22,
-    backgroundColor: '#dbdbdb',
-    borderRadius: 5,
+    fontSize: 18,
+    backgroundColor: '#fff',
     color: '#333',
+    borderRadius: 3,
   },
 
 };
