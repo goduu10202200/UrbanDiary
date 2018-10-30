@@ -49,7 +49,8 @@ export default class Diary extends React.Component {
       taginput: "",
       isHidden: false,
       MainNumber: 0,
-      diaryContent: "今天早上9：00去大安區圖書館，準備開會報告，希望可以順利～ 中午12：00去吃要排隊超久的一蘭拉麵，和好久不見的大學同學會聚餐，真開心吃完拉麵後，和小睿一起去台北地下街逛逛，還買了初音未來的模型哦！"
+      diaryContent:
+        "今天早上九點去大安區圖書館，準備開會報告，希望可以順利～ 中午十二去吃要排隊超久的一蘭拉麵，和好久不見的大學同學會聚餐，真開心吃完拉麵後，和小睿一起去台北地下街逛逛，還買了初音未來的模型哦！"
     };
     this.onPress = this.onPress.bind(this);
   }
@@ -96,11 +97,11 @@ export default class Diary extends React.Component {
         type: type
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         self.setState({ taginput: response.data });
         console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
@@ -116,12 +117,12 @@ export default class Diary extends React.Component {
         content: content
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         //console.log(response.data);
         // self.setState({ diaryContent: "" });
         Alert.alert("儲存成功", "");
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
@@ -179,7 +180,7 @@ export default class Diary extends React.Component {
             }}
             onChangeText={taginput => this.setState({ taginput })}
             value={this.state.taginput}
-          // multiline={true}
+            // multiline={true}
           />
           <Button
             title="送出"
@@ -313,7 +314,7 @@ export default class Diary extends React.Component {
           <ActionButton.Item
             buttonColor="#1abc9c"
             title="圖片"
-            onPress={() => { }}
+            onPress={() => {}}
           >
             <Icon
               name={Platform.OS === "ios" ? "ios-image" : "md-image"}
