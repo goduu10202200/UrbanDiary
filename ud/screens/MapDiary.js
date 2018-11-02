@@ -19,8 +19,8 @@ export default class MapDiary extends React.Component {
     super();
     this.state = {
       region: {
-        latitude: 25.0213393,
-        longitude: 121.532246,
+        latitude: 25.021359,
+        longitude: 121.534433,
         latitudeDelta: 0.001,
         longitudeDelta: 0.001,
         accuracy: ""
