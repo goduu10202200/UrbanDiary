@@ -118,7 +118,7 @@ export default class Diary extends React.Component {
       }
     })
       .then(function(response) {
-        //console.log(response.data);
+        console.log(response.data);
         // self.setState({ diaryContent: "" });
         Alert.alert("儲存成功", "");
       })

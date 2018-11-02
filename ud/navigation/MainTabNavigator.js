@@ -15,6 +15,10 @@ import Member from "../screens/Member";
 
 import PopupDialog from "react-native-popup-dialog";
 import styles_layout from "../screens/style/style_layout";
+import { red } from "ansi-colors";
+
+import Icons from "react-native-vector-icons/Ionicons";
+import { Marker } from "react-native-maps";
 
 /* 地圖 */
 const MapDiaryStack = createStackNavigator({
@@ -23,19 +27,20 @@ const MapDiaryStack = createStackNavigator({
 
 MapDiaryStack.navigationOptions = {
   tabBarLabel: <View />, //隱藏bar文字
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
+  tabBarIcon: ({ focused, tintColor }) => (
+    <Icons
       focused={focused}
-      name={
-        Platform.OS === "ios" ? `ios-pin${focused ? "" : "-outline"}` : "md-pin"
-      }
+      name={Platform.OS === "ios" ? `ios-pin${focused ? "" : ""}` : "md-pin"}
+      color={tintColor}
+      size={25}
     />
-  )
-
-  // tabBarIcon: ({tintColor}) => (
-  //   <FontAwesome5 name='thumbtack' size={30} color={tintColor}/>
-  // ),
-  // tabBarOptions: { activeTintColor:'#316191', }
+  ),
+  tabBarOptions: {
+    inactiveColor: "#333",
+    activeTintColor: "#006db2",
+    inactiveBackgroundColor: "#f2f2f2",
+    activeBackgroundColor: "#f2f2f2"
+  }
 };
 
 /* 日記 */
@@ -45,21 +50,20 @@ const DiaryStack = createStackNavigator({
 
 DiaryStack.navigationOptions = {
   tabBarLabel: <View />, //隱藏bar文字
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
+  tabBarIcon: ({ focused, tintColor }) => (
+    <Icons
       focused={focused}
-      name={
-        Platform.OS === "ios"
-          ? `ios-book${focused ? "" : "-outline"}`
-          : "md-book"
-      }
+      name={Platform.OS === "ios" ? `ios-book${focused ? "" : ""}` : "md-book"}
+      color={tintColor}
+      size={25}
     />
-  )
-
-  // tabBarIcon: ({tintColor}) => (
-  //   <FontAwesome5 name='book' size={30} color={tintColor}/>
-  // ),
-  // tabBarOptions: { activeTintColor:'#316191', }
+  ),
+  tabBarOptions: {
+    inactiveColor: "#333",
+    activeTintColor: "#006db2",
+    inactiveBackgroundColor: "#f2f2f2",
+    activeBackgroundColor: "#f2f2f2"
+  }
 };
 
 /* 新增待辦事項 */
@@ -69,19 +73,20 @@ const AddStack = createStackNavigator({
 
 AddStack.navigationOptions = {
   tabBarLabel: <View />, //隱藏bar文字
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
+  tabBarIcon: ({ focused, tintColor }) => (
+    <Icons
       focused={focused}
-      name={
-        Platform.OS === "ios" ? `ios-add${focused ? "" : "-outline"}` : "md-add"
-      }
+      name={Platform.OS === "ios" ? `ios-add${focused ? "" : ""}` : "md-add"}
+      color={tintColor}
+      size={25}
     />
-  )
-
-  // tabBarIcon: ({tintColor}) => (
-  //   <FontAwesome5 name='plus' size={30} color={tintColor}/>
-  // ),
-  // tabBarOptions: { activeTintColor:'#316191', }
+  ),
+  tabBarOptions: {
+    inactiveColor: "#333",
+    activeTintColor: "#006db2",
+    inactiveBackgroundColor: "#f2f2f2",
+    activeBackgroundColor: "#f2f2f2"
+  }
 };
 
 /* 歷史日記 */
@@ -91,20 +96,22 @@ const HistoryStack = createStackNavigator({
 
 HistoryStack.navigationOptions = {
   tabBarLabel: <View />, //隱藏bar文字
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
+  tabBarIcon: ({ focused, tintColor }) => (
+    <Icons
       focused={focused}
       name={
-        Platform.OS === "ios"
-          ? `ios-albums${focused ? "" : "-outline"}`
-          : "md-albums"
+        Platform.OS === "ios" ? `ios-albums${focused ? "" : ""}` : "md-albums"
       }
+      color={tintColor}
+      size={25}
     />
-  )
-  // tabBarIcon: ({tintColor}) => (
-  //   <FontAwesome5 name='history' size={30} color={tintColor}/>
-  // ),
-  // tabBarOptions: { activeTintColor:'#316191', }
+  ),
+  tabBarOptions: {
+    inactiveColor: "#333",
+    activeTintColor: "#006db2",
+    inactiveBackgroundColor: "#f2f2f2",
+    activeBackgroundColor: "#f2f2f2"
+  }
 };
 
 /* 會員中心 */
@@ -114,20 +121,22 @@ const MemberStack = createStackNavigator({
 
 MemberStack.navigationOptions = {
   tabBarLabel: <View />, //隱藏bar文字
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
+  tabBarIcon: ({ focused, tintColor }) => (
+    <Icons
       focused={focused}
       name={
-        Platform.OS === "ios"
-          ? `ios-person${focused ? "" : "-outline"}`
-          : "md-person"
+        Platform.OS === "ios" ? `ios-person${focused ? "" : ""}` : "md-person"
       }
+      color={tintColor}
+      size={25}
     />
-  )
-  // tabBarIcon: ({tintColor}) => (
-  //   <FontAwesome5 name='user' size={30} color={tintColor}/>
-  // ),
-  // tabBarOptions: { activeTintColor:'#316191', }
+  ),
+  tabBarOptions: {
+    inactiveColor: "#333",
+    activeTintColor: "#006db2",
+    inactiveBackgroundColor: "#f2f2f2",
+    activeBackgroundColor: "#f2f2f2"
+  }
 };
 
 export default createBottomTabNavigator({
