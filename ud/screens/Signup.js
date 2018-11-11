@@ -47,7 +47,7 @@ export default class Signup extends React.Component {
 
     if (password == password_check) {
       axios({
-        url: ServiceApiNet.getURL() + "signup_api.php",
+        url: ServiceApiNet.getURL() + "mongo_insert.php",
         method: "post",
         data: {
           name: name,
@@ -56,11 +56,11 @@ export default class Signup extends React.Component {
           password_check: password_check
         }
       })
-        .then(function (response) {
+        .then(function(response) {
           this.signup();
           console.log(response.data);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           alert("註冊失敗");
           //console.log(error);
         });
