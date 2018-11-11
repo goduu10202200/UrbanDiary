@@ -35,7 +35,7 @@ export default class Login extends React.Component {
     var password = this.state.password;
 
     axios({
-      url: ServiceApiNet.getURL() + "login_api.php",
+      url: ServiceApiNet.getURL() + "mongo_login.php",
       method: "post",
       data: {
         account: account,
