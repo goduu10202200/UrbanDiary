@@ -34,7 +34,7 @@ export default class Member extends React.Component {
       curTime: "",
       refreshing: false,
       dataSource: "",
-      isHidden: false,
+      isHidden: false
     };
   }
 
@@ -49,16 +49,15 @@ export default class Member extends React.Component {
     this.ViewCheckAJAX().then(() => {
       this.setState({ refreshing: false });
     });
-  }
-
+  };
 
   //顯示list
   ViewCheckAJAX() {
     var today = moment(new Date()).format("YYYY-MM-DD");
-    return fetch(ServiceApiNet.getURL() + "viewList_api.php", {
+    return fetch(ServiceApiNet.getURL() + "mongo_viewlist.php", {
       method: "POST",
       body: JSON.stringify({
-        today: today,
+        today: today
       })
     })
       .then(response => response.json())
@@ -72,19 +71,17 @@ export default class Member extends React.Component {
             isHidden: true,
             dataSource: ds.cloneWithRows(responseJson)
           },
-          function () {
+          function() {
             // In this block you can do something with new state.
           }
         );
       })
       .catch(error => {
         // console.error(error);
-        this.setState(
-          {
-            isLoading: false,
-            isHidden: false,
-          }
-        );
+        this.setState({
+          isLoading: false,
+          isHidden: false
+        });
       });
   }
 
@@ -98,7 +95,7 @@ export default class Member extends React.Component {
   }
 
   // 修改資料庫勾選狀態
-  ListCheckAJAX(id, status) {
+  ListCheckAJAX(username, title, status) {
     var self = this;
     if (status == 0) {
       status = 1;
@@ -107,22 +104,22 @@ export default class Member extends React.Component {
     }
 
     axios({
-      url: ServiceApiNet.getURL() + "CheckList.php",
+      url: ServiceApiNet.getURL() + "mongo_checklist.php",
       method: "post",
       data: {
-        id: id,
+        username: username,
+        title: title,
         status: status
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         console.log(response.data);
         self.ViewCheckAJAX();
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
-
 
   // onContentSize(contentWidth, contentHeight) {
   //   alert("<<<<<< content >>>>>>>>>" + contentWidth + "," + contentHeight);
@@ -159,11 +156,16 @@ export default class Member extends React.Component {
             dataSource={this.state.dataSource}
             renderRow={rowData => (
               <TouchableOpacity
-                style={[rowData.status == 1 ?
-                  styles_member.itemDiv_checked : styles_member.itemDiv]}
+                style={[
+                  rowData.status == 1
+                    ? styles_member.itemDiv_checked
+                    : styles_member.itemDiv
+                ]}
                 onPress={this.ListCheckAJAX.bind(
                   this,
-                  rowData.id,
+                  // rowData.id,
+                  rowData.username,
+                  rowData.title,
                   rowData.status
                 )}
               >
@@ -174,20 +176,21 @@ export default class Member extends React.Component {
                     color="#666"
                     size={30}
                   />
-                  {rowData.kind == "future" ?
+                  {rowData.kind == "future" ? (
                     <Icon
                       name={"star-circle"}
                       style={styles_member.itemDiv_icon}
                       color="#edb900"
                     />
-                    : <Icon
+                  ) : (
+                    <Icon
                       name={"pencil-circle"}
                       style={styles_member.itemDiv_icon}
                       color="#518c73"
                     />
-                  }
+                  )}
                   <Text style={styles_member.itemDiv_item}>
-                    {rowData.content}
+                    {rowData.title}
                   </Text>
                 </View>
                 <View style={styles_member.itemDiv_bottom}>
