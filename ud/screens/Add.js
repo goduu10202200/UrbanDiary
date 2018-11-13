@@ -73,7 +73,6 @@ export default class Member extends React.Component {
     this._hideDateTimePicker();
   };
 
-
   InsertDataToServer = () => {
     var self = this;
     var title = this.state.title;
@@ -83,7 +82,7 @@ export default class Member extends React.Component {
     var time = this.state.listTime;
 
     axios({
-      url: ServiceApiNet.getURL() + "scheduled_api.php",
+      url: ServiceApiNet.getURL() + "mongo_scheduled.php",
       method: "post",
       data: {
         title: title,
@@ -93,18 +92,18 @@ export default class Member extends React.Component {
         time: time
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         self.setState({ title: "" });
         self.setState({ location: "地點" });
-        Alert.alert(
-          "新增成功",
-          "",
-          [
-            { text: 'OK', onPress: () => self.props.navigation.navigate('Member') },
-          ]);
+        Alert.alert("新增成功", "", [
+          {
+            text: "OK",
+            onPress: () => self.props.navigation.navigate("Member")
+          }
+        ]);
         console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };

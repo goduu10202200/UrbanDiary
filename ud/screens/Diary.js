@@ -90,8 +90,7 @@ export default class Diary extends React.Component {
   labelAJAX(type) {
     var self = this;
     axios({
-      url: ServiceApiNet.getURL() + "labeldiary_api.php",
-      //url: "http://172.20.10.2/urbandiary/ud_api/diary_api.php",
+      url: ServiceApiNet.getURL() + "mongo_labeldiary.php",
       method: "post",
       data: {
         type: type
@@ -110,8 +109,7 @@ export default class Diary extends React.Component {
     var self = this;
     var content = this.state.diaryContent;
     axios({
-      url: ServiceApiNet.getURL() + "diary_api.php",
-      //url: "http://172.20.10.2/urbandiary/ud_api/diary_api.php",
+      url: ServiceApiNet.getURL() + "mongo_diary.php",
       method: "post",
       data: {
         content: content
