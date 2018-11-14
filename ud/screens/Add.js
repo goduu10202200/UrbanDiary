@@ -20,10 +20,16 @@ import styles_layout from "./style/style_layout";
 import styles_add from "./style/style_add";
 import moment from "moment";
 
+
 export default class Member extends React.Component {
   //地點回傳資料
-  returnData(location) {
-    this.setState({ location: location });
+  returnData(location, latitude, longitude) {
+    var self = this;
+    self.setState({
+      location: location,
+      latitude: latitude,
+      longitude: longitude
+    });
   }
   static navigationOptions = {
     title: "新增待辦事項 ",
@@ -39,6 +45,8 @@ export default class Member extends React.Component {
       title: "",
       type: " ",
       location: "地點",
+      latitude: "",
+      longitude: "",
       isDatePickerVisible: false,
       isTimePickerVisible: false,
       listDate: moment(new Date()).format("YYYY-MM-DD"),
@@ -78,6 +86,8 @@ export default class Member extends React.Component {
     var title = this.state.title;
     var type = this.state.type;
     var location = this.state.location;
+    var latitude = this.state.latitude;
+    var longitude = this.state.longitude;
     var date = this.state.listDate;
     var time = this.state.listTime;
 
@@ -88,25 +98,32 @@ export default class Member extends React.Component {
         title: title,
         type: type,
         location: location,
+        latitude: latitude,
+        longitude: longitude,
         date: date,
         time: time
       }
     })
-      .then(function(response) {
-        self.setState({ title: "" });
-        self.setState({ location: "地點" });
-        Alert.alert("新增成功", "", [
-          {
-            text: "OK",
-            onPress: () => self.props.navigation.navigate("Member")
-          }
-        ]);
+      .then(function (response) {
+        self.setState({
+          title: "",
+          location: "地點",
+          latitude: "",
+          longitude: "",
+        });
+        Alert.alert(
+          "新增成功",
+          "",
+          [
+            { text: 'OK', onPress: () => self.props.navigation.navigate('Member') },
+          ]);
         console.log(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
+
 
   render() {
     let list_type = [

@@ -21,7 +21,7 @@ export default class Add_location extends React.Component {
       headerRight: (
         <TouchableOpacity
           onPress={() => {
-            navigation.state.params.returnData(params.location);
+            navigation.state.params.returnData(params.location, params.latitude, params.longitude);
             navigation.goBack();
           }}
         >
@@ -39,7 +39,7 @@ export default class Add_location extends React.Component {
         <View style={styles_add.locationInput}>
           <GooglePlacesAutocomplete
             text={this.props.navigation.state.params.location}
-            placeholder="地點"
+            placeholder="搜尋地點"
             minLength={2} // minimum length of text to search
             autoFocus={false}
             returnKeyType={"done"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
@@ -50,7 +50,8 @@ export default class Add_location extends React.Component {
               // 'details' is provided when fetchDetails = true
               console.log(data, details);
               console.log(data["description"]);
-              this.props.navigation.setParams({ location: data["description"] });
+              console.log(details.geometry.location.lat, details.geometry.location.lng); // selected coordinates
+              this.props.navigation.setParams({ location: data["description"], latitude: details.geometry.location.lat, longitude: details.geometry.location.lng });
             }}
             getDefaultValue={() => ""}
             query={{
