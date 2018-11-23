@@ -10,7 +10,7 @@ import {
 import styles_layout from "./style/style_layout";
 import styles_member from "./style/style_member";
 
-export default class Member extends React.Component {
+export default class Member_data extends React.Component {
   static navigationOptions = {
     headerTitle: (
       <Image source={require('../assets/images/LogoFont_w.png')} style={styles_layout.titleLogo} />

@@ -16,7 +16,7 @@ import styles_member from "./style/style_member";
 import ServiceApiNet from "./ServiceApiNet";
 import moment from "moment";
 
-export default class Member extends React.Component {
+export default class Member_list extends React.Component {
   static navigationOptions = {
     headerTitle: (
       <Image
@@ -54,7 +54,7 @@ export default class Member extends React.Component {
   //顯示list
   ViewCheckAJAX() {
     var today = moment(new Date()).format("YYYY-MM-DD");
-    return fetch(ServiceApiNet.getURL() + "mongo_viewlist.php", {
+    return fetch(ServiceApiNet.getURL() + "viewList_api.php", {
       method: "POST",
       body: JSON.stringify({
         today: today
@@ -71,7 +71,7 @@ export default class Member extends React.Component {
             isHidden: true,
             dataSource: ds.cloneWithRows(responseJson)
           },
-          function() {
+          function () {
             // In this block you can do something with new state.
           }
         );
@@ -95,7 +95,7 @@ export default class Member extends React.Component {
   }
 
   // 修改資料庫勾選狀態
-  ListCheckAJAX(username, title, status) {
+  ListCheckAJAX(id, username, title, status) {
     var self = this;
     if (status == 0) {
       status = 1;
@@ -104,19 +104,20 @@ export default class Member extends React.Component {
     }
 
     axios({
-      url: ServiceApiNet.getURL() + "mongo_checklist.php",
+      url: ServiceApiNet.getURL() + "CheckList.php",
       method: "post",
       data: {
+        id: id,
         username: username,
         title: title,
         status: status
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         console.log(response.data);
         self.ViewCheckAJAX();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -163,7 +164,7 @@ export default class Member extends React.Component {
                 ]}
                 onPress={this.ListCheckAJAX.bind(
                   this,
-                  // rowData.id,
+                  rowData.id,
                   rowData.username,
                   rowData.title,
                   rowData.status
@@ -183,12 +184,12 @@ export default class Member extends React.Component {
                       color="#edb900"
                     />
                   ) : (
-                    <Icon
-                      name={"pencil-circle"}
-                      style={styles_member.itemDiv_icon}
-                      color="#518c73"
-                    />
-                  )}
+                      <Icon
+                        name={"pencil-circle"}
+                        style={styles_member.itemDiv_icon}
+                        color="#518c73"
+                      />
+                    )}
                   <Text style={styles_member.itemDiv_item}>
                     {rowData.title}
                   </Text>

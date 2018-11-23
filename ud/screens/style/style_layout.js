@@ -28,6 +28,12 @@ var styles_layout = {
     color: "#0072d6",
     marginRight: 5,
   },
+  titleIcon: {
+    fontSize: 20,
+    marginRight: 15,
+    color: "#fff",
+    alignSelf: "center",
+  },
   pagetitle: {
     fontSize: 30,
     color: 'rgba(96,100,109, 1)',

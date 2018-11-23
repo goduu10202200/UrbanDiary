@@ -63,20 +63,11 @@ export default class Add_location extends React.Component {
             styles={{
               textInputContainer: {
                 width: "100%",
-                padding: 2,
                 height: 60,
-                backgroundColor: "#ddd"
-              },
-              description: {
-                // fontWeight: "bold",
-                backgroundColor: "#fff",
-                fontSize: 14,
-                height: 50
               },
               textInput: {
-                height: 40,
-                color: "#5d5d5d",
-                fontSize: 16
+                height: 42,
+                fontSize: 16,
               }
             }}
             currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
