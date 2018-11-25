@@ -114,7 +114,7 @@ export default class Member_list extends React.Component {
       }
     })
       .then(function(response) {
-        console.log(response.data);
+        // console.log(response.data);
         self.ViewCheckAJAX();
       })
       .catch(function(error) {

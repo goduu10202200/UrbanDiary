@@ -21,7 +21,6 @@ import styles_layout from "./style/style_layout";
 import styles_diary from "./style/style_diary";
 import History_day from "./History_day";
 
-
 export default class Diary_old extends React.Component {
   static navigationOptions = {
     title: "日記"
@@ -30,7 +29,7 @@ export default class Diary_old extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      diaryContent: "",
+      diaryContent: ""
     };
   }
 
@@ -54,13 +53,12 @@ export default class Diary_old extends React.Component {
     return year + " / " + month + " / " + date + "   " + weekday[day];
   };
 
-
   //顯示list
   ViewAJAX() {
     var date = this.props.navigation.state.params.date;
     // alert(date);
 
-    return fetch(ServiceApiNet.getURL() + "viewdiary_api.php", {
+    return fetch(ServiceApiNet.getURL() + "mongo_viewdiary.php", {
       method: "POST",
       body: JSON.stringify({
         date: date
@@ -72,7 +70,7 @@ export default class Diary_old extends React.Component {
           {
             diaryContent: responseJson[0].content
           },
-          function () {
+          function() {
             // In this block you can do something with new state.
           }
         );
@@ -96,7 +94,9 @@ export default class Diary_old extends React.Component {
         style={styles_diary.container}
       >
         <View style={styles_diary.header}>
-          <Text style={styles_diary.header_txt}>{this.props.navigation.state.params.date}</Text>
+          <Text style={styles_diary.header_txt}>
+            {this.props.navigation.state.params.date}
+          </Text>
         </View>
         <View style={styles_diary.diary}>
           <Text

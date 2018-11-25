@@ -98,7 +98,7 @@ export default class Diary extends React.Component {
     })
       .then(function(response) {
         self.setState({ taginput: response.data });
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch(function(error) {
         console.log(error);

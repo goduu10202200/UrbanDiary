@@ -48,26 +48,16 @@ export default class MapDiary extends React.Component {
 
   marker() {
     var self = this;
-    return (
-      fetch(ServiceApiNet.getURL() + "mongo_viewMap_api.php", {
-        method: "POST",
-        body: JSON.stringify({
-          // today: today,
-        })
+    return axios
+      .get(ServiceApiNet.getURL() + "mongo_viewMap_api.php")
+      .then(responseJson => {
+        self.setState({
+          markers: responseJson.data
+        });
       })
-        // axios.get(ServiceApiNet.getURL() + "viewMap_api.php")
-        .then(response => response.json())
-        .then(responseJson => {
-          // return (responseJson);
-          self.setState({
-            markers: responseJson
-          });
-          console.log(self.state.markers);
-        })
-        .catch(error => {
-          console.error(error);
-        })
-    );
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   render() {
