@@ -1,21 +1,12 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity
-} from "react-native";
-import { withNavigationFocus } from "react-navigation";
+import { View, StyleSheet, Dimensions } from "react-native";
 import "@expo/vector-icons";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 // import { MapView } from "expo";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import axios from "axios";
 
 import styles_layout from "./style/style_layout";
-import flagPinkImg from '../assets/images/icon.png';
+import flagPinkImg from "../assets/images/icon.png";
 
 import ServiceApiNet from "./ServiceApiNet";
 
@@ -27,7 +18,6 @@ const LONGITUDE = 121.534433;
 const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
-
 
 export default class MapDiary extends React.Component {
   static navigationOptions = {
@@ -44,9 +34,9 @@ export default class MapDiary extends React.Component {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
       },
-      markers: [],
+      markers: []
     };
 
     this.marker = this.marker.bind(this);
@@ -58,31 +48,32 @@ export default class MapDiary extends React.Component {
 
   marker() {
     var self = this;
-    return fetch(ServiceApiNet.getURL() + "viewMap_api.php", {
-      method: "POST",
-      body: JSON.stringify({
-        // today: today,
+    return (
+      fetch(ServiceApiNet.getURL() + "mongo_viewMap_api.php", {
+        method: "POST",
+        body: JSON.stringify({
+          // today: today,
+        })
       })
-    })
-      // axios.get(ServiceApiNet.getURL() + "viewMap_api.php")
-      .then((response) => response.json())
-      .then((responseJson) => {
-        // return (responseJson);
-        self.setState({
-          markers: responseJson
-        });
-        console.log(self.state.markers);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        // axios.get(ServiceApiNet.getURL() + "viewMap_api.php")
+        .then(response => response.json())
+        .then(responseJson => {
+          // return (responseJson);
+          self.setState({
+            markers: responseJson
+          });
+          console.log(self.state.markers);
+        })
+        .catch(error => {
+          console.error(error);
+        })
+    );
   }
-
 
   render() {
     this.marker();
     return (
-      <View style={styles.container} >
+      <View style={styles.container}>
         <MapView
           provider={this.props.provider}
           style={styles.map}
@@ -98,12 +89,12 @@ export default class MapDiary extends React.Component {
                 this.props.navigation.navigate("Diary_old", {
                   id: marker.id,
                   date: marker.date
-                })
+                });
               }}
             />
           ))}
         </MapView>
-      </View >
+      </View>
     );
   }
 }
@@ -111,34 +102,33 @@ export default class MapDiary extends React.Component {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    justifyContent: "flex-end",
+    alignItems: "center"
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFillObject
   },
   bubble: {
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: "rgba(255,255,255,0.7)",
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 20,
+    borderRadius: 20
   },
   latlng: {
     width: 200,
-    alignItems: 'stretch',
+    alignItems: "stretch"
   },
   button: {
     width: 80,
     paddingHorizontal: 12,
-    alignItems: 'center',
-    marginHorizontal: 10,
+    alignItems: "center",
+    marginHorizontal: 10
   },
   buttonContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 20,
-    backgroundColor: 'transparent',
-  },
+    backgroundColor: "transparent"
+  }
 });
-
 
 // export default withNavigationFocus(MapDiary);

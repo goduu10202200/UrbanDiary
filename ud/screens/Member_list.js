@@ -54,7 +54,7 @@ export default class Member_list extends React.Component {
   //顯示list
   ViewCheckAJAX() {
     var today = moment(new Date()).format("YYYY-MM-DD");
-    return fetch(ServiceApiNet.getURL() + "viewList_api.php", {
+    return fetch(ServiceApiNet.getURL() + "mongo_viewlist.php", {
       method: "POST",
       body: JSON.stringify({
         today: today
@@ -71,7 +71,7 @@ export default class Member_list extends React.Component {
             isHidden: true,
             dataSource: ds.cloneWithRows(responseJson)
           },
-          function () {
+          function() {
             // In this block you can do something with new state.
           }
         );
@@ -104,7 +104,7 @@ export default class Member_list extends React.Component {
     }
 
     axios({
-      url: ServiceApiNet.getURL() + "CheckList.php",
+      url: ServiceApiNet.getURL() + "mongo_checklist.php",
       method: "post",
       data: {
         id: id,
@@ -113,11 +113,11 @@ export default class Member_list extends React.Component {
         status: status
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         console.log(response.data);
         self.ViewCheckAJAX();
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
@@ -184,12 +184,12 @@ export default class Member_list extends React.Component {
                       color="#edb900"
                     />
                   ) : (
-                      <Icon
-                        name={"pencil-circle"}
-                        style={styles_member.itemDiv_icon}
-                        color="#518c73"
-                      />
-                    )}
+                    <Icon
+                      name={"pencil-circle"}
+                      style={styles_member.itemDiv_icon}
+                      color="#518c73"
+                    />
+                  )}
                   <Text style={styles_member.itemDiv_item}>
                     {rowData.title}
                   </Text>
