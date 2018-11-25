@@ -212,7 +212,7 @@ export default class Add extends React.Component {
     var time = this.state.speechInput_time;
 
     axios({
-      url: ServiceApiNet.getURL() + "scheduled_api.php",
+      url: ServiceApiNet.getURL() + "mongo_scheduled.php",
       method: "post",
       data: {
         title: title,

@@ -15,7 +15,7 @@ const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 25.021359;
 const LONGITUDE = 121.534433;
-const LATITUDE_DELTA = 0.005;
+const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
@@ -48,15 +48,18 @@ export default class MapDiary extends React.Component {
 
   marker() {
     var self = this;
-    return axios
-      .get(ServiceApiNet.getURL() + "mongo_viewMap_api.php")
+    return axios({
+      url: ServiceApiNet.getURL() + "mongo_viewMap_api.php",
+      method: "post"
+    })
       .then(responseJson => {
         self.setState({
           markers: responseJson.data
         });
       })
       .catch(error => {
-        console.error(error);
+        console.log(error);
+        // console.error(error);
       });
   }
 

@@ -56,27 +56,21 @@ export default class Diary_old extends React.Component {
   //顯示list
   ViewAJAX() {
     var date = this.props.navigation.state.params.date;
-    // alert(date);
 
-    return fetch(ServiceApiNet.getURL() + "mongo_viewdiary.php", {
-      method: "POST",
-      body: JSON.stringify({
+    return axios({
+      url: ServiceApiNet.getURL() + "mongo_viewdiary.php",
+      method: "post",
+      data: {
         date: date
-      })
+      }
     })
-      .then(response => response.json())
       .then(responseJson => {
-        this.setState(
-          {
-            diaryContent: responseJson[0].content
-          },
-          function() {
-            // In this block you can do something with new state.
-          }
-        );
+        this.setState({
+          diaryContent: responseJson.data[0].content
+        });
       })
       .catch(error => {
-        console(error);
+        console.log(error);
         // console.error(error);
       });
   }

@@ -87,6 +87,7 @@ export default class Diary extends React.Component {
     var showtext = this.state.diaryContent + text;
     this.setState({ diaryContent: showtext });
   }
+
   labelAJAX(type) {
     var self = this;
     axios({
@@ -96,11 +97,11 @@ export default class Diary extends React.Component {
         type: type
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         self.setState({ taginput: response.data });
         // console.log(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -108,6 +109,7 @@ export default class Diary extends React.Component {
   InsertDataToServer = () => {
     var self = this;
     var content = this.state.diaryContent;
+
     axios({
       url: ServiceApiNet.getURL() + "mongo_diary.php",
       method: "post",
@@ -115,12 +117,12 @@ export default class Diary extends React.Component {
         content: content
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         console.log(response.data);
         // self.setState({ diaryContent: "" });
         Alert.alert("儲存成功", "");
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -178,7 +180,7 @@ export default class Diary extends React.Component {
             }}
             onChangeText={taginput => this.setState({ taginput })}
             value={this.state.taginput}
-            // multiline={true}
+          // multiline={true}
           />
           <Button
             title="送出"
@@ -312,7 +314,7 @@ export default class Diary extends React.Component {
           <ActionButton.Item
             buttonColor="#1abc9c"
             title="圖片"
-            onPress={() => {}}
+            onPress={() => { }}
           >
             <Icon
               name={Platform.OS === "ios" ? "ios-image" : "md-image"}

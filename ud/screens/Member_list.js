@@ -54,30 +54,26 @@ export default class Member_list extends React.Component {
   //顯示list
   ViewCheckAJAX() {
     var today = moment(new Date()).format("YYYY-MM-DD");
-    return fetch(ServiceApiNet.getURL() + "mongo_viewlist.php", {
-      method: "POST",
-      body: JSON.stringify({
+    return axios({
+      url: ServiceApiNet.getURL() + "mongo_viewlist.php",
+      method: "post",
+      data: {
         today: today
-      })
+      }
     })
-      .then(response => response.json())
       .then(responseJson => {
         let ds = new ListView.DataSource({
           rowHasChanged: (r1, r2) => r1 !== r2
         });
-        this.setState(
-          {
-            isLoading: false,
-            isHidden: true,
-            dataSource: ds.cloneWithRows(responseJson)
-          },
-          function() {
-            // In this block you can do something with new state.
-          }
-        );
+        this.setState({
+          isLoading: false,
+          isHidden: true,
+          dataSource: ds.cloneWithRows(responseJson.data)
+        });
       })
       .catch(error => {
         // console.error(error);
+        console.log(error);  //避免頁面直接出錯
         this.setState({
           isLoading: false,
           isHidden: false
@@ -95,7 +91,7 @@ export default class Member_list extends React.Component {
   }
 
   // 修改資料庫勾選狀態
-  ListCheckAJAX(id, username, title, status) {
+  ListCheckAJAX(created_at, status) {
     var self = this;
     if (status == 0) {
       status = 1;
@@ -107,17 +103,15 @@ export default class Member_list extends React.Component {
       url: ServiceApiNet.getURL() + "mongo_checklist.php",
       method: "post",
       data: {
-        id: id,
-        username: username,
-        title: title,
+        created_at: created_at,
         status: status
       }
     })
-      .then(function(response) {
-        // console.log(response.data);
+      .then(function (response) {
+        console.log(response.data);
         self.ViewCheckAJAX();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -164,9 +158,10 @@ export default class Member_list extends React.Component {
                 ]}
                 onPress={this.ListCheckAJAX.bind(
                   this,
-                  rowData.id,
-                  rowData.username,
-                  rowData.title,
+                  // rowData.id,
+                  // rowData.username,
+                  // rowData.title,
+                  rowData.created_at,
                   rowData.status
                 )}
               >
@@ -184,12 +179,12 @@ export default class Member_list extends React.Component {
                       color="#edb900"
                     />
                   ) : (
-                    <Icon
-                      name={"pencil-circle"}
-                      style={styles_member.itemDiv_icon}
-                      color="#518c73"
-                    />
-                  )}
+                      <Icon
+                        name={"pencil-circle"}
+                        style={styles_member.itemDiv_icon}
+                        color="#518c73"
+                      />
+                    )}
                   <Text style={styles_member.itemDiv_item}>
                     {rowData.title}
                   </Text>
