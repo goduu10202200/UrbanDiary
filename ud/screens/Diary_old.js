@@ -78,7 +78,8 @@ export default class Diary_old extends React.Component {
         );
       })
       .catch(error => {
-        console.error(error);
+        console(error);
+        // console.error(error);
       });
   }
 

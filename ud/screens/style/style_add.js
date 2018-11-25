@@ -22,7 +22,7 @@ var styles_add = {
     width: '100%',
     height: '40%',
     alignSelf: 'center',
-    backgroundColor: 'rgba(200, 200, 200, .3)',
+    // backgroundColor: 'rgba(200, 200, 200, .3)',
   },
   addInput: {
     width: '100%',
