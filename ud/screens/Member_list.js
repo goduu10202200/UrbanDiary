@@ -62,17 +62,26 @@ export default class Member_list extends React.Component {
       }
     })
       .then(responseJson => {
-        let ds = new ListView.DataSource({
-          rowHasChanged: (r1, r2) => r1 !== r2
-        });
-        this.setState({
-          isLoading: false,
-          isHidden: true,
-          dataSource: ds.cloneWithRows(responseJson.data)
-        });
+        if (responseJson.data != "No data") {
+          let ds = new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+          });
+          this.setState({
+            isLoading: false,
+            isHidden: true,
+            dataSource: ds.cloneWithRows(responseJson.data)
+          });
+        }
+        else {
+          this.setState({
+            isLoading: false,
+            isHidden: false,
+            // dataSource: ds.cloneWithRows(responseJson.data)
+          });
+        }
       })
       .catch(error => {
-        // console.error(error);
+        console.error(error);
         console.log(error);  //避免頁面直接出錯
         this.setState({
           isLoading: false,
