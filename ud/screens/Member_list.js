@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   RefreshControl
 } from "react-native";
+import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 import axios from "axios";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styles_layout from "./style/style_layout";
@@ -34,7 +35,8 @@ export default class Member_list extends React.Component {
       curTime: "",
       refreshing: false,
       dataSource: "",
-      isHidden: false
+      isHidden: false,
+      list: "",
     };
   }
 
@@ -106,6 +108,7 @@ export default class Member_list extends React.Component {
       status = 1;
     } else {
       status = 0;
+      this.ListMoodAJAX(created_at, 0);
     }
 
     axios({
@@ -119,6 +122,26 @@ export default class Member_list extends React.Component {
       .then(function (response) {
         console.log(response.data);
         self.ViewCheckAJAX();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  // 修改資料庫待辦事項完成情緒狀態
+  ListMoodAJAX(created_at, mood) {
+    var self = this;
+
+    axios({
+      url: ServiceApiNet.getURL() + "mongo_listmood.php",
+      method: "post",
+      data: {
+        created_at: created_at,
+        mood: mood
+      }
+    })
+      .then(function (response) {
+        console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -154,6 +177,58 @@ export default class Member_list extends React.Component {
           />
         }
       >
+
+        <PopupDialog
+          ref={popupDialog => {
+            this.popupDialog = popupDialog;
+          }}
+          dialogTitle={<DialogTitle title="心情指數" />}
+          dialogStyle={styles_member.dialog}
+        >
+          <View style={styles_member.dialog_div}>
+            <Text
+              style={styles_member.dialog_txt}
+              onPress={() => {
+                this.ListMoodAJAX(this.state.list, 1);
+                this.popupDialog.dismiss();
+              }}>
+              1
+            </Text>
+            <Text
+              style={styles_member.dialog_txt}
+              onPress={() => {
+                this.ListMoodAJAX(this.state.list, 2);
+                this.popupDialog.dismiss();
+              }}>
+              2
+              </Text>
+            <Text
+              style={styles_member.dialog_txt}
+              onPress={() => {
+                this.ListMoodAJAX(this.state.list, 3);
+                this.popupDialog.dismiss();
+              }}>
+              3
+              </Text>
+            <Text
+              style={styles_member.dialog_txt}
+              onPress={() => {
+                this.ListMoodAJAX(this.state.list, 4);
+                this.popupDialog.dismiss();
+              }}>
+              4
+            </Text>
+            <Text
+              style={styles_member.dialog_txt}
+              onPress={() => {
+                this.ListMoodAJAX(this.state.list, 5);
+                this.popupDialog.dismiss();
+              }}>
+              5
+            </Text>
+          </View>
+        </PopupDialog>
+
         {this.state.isHidden ? (
           <ListView
             style={styles_member.listView}
@@ -165,14 +240,20 @@ export default class Member_list extends React.Component {
                     ? styles_member.itemDiv_checked
                     : styles_member.itemDiv
                 ]}
-                onPress={this.ListCheckAJAX.bind(
-                  this,
-                  // rowData.id,
-                  // rowData.username,
-                  // rowData.title,
-                  rowData.created_at,
-                  rowData.status
-                )}
+                onPress={() => {
+                  this.ListCheckAJAX(
+                    // this,
+                    // rowData.id,
+                    // rowData.username,
+                    // rowData.title,
+                    rowData.created_at,
+                    rowData.status
+                  );
+                  this.setState({
+                    list: rowData.created_at
+                  });
+                  rowData.status == 0 ? this.popupDialog.show() : "";
+                }}
               >
                 <View style={styles_member.itemDiv_top}>
                   <Icon
@@ -205,10 +286,11 @@ export default class Member_list extends React.Component {
                   </Text>
                 </View>
               </TouchableOpacity>
-            )}
+            )
+            }
           />
         ) : null}
-      </ScrollView>
+      </ScrollView >
     );
   }
 }

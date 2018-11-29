@@ -6,7 +6,7 @@ import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import axios from "axios";
 
 import styles_layout from "./style/style_layout";
-import flagPinkImg from "../assets/images/icon.png";
+import flagPinkImg from "../assets/images/leaf.png";
 
 import ServiceApiNet from "./ServiceApiNet";
 

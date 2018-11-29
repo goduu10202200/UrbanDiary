@@ -99,7 +99,22 @@ var styles_member = {
     alignSelf: 'center',
     paddingLeft: 10,
   },
-
+  dialog: {
+    width: "85%",
+    height: "20%",
+    backgroundColor: '#f7f7f7',
+    position: 'absolute',
+    top: "10%",
+  },
+  dialog_div: {
+    flexDirection: "row",
+    width: "80%",
+    alignSelf: "center",
+  },
+  dialog_txt: {
+    fontSize: 20,
+    marginRight: 10,
+  },
 
   //member_data
   dataDiv: {
