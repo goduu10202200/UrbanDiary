@@ -10,6 +10,7 @@ import {
   RefreshControl
 } from "react-native";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
+import { Button } from "../node_modules/react-native-elements";
 import axios from "axios";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import styles_layout from "./style/style_layout";
@@ -83,7 +84,7 @@ export default class Member_list extends React.Component {
         }
       })
       .catch(error => {
-        console.error(error);
+        // console.error(error);
         console.log(error);  //避免頁面直接出錯
         this.setState({
           isLoading: false,
@@ -177,7 +178,6 @@ export default class Member_list extends React.Component {
           />
         }
       >
-
         <PopupDialog
           ref={popupDialog => {
             this.popupDialog = popupDialog;
@@ -228,6 +228,14 @@ export default class Member_list extends React.Component {
             </Text>
           </View>
         </PopupDialog>
+
+        <Button
+          title="跳出情緒視窗"
+          titleStyle={{ fontWeight: "700" }}
+          onPress={() => {
+            this.popupDialog.show()
+          }}
+        />
 
         {this.state.isHidden ? (
           <ListView
