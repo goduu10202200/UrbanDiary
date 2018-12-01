@@ -17,6 +17,9 @@ import styles_layout from "./style/style_layout";
 import styles_member from "./style/style_member";
 import ServiceApiNet from "./ServiceApiNet";
 import moment from "moment";
+import { Rating, AirbnbRating } from 'react-native-ratings';
+
+
 
 export default class Member_list extends React.Component {
   static navigationOptions = {
@@ -92,6 +95,10 @@ export default class Member_list extends React.Component {
         });
       });
   }
+  //傳評分值
+  ratingCompleted( rating ) {
+    console.log( `Rating is: ${rating}` );
+  }
 
   //修改手機上圖案勾選狀態
   list_check(status) {
@@ -149,15 +156,6 @@ export default class Member_list extends React.Component {
       });
   }
 
-  // onContentSize(contentWidth, contentHeight) {
-  //   alert("<<<<<< content >>>>>>>>>" + contentWidth + "," + contentHeight);
-  //   this.setNativeProps({
-  //     style: {
-  //       height: contentHeight
-  //     }
-  //   });
-  // }
-
   render() {
     if (this.state.isLoading) {
       return (
@@ -182,50 +180,17 @@ export default class Member_list extends React.Component {
           ref={popupDialog => {
             this.popupDialog = popupDialog;
           }}
-          dialogTitle={<DialogTitle title="心情指數" />}
+          dialogTitle={<DialogTitle title="星情指數" />}
           dialogStyle={styles_member.dialog}
         >
           <View style={styles_member.dialog_div}>
-            <Text
-              style={styles_member.dialog_txt}
-              onPress={() => {
-                this.ListMoodAJAX(this.state.list, 1);
-                this.popupDialog.dismiss();
-              }}>
-              1
-            </Text>
-            <Text
-              style={styles_member.dialog_txt}
-              onPress={() => {
-                this.ListMoodAJAX(this.state.list, 2);
-                this.popupDialog.dismiss();
-              }}>
-              2
-              </Text>
-            <Text
-              style={styles_member.dialog_txt}
-              onPress={() => {
-                this.ListMoodAJAX(this.state.list, 3);
-                this.popupDialog.dismiss();
-              }}>
-              3
-              </Text>
-            <Text
-              style={styles_member.dialog_txt}
-              onPress={() => {
-                this.ListMoodAJAX(this.state.list, 4);
-                this.popupDialog.dismiss();
-              }}>
-              4
-            </Text>
-            <Text
-              style={styles_member.dialog_txt}
-              onPress={() => {
-                this.ListMoodAJAX(this.state.list, 5);
-                this.popupDialog.dismiss();
-              }}>
-              5
-            </Text>
+            <AirbnbRating //使用者勾選待辦事項評分
+              count={7}
+              reviews={["糟透了嗚嗚","還有進步空間～","還行啦","滿不錯的","感覺不賴","輕輕鬆鬆","完美！"]}
+              defaultRating={0}
+              size={31}
+              onFinishRating={this.ratingCompleted} //傳評分值
+            />
           </View>
         </PopupDialog>
 
@@ -236,68 +201,6 @@ export default class Member_list extends React.Component {
             this.popupDialog.show()
           }}
         />
-
-        {this.state.isHidden ? (
-          <ListView
-            style={styles_member.listView}
-            dataSource={this.state.dataSource}
-            renderRow={rowData => (
-              <TouchableOpacity
-                style={[
-                  rowData.status == 1
-                    ? styles_member.itemDiv_checked
-                    : styles_member.itemDiv
-                ]}
-                onPress={() => {
-                  this.ListCheckAJAX(
-                    // this,
-                    // rowData.id,
-                    // rowData.username,
-                    // rowData.title,
-                    rowData.created_at,
-                    rowData.status
-                  );
-                  this.setState({
-                    list: rowData.created_at
-                  });
-                  rowData.status == 0 ? this.popupDialog.show() : "";
-                }}
-              >
-                <View style={styles_member.itemDiv_top}>
-                  <Icon
-                    name={this.list_check(rowData.status)}
-                    style={styles_member.itemDiv_check}
-                    color="#666"
-                    size={30}
-                  />
-                  {rowData.kind == "future" ? (
-                    <Icon
-                      name={"star-circle"}
-                      style={styles_member.itemDiv_icon}
-                      color="#edb900"
-                    />
-                  ) : (
-                      <Icon
-                        name={"pencil-circle"}
-                        style={styles_member.itemDiv_icon}
-                        color="#518c73"
-                      />
-                    )}
-                  <Text style={styles_member.itemDiv_item}>
-                    {rowData.title}
-                  </Text>
-                </View>
-                <View style={styles_member.itemDiv_bottom}>
-                  <Text style={styles_member.itemDiv_time}>{rowData.time}</Text>
-                  <Text style={styles_member.itemDiv_location}>
-                    {rowData.location}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )
-            }
-          />
-        ) : null}
       </ScrollView >
     );
   }
