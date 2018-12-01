@@ -41,6 +41,7 @@ export default class Member_list extends React.Component {
       dataSource: "",
       isHidden: false,
       list: "",
+      list_rating: 0,
     };
   }
 
@@ -94,10 +95,6 @@ export default class Member_list extends React.Component {
           isHidden: false
         });
       });
-  }
-  //傳評分值
-  ratingCompleted( rating ) {
-    console.log( `Rating is: ${rating}` );
   }
 
   //修改手機上圖案勾選狀態
@@ -186,21 +183,90 @@ export default class Member_list extends React.Component {
           <View style={styles_member.dialog_div}>
             <AirbnbRating //使用者勾選待辦事項評分
               count={7}
-              reviews={["糟透了嗚嗚","還有進步空間～","還行啦","滿不錯的","感覺不賴","輕輕鬆鬆","完美！"]}
+              reviews={["糟透了嗚嗚", "還有進步空間～", "還行啦", "滿不錯的", "感覺不賴", "輕輕鬆鬆", "完美！"]}
               defaultRating={0}
               size={31}
-              onFinishRating={this.ratingCompleted} //傳評分值
+              onFinishRating={(rating) => {
+                this.setState({
+                  list_rating: rating
+                });
+              }}
             />
           </View>
+          <Button
+            title="送出"
+            titleStyle={{ fontWeight: "700" }}
+            buttonStyle={styles_member.dialog_btn}
+            onPress={() => {
+              this.ListMoodAJAX(this.state.list, this.state.list_rating);
+              this.popupDialog.dismiss();
+            }}
+          />
         </PopupDialog>
 
-        <Button
-          title="跳出情緒視窗"
-          titleStyle={{ fontWeight: "700" }}
-          onPress={() => {
-            this.popupDialog.show()
-          }}
-        />
+        {this.state.isHidden ? (
+          <ListView
+            style={styles_member.listView}
+            dataSource={this.state.dataSource}
+            renderRow={rowData => (
+              <TouchableOpacity
+                style={[
+                  rowData.status == 1
+                    ? styles_member.itemDiv_checked
+                    : styles_member.itemDiv
+                ]}
+                onPress={() => {
+                  this.ListCheckAJAX(
+                    // this,
+                    // rowData.id,
+                    // rowData.username,
+                    // rowData.title,
+                    rowData.created_at,
+                    rowData.status
+                  );
+                  this.setState({
+                    list: rowData.created_at
+                  });
+                  rowData.status == 0 ? this.popupDialog.show() : "";
+                }}
+              >
+                <View style={styles_member.itemDiv_top}>
+                  <Icon
+                    name={this.list_check(rowData.status)}
+                    style={styles_member.itemDiv_check}
+                    color="#666"
+                    size={30}
+                  />
+                  {rowData.kind == "future" ? (
+                    <Icon
+                      name={"star-circle"}
+                      style={styles_member.itemDiv_icon}
+                      color="#edb900"
+                    />
+                  ) : (
+                      <Icon
+                        name={"pencil-circle"}
+                        style={styles_member.itemDiv_icon}
+                        color="#518c73"
+                      />
+                    )}
+                  <Text style={styles_member.itemDiv_item}>
+                    {rowData.title}
+                  </Text>
+                </View>
+                <View style={styles_member.itemDiv_bottom}>
+                  <Text style={styles_member.itemDiv_time}>{rowData.time}</Text>
+                  <Text style={styles_member.itemDiv_location}>
+                    {rowData.location}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )
+            }
+          />
+        ) : null}
+
+
       </ScrollView >
     );
   }

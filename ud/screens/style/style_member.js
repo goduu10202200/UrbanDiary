@@ -102,11 +102,11 @@ var styles_member = {
   //sandy Q
   dialog: {
     width: "85%",
-    height: "25%",
+    height: "35%",
     backgroundColor: 'rgb(255, 255, 255)',
     //opacity: 0.3,
     position: 'absolute',
-    top: "8%",
+    top: "6%",
   },
   dialog_div: {
     marginTop: "2.5%",
@@ -119,6 +119,16 @@ var styles_member = {
     marginRight: 10,
     alignSelf: "center",
     //fontWeight: 'bold',
+  },
+  dialog_btn: {
+    backgroundColor: "#5b9bd5",
+    width: "100%",
+    height: 50,
+    borderColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 5,
+    marginTop: 30,
+    alignSelf: 'flex-end',
   },
 
   //member_data
