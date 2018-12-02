@@ -17,11 +17,25 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { Button } from "../node_modules/react-native-elements";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 import ServiceApiNet from "./ServiceApiNet";
-
+import ImagePicker from 'react-native-image-picker';
 import styles_layout from "./style/style_layout";
 import styles_diary from "./style/style_diary";
 import History_day from "./History_day";
 const window = Dimensions.get("window");
+var photoOptions = {
+  //底部彈出框選項
+  title:'請選擇',
+  cancelButtonTitle:'取消',
+  takePhotoButtonTitle:'拍照',
+  chooseFromLibraryButtonTitle:'選擇相簿',
+  quality:0.75,
+  allowsEditing:true,
+  noData:false,
+  storageOptions: {
+      skipBackup: true,
+      path:'images'
+  }
+}
 
 export default class Diary extends React.Component {
   static navigationOptions = {
@@ -127,6 +141,33 @@ export default class Diary extends React.Component {
       });
   };
 
+  //上傳圖片
+  cameraAction = () =>{
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+    
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+    
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+    
+        this.setState({
+          avatarSource: source
+        });
+      }
+    });
+        }
+
   render() {
     return (
       <ScrollView
@@ -147,6 +188,12 @@ export default class Diary extends React.Component {
         <View style={styles_diary.header}>
           <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
         </View>
+        <View style={styles_diary.testImageDiv}>
+          <Image 
+            source={require("../assets/images/t4.jpg")} 
+            style={styles_diary.testImage}
+            />
+        </View>
         <View style={styles_diary.diary}>
           <TextInput
             style={styles_diary.diary_input}
@@ -159,8 +206,10 @@ export default class Diary extends React.Component {
               this.setState({ diaryContent: diaryContent })
             }
             value={this.state.diaryContent}
-          />
+          >
+          </TextInput>
         </View>
+        
 
         {/* This is hidden window */}
 
@@ -314,7 +363,7 @@ export default class Diary extends React.Component {
           <ActionButton.Item
             buttonColor="#1abc9c"
             title="圖片"
-            onPress={() => { }}
+            onPress={() => { this.cameraAction }}
           >
             <Icon
               name={Platform.OS === "ios" ? "ios-image" : "md-image"}
@@ -334,7 +383,7 @@ export default class Diary extends React.Component {
             borderWidth: 0,
             borderRadius: 50,
             position: "absolute",
-            bottom: 20,
+            bottom: 245,
             right: 0
           }}
           containerStyle={{ marginTop: 20 }}
