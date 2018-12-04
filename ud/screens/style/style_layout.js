@@ -6,7 +6,7 @@ var styles_layout = {
   },
   titleDiv: {
     height: 50,
-    backgroundColor: '#316191',
+    backgroundColor: '#3b5998',
   },
   titleTxt: {
     width: "90%",
@@ -27,6 +27,11 @@ var styles_layout = {
     fontSize: 16,
     color: "#0072d6",
     marginRight: 5,
+  },
+  titleSubmit_2: {
+    fontSize: 20,
+    color: "#fff",
+    marginRight: 10,
   },
   titleIcon: {
     fontSize: 20,

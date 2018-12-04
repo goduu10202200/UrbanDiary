@@ -23,15 +23,26 @@ var styles_diary = {
   diary: {
     width: '100%',
     height: '94%',
-    backgroundColor: '#fff',
+    backgroundColor: '#ddd',
+  },
+  diary_imgDiv: {
+    width: '100%',
+    height: '40%',
+
+  },
+  diary_img: {
+    width: '100%',
+    height: '100%',
+
   },
   diary_input: {
     fontSize: 18,
     width: '100%',
-    height: '100%',
+    height: "45%",
     backgroundColor: '#fff',
     padding: 10,
     lineHeight: 30,
+    overFlow: 'scroll',
   },
   diary_btn: {
     width: 80,

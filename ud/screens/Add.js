@@ -37,7 +37,7 @@ export default class Add extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state
     return {
-      title: "新增待辦事項 ",
+      title: "新增待辦事項",
       headerStyle: styles_layout.titleDiv,
       headerTitleStyle: styles_layout.titleTxt,
       headerRight: (
