@@ -245,10 +245,16 @@ export default class Diary extends React.Component {
 
     // Display the camera to the user and wait for them to take a photo or to cancel
     // the action
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
+    const { Permissions } = Expo;
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+
+    // only if user allows permission to camera roll
+    if (status === 'granted') {
+      let result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+      });
+    }
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
@@ -403,10 +409,13 @@ export default class Diary extends React.Component {
           contentContainerStyle={{ flexGrow: 1 }}
         >
           <View style={styles_diary.diary_imgDiv}>
-            <Image
-              source={require("../assets/images/t4.jpg")}
-              style={styles_diary.diary_img}
-            />
+            {this.state.image &&
+              <Image
+                source={{ uri: this.state.image }}
+                resizeMode={"contain"}
+                style={styles_diary.diary_img}
+              />
+            }
           </View>
           <View style={styles_diary.diary}>
             <TextInput
