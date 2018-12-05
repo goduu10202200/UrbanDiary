@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { ImagePicker } from 'expo';
+import moment from "moment";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Button } from "../node_modules/react-native-elements";
@@ -75,12 +76,11 @@ export default class Diary extends React.Component {
     this.state = {
       taginput: "",
       isHidden: false,
-      MainNumber: 0,
       diaryContent:
         "今天早上九點去大安區圖書館，準備開會報告，希望可以順利～ 中午十二去吃要排隊超久的一蘭拉麵，和好久不見的大學同學會聚餐，真開心吃完拉麵後，和小睿一起去台北地下街逛逛，還買了初音未來的模型哦！",
 
       image: null,
-      uploading: false,
+      uploading: false
     };
     this.onPress = this.onPress.bind(this);
   }
@@ -108,7 +108,6 @@ export default class Diary extends React.Component {
   // This is hidden window function Start
   onPress() {
     this.setState({ isHidden: !this.state.isHidden });
-    this.setState({ MainNumber: this.MainNumber + 1 });
   }
   // This is hidden window function End
 
@@ -134,6 +133,23 @@ export default class Diary extends React.Component {
       .catch(function (error) {
         console.log(error);
       });
+  }
+
+  showImgAJAX = () => {
+    var self = this;
+    axios({
+      url: ServiceApiNet.getURL() + "mongo_viewphoto.php",
+      method: "post"
+    })
+      .then(function (response) {
+        self.setState({ image: ServiceApiNet.getUploadURL() + response.data });
+        // console.log(response.data);
+        // alert(this.state.image);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   }
 
   _InsertDataToServer = () => {
@@ -197,21 +213,21 @@ export default class Diary extends React.Component {
   };
 
 
-  _takePhoto = async () => {
-    const { Permissions } = Expo;
-    const { cameraPerm } = await Permissions.askAsync(Permissions.CAMERA);
-    const { cameraRollPerm } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+  // _takePhoto = async () => {
+  //   const { Permissions } = Expo;
+  //   const { cameraPerm } = await Permissions.askAsync(Permissions.CAMERA);
+  //   const { cameraRollPerm } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    // only if user allows permission to camera AND camera roll
-    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
-      let pickerResult = await ImagePicker.launchCameraAsync({
-        allowsEditing: true,
-        aspect: [4, 3],
-      });
+  //   // only if user allows permission to camera AND camera roll
+  //   if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+  //     let pickerResult = await ImagePicker.launchCameraAsync({
+  //       allowsEditing: true,
+  //       aspect: [4, 3],
+  //     });
 
-      this._handleImagePicked(pickerResult);
-    }
-  };
+  //     this._handleImagePicked(pickerResult);
+  //   }
+  // };
 
   _pickImage = async () => {
     // const { Permissions } = Expo;
@@ -234,51 +250,36 @@ export default class Diary extends React.Component {
       aspect: [4, 3],
     });
 
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+
     if (result.cancelled) {
       return;
     }
 
-    let localUri = ServiceApiNet.getUploadURL();
-    let fileSize = result.size;
-    alert(fileSize);
     // ImagePicker saves the taken photo to disk and returns a local URI to it
-    // let localUri = result.uri;
-    // let filename = localUri.split('/').pop();
+    let localUri = result.uri;
+    let filename = localUri.split('/').pop();
 
     // Infer the type of the image
-    // let match = /\.(\w+)$/.exec(filename);
-    // let type = match ? `image/${match[1]}` : `image`;
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+
+
+    var today = moment().format("YYYYMMDDHHmmss");
+
 
     // Upload the image using the fetch and FormData APIs
     let formData = new FormData();
     // Assume "photo" is the name of the form field the server expects
     formData.append('file', {
       name: filename,
-      tmp_name: filename,
-      save_uri: localUri,
+      tmp_name: today,
+      // uri: localUri,
       // type
     });
 
-    // return await fetch(ServiceApiNet.getURL() + "mongo_uploadphoto.php", {
-    //   method: 'POST',
-    //   body: formData,
-    //   // header: {
-    //   //   'content-type': 'multipart/form-data',
-    //   // },
-    // })
-    //   .then(response => {
-    //     // console.log(response.data);
-    //     alert(response);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-
-    // axios({
-    //   url: ServiceApiNet.getURL() + "mongo_uploadphoto.php",
-    //   method: "post",
-    //   data: formData
-    // })
     axios.post(ServiceApiNet.getURL() + "mongo_uploadphoto.php", formData)
       .then(function (response) {
         console.log(response.data);
@@ -289,71 +290,82 @@ export default class Diary extends React.Component {
 
   };
 
-  _handleImagePicked = async pickerResult => {
-    let uploadResponse, uploadResult;
+  // _pickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //   });
 
-    try {
-      this.setState({
-        uploading: true
-      });
-      if (!pickerResult.cancelled) {
-        uploadResponse = await uploadImageAsync(pickerResult.uri);
-        uploadResult = await uploadResponse.json();
+  //   console.log(result);
 
-        this.setState({
-          image: uploadResult.location
-        });
-      }
-    } catch (e) {
-      console.log({ uploadResponse });
-      console.log({ uploadResult });
-      console.log({ e });
-      alert('Upload failed, sorry :(');
-    } finally {
-      this.setState({
-        uploading: false
-      });
-    }
-  };
+  //   if (!result.cancelled) {
+  //     this.setState({ image: result.uri });
+  //   }
+  // };
+
+  // _handleImagePicked = async pickerResult => {
+  //   let uploadResponse, uploadResult;
+
+  //   try {
+  //     this.setState({
+  //       uploading: true
+  //     });
+  //     if (!pickerResult.cancelled) {
+  //       uploadResponse = await uploadImageAsync(pickerResult.uri);
+  //       uploadResult = await uploadResponse.json();
+
+  //       this.setState({
+  //         image: uploadResult.location
+  //       });
+  //     }
+  //   } catch (e) {
+  //     console.log({ uploadResponse });
+  //     console.log({ uploadResult });
+  //     console.log({ e });
+  //     alert('Upload failed, sorry :(');
+  //   } finally {
+  //     this.setState({
+  //       uploading: false
+  //     });
+  //   }
+  // };
 
 
-  uploadImageAsync = async uri => {
-    let apiUrl = ServiceApiNet.getUploadURL();
+  // uploadImageAsync = async uri => {
+  //   let apiUrl = ServiceApiNet.getUploadURL();
 
-    // Note:
-    // Uncomment this if you want to experiment with local server
-    //
-    // if (Constants.isDevice) {
-    //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
-    // } else {
-    //   apiUrl = `http://localhost:3000/upload`
-    // }
+  //   // Note:
+  //   // Uncomment this if you want to experiment with local server
+  //   //
+  //   // if (Constants.isDevice) {
+  //   //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
+  //   // } else {
+  //   //   apiUrl = `http://localhost:3000/upload`
+  //   // }
 
-    let uriParts = uri.split('.');
-    let fileType = uriParts[uriParts.length - 1];
-    let formData = new FormData();
-    formData.append('photo', {
-      uri,
-      name: `photo.${fileType}`,
-      type: `image/${fileType}`,
-    });
+  //   let uriParts = uri.split('.');
+  //   let fileType = uriParts[uriParts.length - 1];
+  //   let formData = new FormData();
+  //   formData.append('photo', {
+  //     uri,
+  //     name: `photo.${fileType}`,
+  //     type: `image/${fileType}`,
+  //   });
 
-    let options = {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
-    };
+  //   let options = {
+  //     method: 'POST',
+  //     body: formData,
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'multipart/form-data',
+  //     },
+  //   };
 
-    return fetch(apiUrl, options);
-  }
+  //   return fetch(apiUrl, options);
+  // }
 
   render() {
-    let {
-      image
-    } = this.state;
+    // this.showImgAJAX();
 
     return (
       <KeyboardAwareScrollView
@@ -364,23 +376,27 @@ export default class Diary extends React.Component {
         {/* <View style={styles_diary.header}>
           <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
         </View> */}
-        {/* <View>
-          <StatusBar barStyle="default" />
+        <View>
+          {/* <StatusBar barStyle="default" />
 
           <Button
             onPress={this._pickImage}
             title="Pick an image from camera roll"
           />
 
-          <Button onPress={this._takePhoto} title="Take a photo" />
+          {/* <Button onPress={this._takePhoto} title="Take a photo" /> */}
 
-          {this._maybeRenderImage()}
-          {this._maybeRenderUploadingOverlay()}
+          {/* {this._maybeRenderImage()}
+          {this._maybeRenderUploadingOverlay()} */} */}
+
+          {/* <Button
+            title="Pick an image from camera roll"
+            onPress={this._pickImage}
+          /> */}
+          {this.state.image &&
+            <Image source={{ uri: this.state.image }} resizeMode={"contain"} />}
         </View>
 
-
-        {this.state.img &&
-          <Image source={{ uri: this.state.img }} style={{ width: 200, height: 200 }} />} */}
 
 
         <ScrollView
@@ -561,7 +577,7 @@ export default class Diary extends React.Component {
             <ActionButton.Item
               buttonColor="#1abc9c"
               title="圖片"
-              onPress={this.cameraAction}
+              onPress={this._pickImage}
             >
               <Icon
                 name={Platform.OS === "ios" ? "ios-image" : "md-image"}
