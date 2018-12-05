@@ -59,8 +59,8 @@ var styles_diary = {
     color: '#fff',
   },
   actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
+    fontSize: 30,
+    marginTop: 5,
     color: 'white',
   },
 
@@ -73,12 +73,12 @@ var styles_diary = {
     backgroundColor: "rgba(232, 232, 232, 0.8)",
   },
   tag_box: {
-    width: "45%",
+    width: "40%",
     height: "100%",
     position: "absolute",
     top: 0,
     left: 0,
-    backgroundColor: "#19446a",
+    backgroundColor: "#23355b",
     paddingLeft: "10%",
     paddingTop: "5%",
     zIndex: 100,

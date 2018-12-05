@@ -51,16 +51,27 @@ export default class Diary extends React.Component {
       title: "日記",
       headerStyle: styles_layout.titleDiv,
       headerTitleStyle: styles_layout.titleTxt,
+      headerLeft: (
+        <TouchableOpacity
+        onPress={() => {
+          params.Imgpicker()
+        }}
+        >
+          <Image
+            style={styles_layout.titleSubmit_3}
+            source={require("../assets/images/camera_icon.png")}
+          />
+        </TouchableOpacity >
+      ),
       headerRight: (
         <TouchableOpacity
           onPress={() => {
             params.InsertDataToServer()
           }}>
-          <Text
+          <Image
             style={styles_layout.titleSubmit_2}
-          >
-            ✓
-          </Text>
+            source={require("../assets/images/check_icon.png")}
+          />
         </TouchableOpacity >
       )
     }
@@ -69,7 +80,9 @@ export default class Diary extends React.Component {
   //設定全域變數開啟speechDialog 
   componentDidMount() {
     this.props.navigation.setParams({ InsertDataToServer: this._InsertDataToServer });
+    this.props.navigation.setParams({ Imgpicker: this._pickImage });
   }
+
 
   constructor(props) {
     super(props);
@@ -245,16 +258,16 @@ export default class Diary extends React.Component {
 
     // Display the camera to the user and wait for them to take a photo or to cancel
     // the action
-    const { Permissions } = Expo;
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    // const { Permissions } = Expo;
+    // const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
-    // only if user allows permission to camera roll
-    if (status === 'granted') {
+    // // only if user allows permission to camera roll
+    // if (status === 'granted') {
+    // }
       let result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3],
       });
-    }
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
@@ -566,14 +579,18 @@ export default class Diary extends React.Component {
           ) : null}
 
           <ActionButton
+            renderIcon={
+            active => active ? (<Icon name="md-pricetags" style={styles_diary.actionButtonIcon} /> ) : (<Icon name="md-pricetag" style={styles_diary.actionButtonIcon} />)}
             position="right"
-            buttonColor="rgba(231, 76, 60, 0.5)"
-            btnOutRange="rgba(231, 76, 60, 1)"
+            buttonColor="rgba(142, 142, 142, 0.5)"
+            btnOutRange="#3b5998"
             hideShadow={true}
             offsetX={15}
-            offsetY={10}
+            offsetY={20}
+            onPress={this.onPress}
           >
-            <ActionButton.Item
+          <Icon></Icon>
+            {/* <ActionButton.Item
               buttonColor="#3498db"
               title="標籤"
               onPress={this.onPress}
@@ -592,7 +609,7 @@ export default class Diary extends React.Component {
                 name={Platform.OS === "ios" ? "ios-image" : "md-image"}
                 style={styles_diary.actionButtonIcon}
               />
-            </ActionButton.Item>
+            </ActionButton.Item> */}
           </ActionButton>
         </ScrollView>
 

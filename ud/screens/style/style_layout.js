@@ -5,8 +5,9 @@ var styles_layout = {
     justifyContent: 'center',
   },
   titleDiv: {
-    height: 50,
+    height: 40,
     backgroundColor: '#3b5998',
+    //borderWidth: 0,
   },
   titleTxt: {
     width: "90%",
@@ -29,9 +30,16 @@ var styles_layout = {
     marginRight: 5,
   },
   titleSubmit_2: {
-    fontSize: 20,
-    color: "#fff",
-    marginRight: 10,
+    width: 15,
+    height: 15,
+    marginRight: 18,
+    marginBottom: 2,
+  },
+  titleSubmit_3: {
+    width: 23,
+    height: 23,
+    marginLeft: 15,
+    marginBottom: 1,
   },
   titleIcon: {
     fontSize: 20,
