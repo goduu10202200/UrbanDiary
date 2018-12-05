@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -23,7 +23,6 @@ import styles_layout from "./style/style_layout";
 import styles_add from "./style/style_add";
 import moment from "moment";
 
-
 export default class Add extends React.Component {
   //地點回傳資料
   returnData(location, latitude, longitude) {
@@ -35,7 +34,7 @@ export default class Add extends React.Component {
     });
   }
   static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state
+    const { params = {} } = navigation.state;
     return {
       title: "新增待辦事項",
       headerStyle: styles_layout.titleDiv,
@@ -43,25 +42,22 @@ export default class Add extends React.Component {
       headerRight: (
         <TouchableOpacity
           onPress={() => {
-            params.speechOpenClose()
-          }}>
-          <FontIcon
-            name={"microphone"}
-            style={styles_layout.titleIcon}
-          />
-        </TouchableOpacity >
+            params.speechOpenClose();
+          }}
+        >
+          <FontIcon name={"microphone"} style={styles_layout.titleIcon} />
+        </TouchableOpacity>
       )
-    }
-  }
+    };
+  };
 
-  //設定全域變數開啟speechDialog 
+  //設定全域變數開啟speechDialog
   componentDidMount() {
     this.props.navigation.setParams({ speechOpenClose: this._speechOpenClose });
   }
   _speechOpenClose = () => {
     this.speechDialog.show();
   };
-
 
   constructor(props) {
     super(props);
@@ -92,7 +88,7 @@ export default class Add extends React.Component {
       speech_title: false,
       speech_date: false,
       speech_time: false,
-      speech_location: false,
+      speech_location: false
 
       // speech_hidden: false,
     };
@@ -146,14 +142,16 @@ export default class Add extends React.Component {
       time = time.replace("分", "");
     }
 
-    this.setState({
-      speechInput_date: date,
-      speechInput_time: time
-    }, function () {
-      this.InsertDataToServer_speech();
-    });
-  }
-
+    this.setState(
+      {
+        speechInput_date: date,
+        speechInput_time: time
+      },
+      function() {
+        this.InsertDataToServer_speech();
+      }
+    );
+  };
 
   InsertDataToServer = () => {
     var self = this;
@@ -178,24 +176,24 @@ export default class Add extends React.Component {
         time: time
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         self.setState({
           title: "",
           location: "地點",
           latitude: "",
           longitude: "",
           listDate: moment(new Date()).format("YYYY-MM-DD"),
-          listTime: moment(new Date()).format("HH:mm"),
+          listTime: moment(new Date()).format("HH:mm")
         });
-        Alert.alert(
-          "新增成功",
-          "",
-          [
-            { text: 'OK', onPress: () => self.props.navigation.navigate('Member') },
-          ]);
+        Alert.alert("新增成功", "", [
+          {
+            text: "OK",
+            onPress: () => self.props.navigation.navigate("Member")
+          }
+        ]);
         console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
@@ -224,7 +222,7 @@ export default class Add extends React.Component {
         time: time
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         self.setState({
           speechInput_type: "",
           speechInput_title: "",
@@ -232,21 +230,20 @@ export default class Add extends React.Component {
           speechInput_latitude: "",
           speechInput_longitude: "",
           speechInput_date: moment(new Date()).format("YYYY-MM-DD"),
-          speechInput_time: moment(new Date()).format("HH:mm"),
+          speechInput_time: moment(new Date()).format("HH:mm")
         });
-        Alert.alert(
-          "新增成功",
-          "",
-          [
-            { text: 'OK', onPress: () => self.props.navigation.navigate('Member') },
-          ]);
+        Alert.alert("新增成功", "", [
+          {
+            text: "OK",
+            onPress: () => self.props.navigation.navigate("Member")
+          }
+        ]);
         console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
-
 
   render() {
     let list_type = [
@@ -282,8 +279,6 @@ export default class Add extends React.Component {
       }
     ];
 
-
-
     return (
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
@@ -291,15 +286,15 @@ export default class Add extends React.Component {
         style={styles_add.container}
       >
         {/* 語音輸入  */}
-        < PopupDialog
+        <PopupDialog
           ref={popupDialog => {
             this.speechDialog = popupDialog;
           }}
           dialogTitle={<DialogTitle title="語音輸入" />}
           dialogStyle={styles_add.dialog}
         >
-          {this.state.speech_type &&
-            <View style={styles_add.dialog_content} >
+          {this.state.speech_type && (
+            <View style={styles_add.dialog_content}>
               <Text style={styles_add.dialog_txt}>請選擇類型</Text>
               <Dropdown
                 label=""
@@ -312,7 +307,7 @@ export default class Add extends React.Component {
                 fontSize={16}
                 value={"請選擇"}
                 containerStyle={styles_add.dialog_dropCon}
-              // overlayStyle={styles_add.dialog_dropOver}
+                // overlayStyle={styles_add.dialog_dropOver}
               />
               <View style={styles_add.dialog_btnDiv}>
                 <Button
@@ -328,10 +323,10 @@ export default class Add extends React.Component {
                 />
               </View>
             </View>
-          }
+          )}
 
-          {this.state.speech_title &&
-            <View style={styles_add.dialog_content} >
+          {this.state.speech_title && (
+            <View style={styles_add.dialog_content}>
               <Text style={styles_add.dialog_txt}>請輸入待辦事項</Text>
               <TextInput
                 style={styles_add.dialog_input}
@@ -340,10 +335,12 @@ export default class Add extends React.Component {
                 ref={el => {
                   this.speechInput_title = el;
                 }}
-                onChangeText={speechInput_title => this.setState({ speechInput_title })}
+                onChangeText={speechInput_title =>
+                  this.setState({ speechInput_title })
+                }
                 value={this.state.speechInput_title}
                 autoFocus={true}
-              // multiline={true}
+                // multiline={true}
               />
               <View style={styles_add.dialog_btnDiv}>
                 <Button
@@ -354,7 +351,7 @@ export default class Add extends React.Component {
                     this.setState({
                       speech_title: false,
                       speech_type: true
-                    })
+                    });
                   }}
                 />
                 <Button
@@ -365,15 +362,15 @@ export default class Add extends React.Component {
                     this.setState({
                       speech_title: false,
                       speech_date: true
-                    })
+                    });
                   }}
                 />
               </View>
             </View>
-          }
+          )}
 
-          {this.state.speech_date &&
-            <View style={styles_add.dialog_content} >
+          {this.state.speech_date && (
+            <View style={styles_add.dialog_content}>
               <Text style={styles_add.dialog_txt}>請輸入日期</Text>
               {/* <TextInput
                 style={styles_add.dialog_input}
@@ -402,7 +399,7 @@ export default class Add extends React.Component {
                     this.setState({
                       speech_date: false,
                       speech_title: true
-                    })
+                    });
                   }}
                 />
                 <Button
@@ -413,15 +410,15 @@ export default class Add extends React.Component {
                     this.setState({
                       speech_date: false,
                       speech_time: true
-                    })
+                    });
                   }}
                 />
               </View>
             </View>
-          }
+          )}
 
-          {this.state.speech_time &&
-            <View style={styles_add.dialog_content} >
+          {this.state.speech_time && (
+            <View style={styles_add.dialog_content}>
               <Text style={styles_add.dialog_txt}>請輸入時間</Text>
               {/* <TextInput
                 style={styles_add.dialog_input}
@@ -450,7 +447,7 @@ export default class Add extends React.Component {
                     this.setState({
                       speech_time: false,
                       speech_date: true
-                    })
+                    });
                   }}
                 />
                 <Button
@@ -461,14 +458,14 @@ export default class Add extends React.Component {
                     this.setState({
                       speech_time: false,
                       speech_location: true
-                    })
+                    });
                   }}
                 />
               </View>
             </View>
-          }
+          )}
 
-          {this.state.speech_location &&
+          {this.state.speech_location && (
             <View style={styles_add.dialog_content}>
               <Text style={styles_add.dialog_txt}>請輸入地點</Text>
               <GooglePlacesAutocomplete
@@ -484,7 +481,10 @@ export default class Add extends React.Component {
                   // 'details' is provided when fetchDetails = true
                   console.log(data, details);
                   console.log(data["description"]);
-                  console.log(details.geometry.location.lat, details.geometry.location.lng); // selected coordinates
+                  console.log(
+                    details.geometry.location.lat,
+                    details.geometry.location.lng
+                  ); // selected coordinates
                   this.setState({
                     speechInput_location: data["description"],
                     speechInput_latitude: details.geometry.location.lat,
@@ -494,7 +494,7 @@ export default class Add extends React.Component {
                 getDefaultValue={() => ""}
                 query={{
                   // available options: https://developers.google.com/places/web-service/autocomplete
-                  key: "AIzaSyCa6NbQaDltVUE8Cdu0k0vj_O5nK78oGhw",
+                  key: "AIzaSyDFXYCDMmdsblWgBxcKb65SlDP-wFOSD4M",
                   language: "zh-TW", // language of the results
                   types: "" // default: 'geocode'
                 }}
@@ -505,17 +505,17 @@ export default class Add extends React.Component {
                     borderWidth: 0.8,
                     borderColor: "#ddd",
                     marginTop: 10,
-                    marginBottom: 25,
+                    marginBottom: 25
                   },
                   listView: {
-                    position: 'absolute',
+                    position: "absolute",
                     top: 50,
                     backgroundColor: "#fff",
                     borderWidth: 0.8,
                     borderColor: "#ddd",
                     maxHeight: 100,
-                    zIndex: 1,
-                  },
+                    zIndex: 1
+                  }
                 }}
                 currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
                 currentLocationLabel="Current location"
@@ -536,9 +536,9 @@ export default class Add extends React.Component {
                 ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
                 //predefinedPlaces={[homePlace, workPlace]}
                 debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-              // renderLeftButton={() => (
-              //   <Image />
-              // )}
+                // renderLeftButton={() => (
+                //   <Image />
+                // )}
               />
               <View style={styles_add.dialog_btnDiv}>
                 <Button
@@ -549,7 +549,7 @@ export default class Add extends React.Component {
                     this.setState({
                       speech_location: false,
                       speech_time: true
-                    })
+                    });
                   }}
                 />
                 <Button
@@ -563,16 +563,15 @@ export default class Add extends React.Component {
                       speech_title: false,
                       speech_date: false,
                       speech_time: false,
-                      speech_location: false,
-                    })
+                      speech_location: false
+                    });
                     this.speech_transform();
                   }}
                 />
               </View>
             </View>
-          }
+          )}
         </PopupDialog>
-
 
         <View style={styles_add.addDiv}>
           <TextInput
@@ -625,11 +624,12 @@ export default class Add extends React.Component {
             <View style={styles_add.listDiv_data}>
               <Text
                 style={styles_add.listDiv_dataTxt}
-                onPress={() =>
-                  this.props.navigation.navigate("Add_location", {
-                    returnData: this.returnData.bind(this),
-                    jump: this.returnData.bind(this.jumpPage)
-                  })
+                onPress={
+                  () =>
+                    this.props.navigation.navigate("Add_location", {
+                      returnData: this.returnData.bind(this),
+                      jump: this.returnData.bind(this.jumpPage)
+                    })
                   // this.props.navigation.navigate("Add_location")
                 }
               >
@@ -697,8 +697,7 @@ export default class Add extends React.Component {
           onConfirm={this._handleTimePicked}
           onCancel={this._hideDateTimePicker}
         />
-
-      </ScrollView >
+      </ScrollView>
     );
   }
 }
