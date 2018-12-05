@@ -72,7 +72,7 @@ export default class MapDiary extends React.Component {
           style={styles.map}
           initialRegion={this.state.region}
         >
-          {this.state.markers.map(marker => (
+          {this.state.markers === "No data" ? null : this.state.markers.map(marker => (
             <Marker
               image={flagPinkImg}
               key={marker.id}

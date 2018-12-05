@@ -238,35 +238,54 @@ export default class Diary extends React.Component {
       return;
     }
 
+    let localUri = ServiceApiNet.getUploadURL();
+    let fileSize = result.size;
+    alert(fileSize);
     // ImagePicker saves the taken photo to disk and returns a local URI to it
-    let localUri = result.uri;
-    let filename = localUri.split('/').pop();
+    // let localUri = result.uri;
+    // let filename = localUri.split('/').pop();
 
     // Infer the type of the image
-    let match = /\.(\w+)$/.exec(filename);
-    let type = match ? `image/${match[1]}` : `image`;
+    // let match = /\.(\w+)$/.exec(filename);
+    // let type = match ? `image/${match[1]}` : `image`;
 
     // Upload the image using the fetch and FormData APIs
     let formData = new FormData();
     // Assume "photo" is the name of the form field the server expects
-    formData.append('photo', { uri: localUri, name: filename, type });
+    formData.append('file', {
+      name: filename,
+      tmp_name: filename,
+      save_uri: localUri,
+      // type
+    });
 
-    return await fetch(ServiceApiNet.getURL() + "mongo_uploadphoto.php", {
-      method: 'POST',
-      body: formData,
-      header: {
-        'content-type': 'multipart/form-data',
-      },
-    })
-      .then(response => {
-        console.log(22);
+    // return await fetch(ServiceApiNet.getURL() + "mongo_uploadphoto.php", {
+    //   method: 'POST',
+    //   body: formData,
+    //   // header: {
+    //   //   'content-type': 'multipart/form-data',
+    //   // },
+    // })
+    //   .then(response => {
+    //     // console.log(response.data);
+    //     alert(response);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
 
+    // axios({
+    //   url: ServiceApiNet.getURL() + "mongo_uploadphoto.php",
+    //   method: "post",
+    //   data: formData
+    // })
+    axios.post(ServiceApiNet.getURL() + "mongo_uploadphoto.php", formData)
+      .then(function (response) {
+        console.log(response.data);
       })
-      .catch(error => {
+      .catch(function (error) {
         console.log(error);
       });
-
-    alert(222);
 
   };
 

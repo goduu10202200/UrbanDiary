@@ -42,7 +42,6 @@ var styles_diary = {
     backgroundColor: '#fff',
     padding: 10,
     lineHeight: 30,
-    overFlow: 'scroll',
   },
   diary_btn: {
     width: 80,

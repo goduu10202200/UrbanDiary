@@ -47,11 +47,7 @@ export default class Add_location extends React.Component {
             onPress={(data, details = null) => {
               // 'details' is provided when fetchDetails = true
               console.log(data, details);
-              console.log(data["description"]);
-              console.log(
-                details.geometry.location.lat,
-                details.geometry.location.lng
-              ); // selected coordinates
+              // selected coordinates
               this.props.navigation.setParams({
                 location: data["description"],
                 latitude: details.geometry.location.lat,
