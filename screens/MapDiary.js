@@ -12,8 +12,8 @@ import ServiceApiNet from "./ServiceApiNet";
 const { width, height } = Dimensions.get("window");
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 25.021359;
-const LONGITUDE = 121.534433;
+const LATITUDE = 24.957386;
+const LONGITUDE = 121.2429848;
 const LATITUDE_DELTA = 0.01;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
@@ -48,7 +48,7 @@ export default class MapDiary extends React.Component {
   marker() {
     var self = this;
     return axios({
-      url: ServiceApiNet.getURL() + "mongo_viewMap_api.php",
+      url: ServiceApiNet.getURL() + "mongo_viewmap_api.php",
       method: "post"
     })
       .then(responseJson => {
@@ -73,18 +73,18 @@ export default class MapDiary extends React.Component {
           {this.state.markers === "No data"
             ? null
             : this.state.markers.map(marker => (
-              <Marker
-                image={flagPinkImg}
-                key={marker.id["$oid"]}
-                coordinate={marker.coordinates}
-                description={marker.title}
-                onPress={() => {
-                  this.props.navigation.navigate("Diary_old", {
-                    date: marker.date
-                  });
-                }}
-              />
-            ))}
+                <Marker
+                  image={flagPinkImg}
+                  key={marker.id["$oid"]}
+                  coordinate={marker.coordinates}
+                  description={marker.title}
+                  onPress={() => {
+                    this.props.navigation.navigate("Diary_old", {
+                      date: marker.date
+                    });
+                  }}
+                />
+              ))}
         </MapView>
       </View>
     );

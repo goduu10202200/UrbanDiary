@@ -191,7 +191,7 @@ export default class Add extends React.Component {
             onPress: () => self.props.navigation.navigate("Member")
           }
         ]);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch(function(error) {
         console.log(error);
@@ -238,7 +238,7 @@ export default class Add extends React.Component {
             onPress: () => self.props.navigation.navigate("Member")
           }
         ]);
-        console.log(response.data);
+        //console.log(response.data);
       })
       .catch(function(error) {
         console.log(error);
@@ -479,8 +479,8 @@ export default class Add extends React.Component {
                 renderDescription={row => row.description} // custom description render
                 onPress={(data, details = null) => {
                   // 'details' is provided when fetchDetails = true
-                  console.log(data, details);
-                  console.log(data["description"]);
+                  //console.log(data, details);
+                  //console.log(data["description"]);
                   console.log(
                     details.geometry.location.lat,
                     details.geometry.location.lng
