@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import "@expo/vector-icons";
-// import { MapView } from "expo";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import axios from "axios";
 
@@ -56,12 +55,9 @@ export default class MapDiary extends React.Component {
         self.setState({
           markers: responseJson.data
         });
-
-        console.log(responseJson.data);
       })
       .catch(error => {
         console.log(error);
-        // console.error(error);
       });
   }
 
@@ -126,5 +122,3 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   }
 });
-
-// export default withNavigationFocus(MapDiary);
