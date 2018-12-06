@@ -15,8 +15,8 @@ import {
   StatusBar,
   ActivityIndicator
 } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { ImagePicker } from 'expo';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ImagePicker } from "expo";
 import moment from "moment";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -31,58 +31,61 @@ const window = Dimensions.get("window");
 
 var photoOptions = {
   //底部彈出框選項
-  title: '請選擇',
-  cancelButtonTitle: '取消',
-  takePhotoButtonTitle: '拍照',
-  chooseFromLibraryButtonTitle: '選擇相簿',
+  title: "請選擇",
+  cancelButtonTitle: "取消",
+  takePhotoButtonTitle: "拍照",
+  chooseFromLibraryButtonTitle: "選擇相簿",
   quality: 0.75,
   allowsEditing: true,
   noData: false,
   storageOptions: {
     skipBackup: true,
-    path: 'images'
+    path: "images"
   }
-}
+};
 
 export default class Diary extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state
+    const { params = {} } = navigation.state;
     return {
       title: "日記",
       headerStyle: styles_layout.titleDiv,
       headerTitleStyle: styles_layout.titleTxt,
       headerLeft: (
         <TouchableOpacity
-        onPress={() => {
-          params.Imgpicker()
-        }}
+          onPress={() => {
+            params.Imgpicker();
+          }}
         >
           <Image
             style={styles_layout.titleSubmit_3}
             source={require("../assets/images/camera_icon.png")}
           />
-        </TouchableOpacity >
+        </TouchableOpacity>
       ),
       headerRight: (
         <TouchableOpacity
           onPress={() => {
-            params.InsertDataToServer()
-          }}>
+            params.InsertDataToServer();
+          }}
+        >
           <Image
             style={styles_layout.titleSubmit_2}
             source={require("../assets/images/check_icon.png")}
           />
-        </TouchableOpacity >
+        </TouchableOpacity>
       )
-    }
-  }
+    };
+  };
 
-  //設定全域變數開啟speechDialog 
+  //設定全域變數開啟speechDialog
   componentDidMount() {
-    this.props.navigation.setParams({ InsertDataToServer: this._InsertDataToServer });
+    this.props.navigation.setParams({
+      InsertDataToServer: this._InsertDataToServer
+    });
     this.props.navigation.setParams({ Imgpicker: this._pickImage });
+    this.showImgAJAX();
   }
-
 
   constructor(props) {
     super(props);
@@ -116,11 +119,12 @@ export default class Diary extends React.Component {
     ];
 
     return year + " / " + month + " / " + date + "   " + weekday[day];
-  }
+  };
 
   // This is hidden window function Start
   onPress() {
     this.setState({ isHidden: !this.state.isHidden });
+    alert(this.state.image);
   }
   // This is hidden window function End
 
@@ -139,11 +143,11 @@ export default class Diary extends React.Component {
         type: type
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         self.setState({ taginput: response.data });
         // console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
@@ -154,16 +158,17 @@ export default class Diary extends React.Component {
       url: ServiceApiNet.getURL() + "mongo_viewphoto.php",
       method: "post"
     })
-      .then(function (response) {
-        self.setState({ image: ServiceApiNet.getUploadURL() + response.data });
+      .then(function(response) {
+        self.setState({
+          image: ServiceApiNet.getUploadURL() + response.data["name"]
+        });
         // console.log(response.data);
         // alert(this.state.image);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
-
-  }
+  };
 
   _InsertDataToServer = () => {
     var self = this;
@@ -176,22 +181,20 @@ export default class Diary extends React.Component {
         content: content
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         console.log(response.data);
         // self.setState({ diaryContent: "" });
         Alert.alert("儲存成功", "");
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
-  }
-
+  };
 
   _maybeRenderUploadingOverlay = () => {
     if (this.state.uploading) {
       return (
-        <View
-          style={[StyleSheet.absoluteFill, styles.maybeRenderUploading]}>
+        <View style={[StyleSheet.absoluteFill, styles.maybeRenderUploading]}>
           <ActivityIndicator color="#fff" size="large" />
         </View>
       );
@@ -199,32 +202,28 @@ export default class Diary extends React.Component {
   };
 
   _maybeRenderImage = () => {
-    let {
-      image
-    } = this.state;
+    let { image } = this.state;
 
     if (!image) {
       return;
     }
 
     return (
-      <View
-        style={styles.maybeRenderContainer}>
-        <View
-          style={styles.maybeRenderImageContainer}>
+      <View style={styles.maybeRenderContainer}>
+        <View style={styles.maybeRenderImageContainer}>
           <Image source={{ uri: image }} style={styles.maybeRenderImage} />
         </View>
 
         <Text
           onPress={this._copyToClipboard}
           onLongPress={this._share}
-          style={styles.maybeRenderImageText}>
+          style={styles.maybeRenderImageText}
+        >
           {image}
         </Text>
       </View>
     );
   };
-
 
   // _takePhoto = async () => {
   //   const { Permissions } = Expo;
@@ -258,16 +257,17 @@ export default class Diary extends React.Component {
 
     // Display the camera to the user and wait for them to take a photo or to cancel
     // the action
-    // const { Permissions } = Expo;
-    // const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const { Permissions } = Expo;
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
 
-    // // only if user allows permission to camera roll
-    // if (status === 'granted') {
-    // }
-      let result = await ImagePicker.launchCameraAsync({
+    // only if user allows permission to camera roll
+    let result;
+    if (status === "granted") {
+      result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [4, 3]
       });
+    }
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });
@@ -279,34 +279,30 @@ export default class Diary extends React.Component {
 
     // ImagePicker saves the taken photo to disk and returns a local URI to it
     let localUri = result.uri;
-    let filename = localUri.split('/').pop();
+    let filename = localUri.split("/").pop();
 
     // Infer the type of the image
     let match = /\.(\w+)$/.exec(filename);
     let type = match ? `image/${match[1]}` : `image`;
 
-
-    var today = moment().format("YYYYMMDDHHmmss");
-
-
     // Upload the image using the fetch and FormData APIs
     let formData = new FormData();
     // Assume "photo" is the name of the form field the server expects
-    formData.append('file', {
+    formData.append("file", {
       name: filename,
-      tmp_name: today,
-      // uri: localUri,
-      // type
+      uri: localUri,
+      type
     });
 
-    axios.post(ServiceApiNet.getURL() + "mongo_uploadphoto.php", formData)
-      .then(function (response) {
+    axios
+      .post(ServiceApiNet.getURL() + "mongo_uploadphoto.php", formData)
+      .then(function(response) {
         console.log(response.data);
+        this.showImgAJAX();
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
-
   };
 
   // _pickImage = async () => {
@@ -349,7 +345,6 @@ export default class Diary extends React.Component {
   //   }
   // };
 
-
   // uploadImageAsync = async uri => {
   //   let apiUrl = ServiceApiNet.getUploadURL();
 
@@ -384,52 +379,39 @@ export default class Diary extends React.Component {
   // }
 
   render() {
-    // this.showImgAJAX();
-
     return (
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         contentContainerStyle={styles_diary.container}
         scrollEnabled={false}
       >
-        {/* <View style={styles_diary.header}>
+        <View style={styles_diary.header}>
           <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
-        </View> */}
-        <View>
-          {/* <StatusBar barStyle="default" />
-
+        </View>
+        {/* <StatusBar barStyle="default" />
           <Button
             onPress={this._pickImage}
             title="Pick an image from camera roll"
           />
 
           {/* <Button onPress={this._takePhoto} title="Take a photo" /> */}
-
-          {/* {this._maybeRenderImage()}
-          {this._maybeRenderUploadingOverlay()} */} */}
-
-          {/* <Button
+        {/* {this._maybeRenderImage()}
+          {this._maybeRenderUploadingOverlay()} */}{" "}
+        */}
+        {/* <Button
             title="Pick an image from camera roll"
             onPress={this._pickImage}
           /> */}
-          {this.state.image &&
-            <Image source={{ uri: this.state.image }} resizeMode={"contain"} />}
-        </View>
-
-
-
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-        >
-          <View style={styles_diary.diary_imgDiv}>
-            {this.state.image &&
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          {this.state.image && (
+            <View style={styles_diary.diary_imgDiv}>
               <Image
                 source={{ uri: this.state.image }}
                 resizeMode={"contain"}
                 style={styles_diary.diary_img}
               />
-            }
-          </View>
+            </View>
+          )}
           <View style={styles_diary.diary}>
             <TextInput
               style={styles_diary.diary_input}
@@ -442,10 +424,8 @@ export default class Diary extends React.Component {
                 this.setState({ diaryContent: diaryContent })
               }
               value={this.state.diaryContent}
-            >
-            </TextInput>
+            />
           </View>
-
 
           {/* This is hidden window */}
 
@@ -465,7 +445,7 @@ export default class Diary extends React.Component {
               }}
               onChangeText={taginput => this.setState({ taginput })}
               value={this.state.taginput}
-            // multiline={true}
+              // multiline={true}
             />
             <Button
               title="送出"
@@ -579,8 +559,19 @@ export default class Diary extends React.Component {
           ) : null}
 
           <ActionButton
-            renderIcon={
-            active => active ? (<Icon name="md-pricetags" style={styles_diary.actionButtonIcon} /> ) : (<Icon name="md-pricetag" style={styles_diary.actionButtonIcon} />)}
+            renderIcon={active =>
+              active ? (
+                <Icon
+                  name="md-pricetags"
+                  style={styles_diary.actionButtonIcon}
+                />
+              ) : (
+                <Icon
+                  name="md-pricetag"
+                  style={styles_diary.actionButtonIcon}
+                />
+              )
+            }
             position="right"
             buttonColor="rgba(142, 142, 142, 0.5)"
             btnOutRange="#3b5998"
@@ -589,7 +580,7 @@ export default class Diary extends React.Component {
             offsetY={20}
             onPress={this.onPress}
           >
-          <Icon></Icon>
+            <Icon />
             {/* <ActionButton.Item
               buttonColor="#3498db"
               title="標籤"
@@ -612,7 +603,6 @@ export default class Diary extends React.Component {
             </ActionButton.Item> */}
           </ActionButton>
         </ScrollView>
-
         {/* <Button
           title="✓"
           titleStyle={{ fontWeight: "700" }}
@@ -635,48 +625,47 @@ export default class Diary extends React.Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center"
   },
   exampleText: {
     fontSize: 20,
     marginBottom: 20,
     marginHorizontal: 15,
-    textAlign: 'center',
+    textAlign: "center"
   },
   maybeRenderUploading: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    justifyContent: 'center',
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
+    justifyContent: "center"
   },
   maybeRenderContainer: {
     borderRadius: 3,
     elevation: 2,
     marginTop: 30,
-    shadowColor: 'rgba(0,0,0,1)',
+    shadowColor: "rgba(0,0,0,1)",
     shadowOpacity: 0.2,
     shadowOffset: {
       height: 4,
-      width: 4,
+      width: 4
     },
     shadowRadius: 5,
-    width: 250,
+    width: 250
   },
   maybeRenderImageContainer: {
     borderTopLeftRadius: 3,
     borderTopRightRadius: 3,
-    overflow: 'hidden',
+    overflow: "hidden"
   },
   maybeRenderImage: {
     height: 250,
-    width: 250,
+    width: 250
   },
   maybeRenderImageText: {
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 10
   }
 });

@@ -1,67 +1,66 @@
 var styles_diary = {
   container: {
     flex: 1,
-    width: '100%',
-    height: '100%',
-    alignSelf: 'center',
+    width: "100%",
+    height: "100%",
+    alignSelf: "center",
+    backgroundColor: "#fff"
   },
   header: {
-    width: '100%',
+    width: "100%",
     height: 40,
-    backgroundColor: '#ddd',
-    alignItems: 'center',
+    backgroundColor: "#ddd",
+    alignItems: "center"
   },
   header_txt: {
     fontSize: 16,
     lineHeight: 40,
-    textAlign: 'center',
+    textAlign: "center"
   },
   titleCheck: {
     width: 100,
-    height: 100,
+    height: 100
   },
   diary: {
-    width: '100%',
-    height: '94%',
-    backgroundColor: '#ddd',
+    width: "100%",
+    height: "94%",
+    backgroundColor: "#fff"
   },
   diary_imgDiv: {
-    width: '100%',
-    height: '40%',
-
+    width: "100%",
+    height: "40%"
   },
   diary_img: {
-    width: '100%',
-    height: '100%',
-
+    width: "100%",
+    height: "100%"
   },
   diary_input: {
     fontSize: 18,
-    width: '100%',
+    width: "100%",
     height: "45%",
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 10,
-    lineHeight: 30,
+    lineHeight: 30
   },
   diary_btn: {
     width: 80,
     height: 40,
     borderRadius: 6,
-    backgroundColor: '#1072b5',
-    position: 'absolute',
+    backgroundColor: "#1072b5",
+    position: "absolute",
     bottom: 20,
-    right: 10,
+    right: 10
   },
   diary_btn_txt: {
     letterSpacing: 3,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    color: '#fff',
+    alignSelf: "center",
+    justifyContent: "center",
+    color: "#fff"
   },
   actionButtonIcon: {
     fontSize: 30,
     marginTop: 5,
-    color: 'white',
+    color: "white"
   },
 
   tag_div: {
@@ -70,7 +69,7 @@ var styles_diary = {
     position: "absolute",
     top: 0,
     right: 0,
-    backgroundColor: "rgba(232, 232, 232, 0.8)",
+    backgroundColor: "rgba(232, 232, 232, 0.8)"
   },
   tag_box: {
     width: "40%",
@@ -81,7 +80,7 @@ var styles_diary = {
     backgroundColor: "#23355b",
     paddingLeft: "10%",
     paddingTop: "5%",
-    zIndex: 100,
+    zIndex: 100
   },
   tag: {
     width: "80%",
@@ -91,30 +90,30 @@ var styles_diary = {
     backgroundColor: "rgba(122, 190, 249, .3)",
     borderRadius: 5,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   tag_txt: {
     lineHeight: 40,
     fontSize: 22,
-    color: "#fff",
+    color: "#fff"
   },
   tag_img: {
     width: 120,
     height: 50,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     // heig
-    marginTop: 10,
+    marginTop: 10
   },
 
   dialog: {
     width: "85%",
     height: "35%",
-    backgroundColor: '#f7f7f7',
-    position: 'absolute',
-    top: "23%",
+    backgroundColor: "#f7f7f7",
+    position: "absolute",
+    top: "23%"
   },
   dialog_input: {
-    width: '90%',
+    width: "90%",
     backgroundColor: "#fff",
     fontSize: 16,
     lineHeight: 22,
@@ -124,7 +123,7 @@ var styles_diary = {
     marginBottom: 25,
     borderRadius: 3,
     borderWidth: 0.8,
-    borderColor: "#ddd",
+    borderColor: "#ddd"
   },
   dialog_btn: {
     backgroundColor: "#5b9bd5",
@@ -133,9 +132,8 @@ var styles_diary = {
     borderColor: "transparent",
     borderWidth: 0,
     borderRadius: 5,
-    alignSelf: 'flex-end',
-  },
-
+    alignSelf: "flex-end"
+  }
 };
 
 export default styles_diary;
