@@ -37,9 +37,9 @@ const RootStack = createStackNavigator(
     Add_location: Add_location,
     Diary_old: Diary_old,
   },
-  {
-    initialRouteName: "Main"
-  }
+  // {
+  //   initialRouteName: "Main"
+  // }
 );
 
 export default class App extends React.Component {
@@ -54,15 +54,3 @@ export default class App extends React.Component {
   }
 }
 
-/*
- export default createSwitchNavigator({
-   // You could add another route here for authentication.
-   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-
-  Enter: Enter,
-  Signup: Signup,
-  Login: Login,
-  //Friends: { screen: Friends},
-  Main: MainTabNavigator,
- });
- */

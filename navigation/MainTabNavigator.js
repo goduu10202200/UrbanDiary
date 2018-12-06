@@ -43,6 +43,7 @@ MapDiaryStack.navigationOptions = {
   }
 };
 
+
 /* 日記 */
 const DiaryStack = createStackNavigator({
   Diary: Diary
@@ -144,5 +145,5 @@ export default createBottomTabNavigator({
   DiaryStack,
   AddStack,
   HistoryStack,
-  MapDiaryStack
+  MapDiaryStack,
 });
