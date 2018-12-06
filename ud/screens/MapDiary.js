@@ -56,6 +56,8 @@ export default class MapDiary extends React.Component {
         self.setState({
           markers: responseJson.data
         });
+
+        console.log(responseJson.data);
       })
       .catch(error => {
         console.log(error);
@@ -64,7 +66,7 @@ export default class MapDiary extends React.Component {
   }
 
   render() {
-    this.marker();
+    //this.marker();
     return (
       <View style={styles.container}>
         <MapView
@@ -72,20 +74,21 @@ export default class MapDiary extends React.Component {
           style={styles.map}
           initialRegion={this.state.region}
         >
-          {this.state.markers === "No data" ? null : this.state.markers.map(marker => (
-            <Marker
-              image={flagPinkImg}
-              key={marker.id}
-              coordinate={marker.coordinates}
-              description={marker.title}
-              onPress={() => {
-                this.props.navigation.navigate("Diary_old", {
-                  id: marker.id,
-                  date: marker.date
-                });
-              }}
-            />
-          ))}
+          {this.state.markers === "No data"
+            ? null
+            : this.state.markers.map(marker => (
+                <Marker
+                  image={flagPinkImg}
+                  key={marker.id["$oid"]}
+                  coordinate={marker.coordinates}
+                  description={marker.title}
+                  onPress={() => {
+                    this.props.navigation.navigate("Diary_old", {
+                      date: marker.date
+                    });
+                  }}
+                />
+              ))}
         </MapView>
       </View>
     );
