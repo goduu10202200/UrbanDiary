@@ -1,6 +1,7 @@
 var styles_member = {
   //member
   container: {
+    width: '100%',
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
@@ -13,12 +14,17 @@ var styles_member = {
   userDiv: {
     width: '100%',
     height: '25%',
-    alignSelf: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   userLogo: {
-    flex: .8,
-    resizeMode: 'contain',
+    width: 100,
+    height: 100,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: 15
+    // flex: 1,
+    // resizeMode: 'contain',
   },
 
   futureDiv: {

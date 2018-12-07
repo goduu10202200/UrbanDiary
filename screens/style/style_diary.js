@@ -9,13 +9,14 @@ var styles_diary = {
   header: {
     width: "100%",
     height: 40,
-    backgroundColor: "#ddd",
+    backgroundColor: "#fff",
     alignItems: "center"
   },
   header_txt: {
     fontSize: 16,
     lineHeight: 40,
-    textAlign: "center"
+    textAlign: "center",
+    color: "#888"
   },
   titleCheck: {
     width: 100,

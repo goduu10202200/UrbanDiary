@@ -8,6 +8,7 @@ import {
   TextInput,
   Dimensions,
 } from 'react-native';
+import { BlurView } from 'expo';
 import styles_layout from "./style/style_layout";
 import styles_member from "./style/style_member";
 import { TabView, TabBar, SceneMap } from "react-native-tab-view"; // 0.0.67
@@ -50,10 +51,20 @@ export default class Member extends React.Component {
         <View style={styles_member.userDiv}>
           <Image
             source={
-              require('../assets/images/ray.png')
+              require('../assets/images/ray_bg.png')
             }
-            style={styles_member.userLogo}
+            // resizeMode={"contain"}
+            style={{ width: "100%" }}
           />
+          {/* Adjust the tint and intensity */}
+          <BlurView tint="dark" intensity={50} style={StyleSheet.absoluteFill}>
+            <Image
+              source={
+                require('../assets/images/ray.png')
+              }
+              style={styles_member.userLogo}
+            />
+          </BlurView>
         </View>
         <TabView
           navigationState={this.state}

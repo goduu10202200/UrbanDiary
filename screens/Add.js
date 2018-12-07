@@ -65,7 +65,7 @@ export default class Add extends React.Component {
     this.state = {
       title: "",
       type: " ",
-      location: "地點",
+      location: "",
       latitude: "",
       longitude: "",
       isDatePickerVisible: false,
@@ -147,7 +147,7 @@ export default class Add extends React.Component {
         speechInput_date: date,
         speechInput_time: time
       },
-      function() {
+      function () {
         this.InsertDataToServer_speech();
       }
     );
@@ -176,10 +176,10 @@ export default class Add extends React.Component {
         time: time
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         self.setState({
           title: "",
-          location: "地點",
+          location: "",
           latitude: "",
           longitude: "",
           listDate: moment(new Date()).format("YYYY-MM-DD"),
@@ -193,7 +193,7 @@ export default class Add extends React.Component {
         ]);
         // console.log(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -222,7 +222,7 @@ export default class Add extends React.Component {
         time: time
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         self.setState({
           speechInput_type: "",
           speechInput_title: "",
@@ -240,7 +240,7 @@ export default class Add extends React.Component {
         ]);
         //console.log(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -307,7 +307,7 @@ export default class Add extends React.Component {
                 fontSize={16}
                 value={"請選擇"}
                 containerStyle={styles_add.dialog_dropCon}
-                // overlayStyle={styles_add.dialog_dropOver}
+              // overlayStyle={styles_add.dialog_dropOver}
               />
               <View style={styles_add.dialog_btnDiv}>
                 <Button
@@ -340,7 +340,7 @@ export default class Add extends React.Component {
                 }
                 value={this.state.speechInput_title}
                 autoFocus={true}
-                // multiline={true}
+              // multiline={true}
               />
               <View style={styles_add.dialog_btnDiv}>
                 <Button
@@ -536,9 +536,9 @@ export default class Add extends React.Component {
                 ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
                 //predefinedPlaces={[homePlace, workPlace]}
                 debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-                // renderLeftButton={() => (
-                //   <Image />
-                // )}
+              // renderLeftButton={() => (
+              //   <Image />
+              // )}
               />
               <View style={styles_add.dialog_btnDiv}>
                 <Button
@@ -633,7 +633,9 @@ export default class Add extends React.Component {
                   // this.props.navigation.navigate("Add_location")
                 }
               >
-                {this.state.location}
+                {this.state.location === "" ?
+                  "地點" : this.state.location
+                }
               </Text>
             </View>
           </View>

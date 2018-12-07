@@ -16,7 +16,7 @@ import {
   ActivityIndicator
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Camera, Permissions, ImagePicker } from 'expo';
+import { Camera, Permissions, ImagePicker, BlurView } from 'expo';
 import moment from "moment";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -267,9 +267,16 @@ export default class Diary extends React.Component {
             <View style={styles_diary.diary_imgDiv}>
               <Image
                 source={{ uri: this.state.image }}
-                resizeMode={"contain"}
                 style={styles_diary.diary_img}
               />
+              {/* Adjust the tint and intensity */}
+              <BlurView tint="dark" intensity={50} style={StyleSheet.absoluteFill}>
+                <Image
+                  source={{ uri: this.state.image }}
+                  resizeMode={"contain"}
+                  style={styles_diary.diary_img}
+                />
+              </BlurView>
             </View>
           )}
           <View style={styles_diary.diary}>

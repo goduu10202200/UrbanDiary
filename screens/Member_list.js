@@ -19,8 +19,6 @@ import ServiceApiNet from "./ServiceApiNet";
 import moment from "moment";
 import { Rating, AirbnbRating } from 'react-native-ratings';
 
-
-
 export default class Member_list extends React.Component {
   static navigationOptions = {
     headerTitle: (
