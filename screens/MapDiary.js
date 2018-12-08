@@ -14,9 +14,8 @@ const { width, height } = Dimensions.get("window");
 const ASPECT_RATIO = width / height;
 const LATITUDE = 24.957386;
 const LONGITUDE = 121.2429848;
-const LATITUDE_DELTA = 0.01;
+const LATITUDE_DELTA = 0.003;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-let id = 0;
 
 export default class MapDiary extends React.Component {
   static navigationOptions = {
@@ -70,6 +69,8 @@ export default class MapDiary extends React.Component {
           style={styles.map}
           initialRegion={this.state.region}
           customMapStyle={mapStyle}
+          showsMyLocationButton={true}
+          showsUserLocation={true}
         >
           {this.state.markers === "No data"
             ? null
