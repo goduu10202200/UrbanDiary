@@ -5,11 +5,11 @@ var styles_member = {
     flex: 1,
     alignSelf: 'center',
     justifyContent: 'center',
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
   },
   container_bottom: {
     flex: 1,
-    backgroundColor: "#cfe2ee",
+    backgroundColor: "rgba(0,0,0,0.05)",
   },
   userDiv: {
     width: '100%',

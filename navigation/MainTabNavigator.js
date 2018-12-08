@@ -37,7 +37,7 @@ MapDiaryStack.navigationOptions = {
   ),
   tabBarOptions: {
     inactiveColor: "#333",
-    activeTintColor: "#006db2",
+    activeTintColor: "#30487b",
     inactiveBackgroundColor: "#f2f2f2",
     activeBackgroundColor: "#f2f2f2"
   }
@@ -61,7 +61,7 @@ DiaryStack.navigationOptions = {
   ),
   tabBarOptions: {
     inactiveColor: "#333",
-    activeTintColor: "#006db2",
+    activeTintColor: "#30487b",
     inactiveBackgroundColor: "#f2f2f2",
     activeBackgroundColor: "#f2f2f2"
   }
@@ -84,7 +84,7 @@ AddStack.navigationOptions = {
   ),
   tabBarOptions: {
     inactiveColor: "#333",
-    activeTintColor: "#006db2",
+    activeTintColor: "#30487b",
     inactiveBackgroundColor: "#f2f2f2",
     activeBackgroundColor: "#f2f2f2"
   }
@@ -109,7 +109,7 @@ HistoryStack.navigationOptions = {
   ),
   tabBarOptions: {
     inactiveColor: "#333",
-    activeTintColor: "#006db2",
+    activeTintColor: "#30487b",
     inactiveBackgroundColor: "#f2f2f2",
     activeBackgroundColor: "#f2f2f2"
   }
@@ -134,7 +134,7 @@ MemberStack.navigationOptions = {
   ),
   tabBarOptions: {
     inactiveColor: "#333",
-    activeTintColor: "#006db2",
+    activeTintColor: "#30487b",
     inactiveBackgroundColor: "#f2f2f2",
     activeBackgroundColor: "#f2f2f2"
   }

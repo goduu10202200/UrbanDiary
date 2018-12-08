@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import styles_history from "./style/style_history";
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from "react-native";
 export default class History_day extends React.Component {
   // 跳頁功能 (參數是頁面名稱)
   jump = page => {
@@ -7,100 +8,68 @@ export default class History_day extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles_history.container}>
+      <View style={styles_history.diaryDiv}>
         <TouchableOpacity
-          style={styles.button}
+          style={styles_history.button}
           onPress={() => this.jump("Diary")}
-        >
-          <Text style={styles.Title_History}>2018/10/04</Text>
-          <Image
-            style={styles.Image_History}
+        ><Image
+            style={styles_history.Image_History}
             source={require("../assets/images/t1.jpg")}
           />
-          <Text style={styles.buttonText}>
+          <Text style={styles_history.Title_History}>2018/10/04</Text>
+          
+          <Text style={styles_history.buttonText}>
             今天英文考了93分，好高興
-            {"\n"}
-            晚餐吃了欣葉慶祝一下!!
+            {/* {"\n"} */}
+            晚餐吃{"\n"}了欣葉慶祝一下!!
           </Text>
         </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.Title_History}>2018/10/03</Text>
+        <View style={styles_history.diaryDiv}>
+        <TouchableOpacity style={styles_history.button}>
           <Image
-            style={styles.Image_History}
+            style={styles_history.Image_History}
             source={require("../assets/images/t2.jpg")}
-          />
-          <Text style={styles.buttonText}>
+          /><Text style={styles_history.Title_History}>2018/10/03</Text>
+          
+          <Text style={styles_history.buttonText}>
             明天要考會計院小考，我要
-            {"\n"}
-            設鬧鐘起床讀書
+            {/* {"\n"} */}
+            設鬧鐘{"\n"}起床讀書
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.Title_History}>2018/10/02</Text>
+        </View>
+
+        <View style={styles_history.diaryDiv}>
+        <TouchableOpacity style={styles_history.button}>
           <Image
-            style={styles.Image_History}
+            style={styles_history.Image_History}
             source={require("../assets/images/t3.jpg")}
-          />
-          <Text style={styles.buttonText}>
-            我想守護我想珍惜的人，希
-            {"\n"}
-            望一切一定會更好
+          /><Text style={styles_history.Title_History}>2018/10/02</Text>
+          
+          <Text style={styles_history.buttonText}>
+            我想守護我想珍惜的人，希望一切{"\n"}一定會更好
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.Title_History}>2018/10/01</Text>
+        </View>
+
+        <View style={styles_history.diaryDiv}>
+        <TouchableOpacity style={styles_history.button}>
           <Image
-            style={styles.Image_History}
+            style={styles_history.Image_History}
             source={require("../assets/images/t4.jpg")}
-          />
-          <Text style={styles.buttonText}>
+          /><Text style={styles_history.Title_History}>2018/10/01</Text>
+          
+          <Text style={styles_history.buttonText}>
             今天去朋友家烤肉，吃了超多
-            {"\n"}
-            雞屁股聽到很多八卦哈哈哈
+            {/* {"\n"} */}
+            雞屁{"\n"}股聽到很多八卦哈哈哈
           </Text>
         </TouchableOpacity>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    // justifyContent: "center",
-    backgroundColor: "#cfe2ee"
-  },
-  button: {
-    margin: 10,
-    padding: 35,
-    borderRadius: 9,
-    paddingLeft: 75,
-    paddingRight: 75,
-    alignItems: "center",
-    backgroundColor: "#e4eff6",
-    justifyContent: "center"
-  },
-  buttonText: {
-    fontSize: 13,
-    color: "#afbec4",
-    textAlign: "left",
-    marginLeft: -40,
-    paddingRight: 30
-  },
-  Image_History: {
-    width: 80,
-    height: 80,
-    position: "absolute",
-    right: 10
-  },
-  Title_History: {
-    color: "#7b8d93",
-    alignSelf: "center",
-    fontSize: 17,
-    position: "absolute",
-    top: 7,
-    left: 40
-  }
-});

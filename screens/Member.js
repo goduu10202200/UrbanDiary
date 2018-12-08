@@ -72,6 +72,17 @@ export default class Member extends React.Component {
           renderHeader={this._renderHeader}
           onIndexChange={this._handleIndexChange}
           initialLayout={initialLayout}
+          renderTabBar={(props) =>
+            <TabBar
+              {...props}
+              //indicatorStyle={{ backgroundColor: 'white' }}
+              labelStyle={{ color: "#777", fontSize: 15, marginTop: 10}}
+              style={{backgroundColor: "white", height: 50,}}
+              renderIcon={this.renderIcon}
+              
+              indicatorStyle={{backgroundColor: "#777", height: 1}}
+            />
+          }
         />
       </View>
     );

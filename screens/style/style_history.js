@@ -2,113 +2,52 @@ var styles_history = {
   //member
   container: {
     flex: 1,
-    alignSelf: 'center',
-    justifyContent: 'center',
+    // alignItems: "center",
+    // justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.05)",
   },
-  container_bottom: {
-    width: '100%',
-    height: '75%',
-  },
-  userDiv: {
-    width: '100%',
-    height: '25%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-  userLogo: {
-    flex: .8,
-    resizeMode: 'contain',
-  },
-
-  futureDiv: {
-    width: '90%',
-    maxHeight: 60,
-    alignSelf: 'center',
-  },
-  listDiv: {
-    width: '90%',
-    alignSelf: 'center',
-  },
-
-  //member_list
-  listView: {
-    width: "90%",
-    alignSelf: "center",
-  },
-  itemDiv: {
-    // flexDirection: "row", 
+  button: {
+    margin: "2.5%",
+    top: 46,
+    paddingBottom: 20,
+    width: "95%",
+    height: 300,
+    //borderRadius: 9,
+    borderWidth: 0.4,
+    borderColor: "rgba(0,0,0,0.05)",
+    //paddingLeft: 75,
+    //paddingRight: 75,
     alignItems: "center",
-    borderWidth: 0,
-    borderRadius: 8,
     backgroundColor: "#fff",
-    marginTop: 10,
-    padding: 10,
+    justifyContent: "center",
   },
-  itemDiv_top: {
+  diaryDiv: {
+    marginBottom: 35,
+  },
+  buttonText: {
+    fontSize: 13,
+    color: "rgba(0,0,0,0.6)",
+    alignSelf: "flex-end",
+    marginRight: 10,
+    top: -33,
+  },
+  Image_History: {
     width: "100%",
-    flexDirection: "row",
+    height: "100%",
   },
-  itemDiv_bottom: {
-    width: "80%",
-    flexDirection: "row",
-    alignSelf: 'flex-end'
-  },
-  itemDiv_check: {
-    width: "10%",
-    padding: 0,
-    alignSelf: 'center',
-    // backgroundColor: 'rgba(211, 211, 211, .3)',
-    // width: 30,
-    // borderWidth: 0,
-  },
-  itemDiv_icon: {
-    width: "10%",
-    fontSize: 30,
-    alignSelf: 'center',
-  },
-  itemDiv_item: {
-    width: "70%",
-    fontSize: 18,
-    color: '#333',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    paddingLeft: 10,
-  },
-  itemDiv_time: {
-    fontSize: 12,
-    color: '#888',
-    alignSelf: 'center',
-    paddingLeft: 10,
-  },
-  itemDiv_location: {
-    fontSize: 12,
-    color: '#888',
-    alignSelf: 'center',
-    paddingLeft: 10,
-  },
-
-
-  //member_data
-  dataDiv: {
-    width: '80%',
-    flexDirection: 'row',
-    marginTop: 20,
-    alignSelf: 'center',
-  },
-  dataDiv_txt: {
-    width: '30%',
-    padding: 3,
-    fontSize: 22,
-  },
-  dataDiv_input: {
-    width: '70%',
-    padding: 3,
-    fontSize: 22,
-    backgroundColor: '#dbdbdb',
-    borderRadius: 5,
-    color: '#333',
-  },
-
+  Title_History: {
+    fontFamily: "Georgia",
+    color: "#222",
+    alignSelf: "flex-start",
+    fontWeight: "bold",
+    fontSize: 20,
+    marginTop: 10,
+    marginLeft: 0,
+    paddingLeft: 12,
+    paddingRight: 15,
+    paddingTop: 7,
+    paddingBottom: 7,
+  }
 };
 
 export default styles_history;
