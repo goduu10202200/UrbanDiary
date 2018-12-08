@@ -1,40 +1,38 @@
 import React from "react";
 import axios from "axios";
 import {
+  StyleSheet,
   ScrollView,
   Text,
   TextInput,
   View,
   Image,
-  Platform,
-  Dimensions,
-  TouchableHighlight,
-  TouchableOpacity,
-  Alert
+  Alert,
 } from "react-native";
-import ActionButton from "react-native-action-button";
-import Icon from "react-native-vector-icons/Ionicons";
-import { Button } from "react-native-elements";
+import { BlurView } from 'expo';
 import ServiceApiNet from "./ServiceApiNet";
 
 import styles_layout from "./style/style_layout";
 import styles_diary from "./style/style_diary";
-import History_day from "./History_day";
 
 export default class Diary_old extends React.Component {
   static navigationOptions = {
-    title: "日記"
+    title: "日記",
+    headerStyle: styles_layout.titleDiv,
+    headerTitleStyle: styles_layout.titleTxt,
+    headerTintColor: '#fff',
+    headerTintSize: 10,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      diaryContent: ""
+      diaryContent: "",
+      image: null,
     };
   }
 
   /* Date */
-
   ShowCurrentDate = () => {
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
@@ -53,7 +51,33 @@ export default class Diary_old extends React.Component {
     return year + " / " + month + " / " + date + "   " + weekday[day];
   };
 
-  //顯示list
+  //onload
+  componentDidMount() {
+    this.ViewAJAX();
+    this.showImgAJAX();
+  }
+
+  showImgAJAX() {
+    var self = this;
+    axios({
+      url: ServiceApiNet.getURL() + "mongo_viewphoto.php",
+      method: "post"
+    })
+      .then(function (response) {
+        if (response.data != "No data") {
+          self.setState({
+            image: ServiceApiNet.getUploadURL() + response.data["name"]
+          });
+        }
+        // console.log(response.data);
+        // alert(this.state.image);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  //顯示diary
   ViewAJAX() {
     var date = this.props.navigation.state.params.date;
 
@@ -75,10 +99,6 @@ export default class Diary_old extends React.Component {
       });
   }
 
-  //onload
-  componentDidMount() {
-    this.ViewAJAX();
-  }
 
   render() {
     return (
@@ -92,6 +112,22 @@ export default class Diary_old extends React.Component {
             {this.props.navigation.state.params.date}
           </Text>
         </View>
+        {this.state.image && (
+          <View style={styles_diary.diary_imgDiv}>
+            <Image
+              source={{ uri: this.state.image }}
+              style={styles_diary.diary_img}
+            />
+            {/* Adjust the tint and intensity */}
+            <BlurView tint="dark" intensity={50} style={StyleSheet.absoluteFill}>
+              <Image
+                source={{ uri: this.state.image }}
+                resizeMode={"contain"}
+                style={styles_diary.diary_img}
+              />
+            </BlurView>
+          </View>
+        )}
         <View style={styles_diary.diary}>
           <Text
             style={styles_diary.diary_input}

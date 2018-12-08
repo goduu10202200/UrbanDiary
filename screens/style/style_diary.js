@@ -78,9 +78,9 @@ var styles_diary = {
     position: "absolute",
     top: 0,
     left: 0,
-    backgroundColor: "#23355b",
-    paddingLeft: "10%",
-    paddingTop: "5%",
+    // backgroundColor: "#23355b",
+    // paddingLeft: "10%",
+    paddingTop: "45%",
     zIndex: 100
   },
   tag: {

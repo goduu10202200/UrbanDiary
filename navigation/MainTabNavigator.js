@@ -17,7 +17,7 @@ import PopupDialog from "react-native-popup-dialog";
 import styles_layout from "../screens/style/style_layout";
 import { red } from "ansi-colors";
 
-import Icons from "react-native-vector-icons/Ionicons";
+import Icons from "react-native-vector-icons/Feather";
 import { Marker } from "react-native-maps";
 
 /* 地圖 */
@@ -30,7 +30,9 @@ MapDiaryStack.navigationOptions = {
   tabBarIcon: ({ focused, tintColor }) => (
     <Icons
       focused={focused}
-      name={Platform.OS === "ios" ? `ios-pin${focused ? "" : ""}` : "md-pin"}
+      name={"map-pin"
+        // Platform.OS === "ios" ? `ios-pin${focused ? "" : ""}` : "md-pin"
+      }
       color={tintColor}
       size={25}
     />
@@ -54,7 +56,7 @@ DiaryStack.navigationOptions = {
   tabBarIcon: ({ focused, tintColor }) => (
     <Icons
       focused={focused}
-      name={Platform.OS === "ios" ? `ios-book${focused ? "" : ""}` : "md-book"}
+      name={"feather"}
       color={tintColor}
       size={25}
     />
@@ -77,7 +79,9 @@ AddStack.navigationOptions = {
   tabBarIcon: ({ focused, tintColor }) => (
     <Icons
       focused={focused}
-      name={Platform.OS === "ios" ? `ios-add${focused ? "" : ""}` : "md-add"}
+      name={"plus"
+        // Platform.OS === "ios" ? `ios-add${focused ? "" : ""}` : "md-add"
+      }
       color={tintColor}
       size={25}
     />
@@ -100,8 +104,8 @@ HistoryStack.navigationOptions = {
   tabBarIcon: ({ focused, tintColor }) => (
     <Icons
       focused={focused}
-      name={
-        Platform.OS === "ios" ? `ios-albums${focused ? "" : ""}` : "md-albums"
+      name={"book"
+        // Platform.OS === "ios" ? `ios-albums${focused ? "" : ""}` : "md-albums"
       }
       color={tintColor}
       size={25}
@@ -126,7 +130,8 @@ MemberStack.navigationOptions = {
     <Icons
       focused={focused}
       name={
-        Platform.OS === "ios" ? `ios-person${focused ? "" : ""}` : "md-person"
+        "user"
+        // Platform.OS === "ios" ? `ios-person${focused ? "" : ""}` : "md-person"
       }
       color={tintColor}
       size={25}

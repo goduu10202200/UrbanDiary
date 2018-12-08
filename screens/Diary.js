@@ -7,27 +7,22 @@ import {
   TextInput,
   View,
   Image,
-  Platform,
-  Dimensions,
   TouchableHighlight,
   TouchableOpacity,
-  Alert,
-  StatusBar,
-  ActivityIndicator
+  Alert
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Camera, Permissions, ImagePicker, BlurView } from 'expo';
 import moment from "moment";
 import ActionButton from "react-native-action-button";
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/Feather";
+import Icon_Ionicons from "react-native-vector-icons/Ionicons";
 import { Button } from "../node_modules/react-native-elements";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 import ServiceApiNet from "./ServiceApiNet";
 
 import styles_layout from "./style/style_layout";
 import styles_diary from "./style/style_diary";
-
-const window = Dimensions.get("window");
 
 var photoOptions = {
   //底部彈出框選項
@@ -57,9 +52,10 @@ export default class Diary extends React.Component {
             params.Imgpicker();
           }}
         >
-          <Image
-            style={styles_layout.titleSubmit_3}
-            source={require("../assets/images/camera_icon.png")}
+
+          <Icon
+            name="camera"
+            style={styles_layout.titleSubmit_2}
           />
         </TouchableOpacity>
       ),
@@ -69,9 +65,9 @@ export default class Diary extends React.Component {
             params.InsertDataToServer();
           }}
         >
-          <Image
-            style={styles_layout.titleSubmit_2}
-            source={require("../assets/images/check_icon.png")}
+          <Icon
+            name="check"
+            style={styles_layout.titleSubmit_3}
           />
         </TouchableOpacity>
       )
@@ -85,7 +81,6 @@ export default class Diary extends React.Component {
       isHidden: false,
       diaryContent:
         "今天早上九點去大安區圖書館，準備開會報告，希望可以順利～ 中午十二去吃要排隊超久的一蘭拉麵，和好久不見的大學同學會聚餐，真開心吃完拉麵後，和小睿一起去台北地下街逛逛，還買了初音未來的模型哦！",
-
       image: null,
     };
     this.labelonPress = this.labelonPress.bind(this);
@@ -259,10 +254,10 @@ export default class Diary extends React.Component {
         contentContainerStyle={styles_diary.container}
         scrollEnabled={false}
       >
-        <View style={styles_diary.header}>
-          <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
-        </View>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View style={styles_diary.header}>
+            <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
+          </View>
           {this.state.image && (
             <View style={styles_diary.diary_imgDiv}>
               <Image
@@ -328,7 +323,7 @@ export default class Diary extends React.Component {
           {/* Click urban diary's tag => diaplay window */}
 
           {this.state.isHidden ? (
-            <View style={styles_diary.tag_div}>
+            <BlurView tint="dark" intensity={60} style={styles_diary.tag_div}>
               <TouchableOpacity
                 style={{
                   width: "55%",
@@ -422,18 +417,18 @@ export default class Diary extends React.Component {
                   />
                 </TouchableHighlight>
               </View>
-            </View>
+            </BlurView>
           ) : null}
 
           <ActionButton
             renderIcon={active =>
               active ? (
-                <Icon
+                <Icon_Ionicons
                   name="md-pricetags"
                   style={styles_diary.actionButtonIcon}
                 />
               ) : (
-                  <Icon
+                  <Icon_Ionicons
                     name="md-pricetag"
                     style={styles_diary.actionButtonIcon}
                   />
@@ -447,75 +442,10 @@ export default class Diary extends React.Component {
             offsetY={20}
             onPress={this.labelonPress}
           >
-            <Icon />
-            {/* <ActionButton.Item
-              buttonColor="#3498db"
-              title="標籤"
-              onPress={this.onPress}
-            >
-              <Icon
-                name={Platform.OS === "ios" ? "ios-pricetags" : "md-pricetags"}
-                style={styles_diary.actionButtonIcon}
-              />
-            </ActionButton.Item>
-            <ActionButton.Item
-              buttonColor="#1abc9c"
-              title="圖片"
-              onPress={this._pickImage}
-            >
-              <Icon
-                name={Platform.OS === "ios" ? "ios-image" : "md-image"}
-                style={styles_diary.actionButtonIcon}
-              />
-            </ActionButton.Item> */}
+            <Icon_Ionicons />
           </ActionButton>
         </ScrollView>
       </KeyboardAwareScrollView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
-  },
-  exampleText: {
-    fontSize: 20,
-    marginBottom: 20,
-    marginHorizontal: 15,
-    textAlign: "center"
-  },
-  maybeRenderUploading: {
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.4)",
-    justifyContent: "center"
-  },
-  maybeRenderContainer: {
-    borderRadius: 3,
-    elevation: 2,
-    marginTop: 30,
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOpacity: 0.2,
-    shadowOffset: {
-      height: 4,
-      width: 4
-    },
-    shadowRadius: 5,
-    width: 250
-  },
-  maybeRenderImageContainer: {
-    borderTopLeftRadius: 3,
-    borderTopRightRadius: 3,
-    overflow: "hidden"
-  },
-  maybeRenderImage: {
-    height: 250,
-    width: 250
-  },
-  maybeRenderImageText: {
-    paddingHorizontal: 10,
-    paddingVertical: 10
-  }
-});
