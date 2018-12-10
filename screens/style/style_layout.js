@@ -1,7 +1,8 @@
 var styles_layout = {
   container: {
     flex: 1,
-    backgroundColor: '#ededed',
+    //backgroundColor: '#ededed',
+    backgroundColor: 'red',
     justifyContent: 'center',
   },
   titleDiv: {

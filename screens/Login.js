@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Text, View, Alert, TextInput } from "react-native";
+import { ScrollView, Text, View, Alert, TextInput, Image, ImageBackground } from "react-native";
 import "@expo/vector-icons";
 import { Button, Icon, SocialIcon } from "react-native-elements";
 import styles from "./style/style_login";
@@ -8,15 +8,7 @@ import axios from "axios";
 import ServiceApiNet from "./ServiceApiNet";
 export default class Login extends React.Component {
   static navigationOptions = {
-    title: "登入",
-    headerStyle: {
-      height: 50
-    },
-    headerTitleStyle: {
-      fontSize: 20,
-      letterSpacing: 2,
-      color: "#333"
-    }
+    header: null,
   };
 
   constructor(props) {
@@ -57,68 +49,98 @@ export default class Login extends React.Component {
 
   render() {
     return (
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
-        style={styles.container}
+      <ScrollView                keyboardShouldPersistTaps="handled"
       >
-        <View style={styles.View_TextInput}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="請輸入帳號"
-            ref={el => {
-              this.account = el;
-            }}
-            onChangeText={text => this.setState({ account: text })}
-          />
-        </View>
-        <View style={styles.View_TextInput}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="請輸入密碼"
-            secureTextEntry={true}
-            ref={el => {
-              this.password = el;
-            }}
-            onChangeText={text => this.setState({ password: text })}
-          />
-        </View>
-        <Button
-          title="登入"
-          textStyle={styles.textStyle}
-          buttonStyle={styles.someButtonStyle}
-          onPress={this.SendDataAJAX}
-        />
-        <Text
+      <ImageBackground
+        //contentContainerStyle={{ flexGrow: 1 }}
+        style={styles.container}
+        source={require("../assets/images/enter1.png")}
+      >
+      {/* <Image
           style={{
-            color: "#e4e4e4",
-            textAlign: "center",
-            marginTop: 70
+            position: "absolute",
+            width: "100%",
+            height: "100%",
           }}
-        >
-          ──────────── 或 ────────────
+          source={require("../assets/images/enter.gif")}
+        /> */}
+      <Text
+        style={{
+          marginTop: "25%",
+          color: "#FFFFFF",
+          fontSize: 35,
+          fontFamily: "Georgia",
+          fontWeight: "bold",
+          alignSelf: "center",
+
+        }}
+      >
+          L O G I N
         </Text>
-        // Icon
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            marginTop: 25
-          }}
-        >
-          <SocialIcon
-            button
-            title="使用 Facebook 登入"
-            style={{ width: "80%" }}
-            type="facebook"
-            onPress={() => this.props.navigation.navigate("Main")}
+      <View
+        style={{marginTop: "10%"}}
+      >
+          <View style={styles.View_TextInput}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="請輸入帳號"
+              placeholderTextColor="#FFF" 
+              ref={el => {
+                this.account = el;
+              }}
+              onChangeText={text => this.setState({ account: text })}
+            />
+          </View>
+          <View style={styles.View_TextInput}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="請輸入密碼"
+              placeholderTextColor="#FFF" 
+              secureTextEntry={true}
+              ref={el => {
+                this.password = el;
+              }}
+              onChangeText={text => this.setState({ password: text })}
+            />
+          </View>
+          <Button
+            title="登入"
+            textStyle={styles.textStyle}
+            buttonStyle={styles.someButtonStyle}
+            onPress={this.SendDataAJAX}
+          />
+          <Text
+            style={{
+              color: "#e4e4e4",
+              textAlign: "center",
+              marginTop: 100,
+            }}
+          >
+            ──────────── 或 ────────────
+          </Text>
+          // Icon
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 25
+            }}
+          >
+            <SocialIcon
+              button
+              title="使用 Facebook 登入"
+              style={{ width: "80%", borderRadius: 5, shadowOpacity: 0,}}
+              type="facebook"
+              onPress={() => this.props.navigation.navigate("Main")}
+            />
+          </View>
+          <View
+            style={{
+              marginTop: 140
+            }}
           />
         </View>
-        <View
-          style={{
-            marginTop: 140
-          }}
-        />
+      </ImageBackground>
       </ScrollView>
     );
   }

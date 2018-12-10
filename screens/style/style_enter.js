@@ -4,7 +4,7 @@ var styles_enter = {
     height: '100%',
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    //backgroundColor: '#fff',
   },
   welcomeLogoDiv:{
     width: '100%',
@@ -15,24 +15,40 @@ var styles_enter = {
     //borderRadius: 10,
   },
   welcomeLogo: {
-    width: '65%',
+    flex: 1,
+    marginTop: -150,
+    alignItems: "center",
+    //backgroundColor: 'red',
+  },
+  welcomeLogoImg: {
+    width: 330,
+    resizeMode: 'contain',
+  },
+  welcomeLogoText: {
+    marginTop: -240,
+    width: 300,
     resizeMode: 'contain',
   },
   welcomeDiv: {
     width: '100%',
     alignItems: 'center',
-    marginTop: '13%',
+    marginTop: '28%',
   },
-  welcomeText: {
-    fontSize: 20,
-    fontWeight: '400',
-    color: '#333',
-  },
+  // welcomeText: {
+  //   fontSize: 20,
+  //   fontWeight: '400',
+  //   color: '#333',
+  // },
   welcomeBtn: {
-    width: 250,
+    shadowOffset:{  width: 2,  height: 2,  },
+    shadowColor: 'black',
+    shadowOpacity: 0.4,
+    width: 280,
     height: 50,
     marginTop: 30,
-    backgroundColor: '#316191',
+    //backgroundColor: '#316191',
+    backgroundColor: 'rgba(48,72,123,1)',
+    //backgroundColor: 'rgba(0,0,0,0.4)',
     borderRadius: 5,
   }
 };
