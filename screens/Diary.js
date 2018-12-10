@@ -12,7 +12,7 @@ import {
   Alert
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { Camera, Permissions, ImagePicker, BlurView } from 'expo';
+import { Camera, Permissions, ImagePicker, BlurView } from "expo";
 import moment from "moment";
 import ActionButton from "react-native-action-button";
 import Icon from "react-native-vector-icons/Feather";
@@ -52,11 +52,7 @@ export default class Diary extends React.Component {
             params.Imgpicker();
           }}
         >
-
-          <Icon
-            name="camera"
-            style={styles_layout.titleSubmit_2}
-          />
+          <Icon name="camera" style={styles_layout.titleSubmit_2} />
         </TouchableOpacity>
       ),
       headerRight: (
@@ -65,10 +61,7 @@ export default class Diary extends React.Component {
             params.InsertDataToServer();
           }}
         >
-          <Icon
-            name="check"
-            style={styles_layout.titleSubmit_3}
-          />
+          <Icon name="check" style={styles_layout.titleSubmit_3} />
         </TouchableOpacity>
       )
     };
@@ -82,6 +75,7 @@ export default class Diary extends React.Component {
       diaryContent:
         "今天早上九點去大安區圖書館，準備開會報告，希望可以順利～ 中午十二去吃要排隊超久的一蘭拉麵，和好久不見的大學同學會聚餐，真開心吃完拉麵後，和小睿一起去台北地下街逛逛，還買了初音未來的模型哦！",
       image: null,
+      imagefilename: ""
     };
     this.labelonPress = this.labelonPress.bind(this);
   }
@@ -136,11 +130,11 @@ export default class Diary extends React.Component {
         type: type
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         self.setState({ taginput: response.data });
         // console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
@@ -151,7 +145,7 @@ export default class Diary extends React.Component {
       url: ServiceApiNet.getURL() + "mongo_viewphoto.php",
       method: "post"
     })
-      .then(function (response) {
+      .then(function(response) {
         if (response.data != "No data") {
           self.setState({
             image: ServiceApiNet.getUploadURL() + response.data["name"]
@@ -160,7 +154,7 @@ export default class Diary extends React.Component {
         // console.log(response.data);
         // alert(this.state.image);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
@@ -173,40 +167,41 @@ export default class Diary extends React.Component {
       url: ServiceApiNet.getURL() + "mongo_diary.php",
       method: "post",
       data: {
-        content: content
+        content: content,
+        imagefilename: self.imagefilename
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         console.log(response.data);
         // self.setState({ diaryContent: "" });
         Alert.alert("儲存成功", "");
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
 
   _pickImage = async () => {
+    let self = this;
     // Display the camera to the user and wait for them to take a photo or to cancel
     // the action
-    const {
-      status: cameraPerm
-    } = await Permissions.askAsync(Permissions.CAMERA);
+    const { status: cameraPerm } = await Permissions.askAsync(
+      Permissions.CAMERA
+    );
 
-    const {
-      status: cameraRollPerm
-    } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const { status: cameraRollPerm } = await Permissions.askAsync(
+      Permissions.CAMERA_ROLL
+    );
 
     // only if user allows permission to camera roll
     let result;
-    if (cameraPerm === 'granted' && cameraRollPerm === 'granted') {
+    if (cameraPerm === "granted" && cameraRollPerm === "granted") {
       //pickerResult = await ImagePicker.launchImageLibraryAsync({
       result = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [4, 3]
       });
-    }
-    else {
+    } else {
       alert("尚未開啟相機權限，請先開啟再使用此項功能。");
     }
 
@@ -221,6 +216,9 @@ export default class Diary extends React.Component {
     // ImagePicker saves the taken photo to disk and returns a local URI to it
     let localUri = result.uri;
     let filename = localUri.split("/").pop();
+
+    // 將filename 給全域變數
+    self.imagefilename = filename;
 
     // Infer the type of the image
     let match = /\.(\w+)$/.exec(filename);
@@ -237,15 +235,14 @@ export default class Diary extends React.Component {
 
     axios
       .post(ServiceApiNet.getURL() + "mongo_uploadphoto.php", formData)
-      .then(function (response) {
+      .then(function(response) {
         console.log(response.data);
-        this.showImgAJAX();
+        self.showImgAJAX();
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   };
-
 
   render() {
     return (
@@ -256,7 +253,9 @@ export default class Diary extends React.Component {
       >
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View style={styles_diary.header}>
-            <Text style={styles_diary.header_txt}>{this.ShowCurrentDate()}</Text>
+            <Text style={styles_diary.header_txt}>
+              {this.ShowCurrentDate()}
+            </Text>
           </View>
           {this.state.image && (
             <View style={styles_diary.diary_imgDiv}>
@@ -265,7 +264,11 @@ export default class Diary extends React.Component {
                 style={styles_diary.diary_img}
               />
               {/* Adjust the tint and intensity */}
-              <BlurView tint="dark" intensity={50} style={StyleSheet.absoluteFill}>
+              <BlurView
+                tint="dark"
+                intensity={50}
+                style={StyleSheet.absoluteFill}
+              >
                 <Image
                   source={{ uri: this.state.image }}
                   resizeMode={"contain"}
@@ -307,7 +310,7 @@ export default class Diary extends React.Component {
               }}
               onChangeText={taginput => this.setState({ taginput })}
               value={this.state.taginput}
-            // multiline={true}
+              // multiline={true}
             />
             <Button
               title="送出"
@@ -428,11 +431,11 @@ export default class Diary extends React.Component {
                   style={styles_diary.actionButtonIcon}
                 />
               ) : (
-                  <Icon_Ionicons
-                    name="md-pricetag"
-                    style={styles_diary.actionButtonIcon}
-                  />
-                )
+                <Icon_Ionicons
+                  name="md-pricetag"
+                  style={styles_diary.actionButtonIcon}
+                />
+              )
             }
             position="right"
             buttonColor="rgba(142, 142, 142, 0.5)"
