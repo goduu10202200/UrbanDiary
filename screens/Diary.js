@@ -9,7 +9,8 @@ import {
   Image,
   TouchableHighlight,
   TouchableOpacity,
-  Alert
+  Alert,
+  Animated,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Camera, Permissions, ImagePicker, BlurView } from "expo";
@@ -61,6 +62,9 @@ export default class Diary extends React.Component {
             params.InsertDataToServer();
           }}
         >
+          {/* <Text style={{color: "#FFF", fontSize: 15, marginRight: 10, marginTop: 3}}>
+            完成
+          </Text> */}
           <Icon name="check" style={styles_layout.titleSubmit_3} />
         </TouchableOpacity>
       )
@@ -71,7 +75,7 @@ export default class Diary extends React.Component {
     super(props);
     this.state = {
       taginput: "",
-      isHidden: false,
+      isHidden: true,
       diaryContent:
         "今天一大早十點去教學大樓和通識課組員們準備期末開會報告，過程很順利～" +
         "\n" +
@@ -89,7 +93,26 @@ export default class Diary extends React.Component {
     });
     this.props.navigation.setParams({ Imgpicker: this._pickImage });
     this.showImgAJAX();
+    // Animated.timing(
+    //   this.state.animatedValue,
+    //   {
+    //     toValue: 100,
+    //     duration: 1000
+    //   }
+    // ).start();
+    // Animated.sequence([
+    //   Animated.timing(this.state.animatedValue, {
+    //     toValue: 100,
+    //     duration: 1000
+    // }),
+    //   Animated.timing(this.state.animatedValue, {
+    //     toValue: 0,
+    //     duration: 1000
+    // }),
+    // ]).start()
+    
   }
+
 
   /* Date */
 
@@ -113,7 +136,27 @@ export default class Diary extends React.Component {
 
   // This is hidden window function Start
   labelonPress() {
-    this.setState({ isHidden: !this.state.isHidden });
+    //this.setState({ isHidden: !this.state.isHidden });
+    if(JSON.stringify(this.state.animatedValue)==120)
+    {
+      Animated.timing(
+        this.state.animatedValue,
+        {
+          toValue: -20,
+          duration: 1000
+        }
+      ).start();
+    }
+    else if(JSON.stringify(this.state.animatedValue)!=120)
+    {
+      Animated.timing(
+        this.state.animatedValue,
+        {
+          toValue: 120,
+          duration: 1000
+        }
+      ).start();
+    }
   }
   // This is hidden window function End
 
@@ -328,7 +371,7 @@ export default class Diary extends React.Component {
           {/* Click urban diary's tag => diaplay window */}
 
           {this.state.isHidden ? (
-            <BlurView tint="dark" intensity={60} style={styles_diary.tag_div}>
+            <View style={styles_diary.tag_div}>
               <TouchableOpacity
                 style={{
                   width: "55%",
@@ -337,10 +380,13 @@ export default class Diary extends React.Component {
                   top: 0,
                   right: 0
                 }}
-                onPress={this.labelonPress}
+                //onPress={this.labelonPress}
               />
               <View style={styles_diary.tag_box}>
                 {/* urban diary's  mood tag  Staret*/}
+                <Animated.View
+                    style={{transform: [{translateX: this.state.animatedValue}]}}
+                >
                 <TouchableHighlight
                   onPress={() => {
                     this.labelAJAX("love");
@@ -421,10 +467,11 @@ export default class Diary extends React.Component {
                     source={require("../assets/images/tag_life.png")}
                   />
                 </TouchableHighlight>
+                </Animated.View>
               </View>
-            </BlurView>
+            </View>
           ) : null}
-
+          
           <ActionButton
             renderIcon={active =>
               active ? (
@@ -445,7 +492,14 @@ export default class Diary extends React.Component {
             hideShadow={true}
             offsetX={15}
             offsetY={20}
-            onPress={this.labelonPress}
+            onPress={ () =>{
+              this.labelonPress();
+              //alert(JSON.stringify(this.state.animatedValue))
+              // setTimeout(() => {
+              //   alert(JSON.stringify(this.state.animatedValue))
+              // }, 1500)
+              
+            }}
           >
             <Icon_Ionicons />
           </ActionButton>

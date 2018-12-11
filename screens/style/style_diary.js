@@ -70,7 +70,7 @@ var styles_diary = {
     position: "absolute",
     top: 0,
     right: 0,
-    backgroundColor: "rgba(232, 232, 232, 0.8)"
+    backgroundColor: "rgba(232, 232, 232, 0)"
   },
   tag_box: {
     width: "40%",
@@ -80,8 +80,10 @@ var styles_diary = {
     left: 0,
     // backgroundColor: "#23355b",
     // paddingLeft: "10%",
-    paddingTop: "45%",
-    zIndex: 100
+    paddingTop: "65%",
+    zIndex: 100,
+    flex: 1, 
+    marginLeft: -120,
   },
   tag: {
     width: "80%",
@@ -103,7 +105,7 @@ var styles_diary = {
     height: 50,
     resizeMode: "contain",
     // heig
-    marginTop: 10
+    marginTop: 20
   },
 
   dialog: {
