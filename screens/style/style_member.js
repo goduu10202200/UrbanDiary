@@ -108,7 +108,7 @@ var styles_member = {
   //sandy Q
   dialog: {
     width: "85%",
-    height: "65%",
+    height: "70%",
     backgroundColor: 'rgb(255, 255, 255)',
     //opacity: 0.3,
     position: 'absolute',

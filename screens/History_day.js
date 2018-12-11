@@ -9,65 +9,65 @@ export default class History_day extends React.Component {
   render() {
     return (
       <ScrollView style={styles_history.container}>
-      <View style={styles_history.diaryDiv}>
-        <TouchableOpacity
-          style={styles_history.button}
-          onPress={() => this.jump("Diary")}
-        ><Image
-            style={styles_history.Image_History}
-            source={require("../assets/images/t1.jpg")}
-          />
-          <Text style={styles_history.Title_History}>2018/10/04</Text>
-          
-          <Text style={styles_history.buttonText}>
-            今天英文考了93分，好高興
+        <View style={styles_history.diaryDiv}>
+          <TouchableOpacity
+            style={styles_history.button}
+            onPress={() => this.jump("Diary")}
+          ><Image
+              style={styles_history.Image_History}
+              source={require("../assets/images/t1.jpg")}
+            />
+            <Text style={styles_history.Title_History}>2018/12/15</Text>
+
+            <Text style={styles_history.buttonText}>
+              今天英文考了93分，好高興
             {/* {"\n"} */}
-            晚餐吃{"\n"}了欣葉慶祝一下!!
+              晚餐吃{"\n"}了欣葉慶祝一下!!
           </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
 
         <View style={styles_history.diaryDiv}>
-        <TouchableOpacity style={styles_history.button}>
-          <Image
-            style={styles_history.Image_History}
-            source={require("../assets/images/t2.jpg")}
-          /><Text style={styles_history.Title_History}>2018/10/03</Text>
-          
-          <Text style={styles_history.buttonText}>
-            明天要考會計院小考，我要
+          <TouchableOpacity style={styles_history.button}>
+            <Image
+              style={styles_history.Image_History}
+              source={require("../assets/images/t2.jpg")}
+            /><Text style={styles_history.Title_History}>2018/12/14</Text>
+
+            <Text style={styles_history.buttonText}>
+              明天要考會計院小考，我要
             {/* {"\n"} */}
-            設鬧鐘{"\n"}起床讀書
+              設鬧鐘{"\n"}起床讀書
           </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
 
         <View style={styles_history.diaryDiv}>
-        <TouchableOpacity style={styles_history.button}>
-          <Image
-            style={styles_history.Image_History}
-            source={require("../assets/images/t3.jpg")}
-          /><Text style={styles_history.Title_History}>2018/10/02</Text>
-          
-          <Text style={styles_history.buttonText}>
-            我想守護我想珍惜的人，希望一切{"\n"}一定會更好
+          <TouchableOpacity style={styles_history.button}>
+            <Image
+              style={styles_history.Image_History}
+              source={require("../assets/images/t3.jpg")}
+            /><Text style={styles_history.Title_History}>2018/12/13</Text>
+
+            <Text style={styles_history.buttonText}>
+              我想守護我想珍惜的人，希望一切{"\n"}一定會更好
           </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
 
         <View style={styles_history.diaryDiv}>
-        <TouchableOpacity style={styles_history.button}>
-          <Image
-            style={styles_history.Image_History}
-            source={require("../assets/images/t4.jpg")}
-          /><Text style={styles_history.Title_History}>2018/10/01</Text>
-          
-          <Text style={styles_history.buttonText}>
-            今天去朋友家烤肉，吃了超多
+          <TouchableOpacity style={styles_history.button}>
+            <Image
+              style={styles_history.Image_History}
+              source={require("../assets/images/t4.jpg")}
+            /><Text style={styles_history.Title_History}>2018/12/12</Text>
+
+            <Text style={styles_history.buttonText}>
+              今天去朋友家烤肉，吃了超多
             {/* {"\n"} */}
-            雞屁{"\n"}股聽到很多八卦哈哈哈
+              雞屁{"\n"}股聽到很多八卦哈哈哈
           </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );

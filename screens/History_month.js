@@ -7,19 +7,19 @@ export default class Page extends React.Component {
   render() {
     return (
       <ScrollView style={styles_history.container}>
-      <View>
-        <TouchableOpacity style={styles_history.button}>
-          <Image
-            style={styles_history.Image_History}
-            source={require("../assets/images/t5.jpg")}
-          /><Text style={styles_history.Title_History
-          }>10月</Text>
-          <Text style={styles_history.buttonText}>
-            資韻獎快到了，我已經選好歌曲了
+        <View>
+          <TouchableOpacity style={styles_history.button}>
+            <Image
+              style={styles_history.Image_History}
+              source={require("../assets/images/t5.jpg")}
+            /><Text style={styles_history.Title_History
+            }>12月</Text>
+            <Text style={styles_history.buttonText}>
+              資韻獎快到了，我已經選好歌曲了
             {/* {"\n"} */}
-            但不知道會不{"\n"}會被淘汰@@
+              但不知道會不{"\n"}會被淘汰@@
           </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );

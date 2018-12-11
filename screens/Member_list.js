@@ -230,6 +230,7 @@ export default class Member_list extends React.Component {
                 this.changeStar(rating);
               }}
               fullStarColor={"#FFB700"}
+              starStyle={{ margin: 2 }}
             />
           </View>
           <Button
