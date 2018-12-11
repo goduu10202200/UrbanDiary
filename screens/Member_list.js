@@ -11,13 +11,15 @@ import {
 } from "react-native";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 import { Button } from "../node_modules/react-native-elements";
-import axios from "axios";
+import StarRating from 'react-native-star-rating';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import moment from "moment";
+import axios from "axios";
+
 import styles_layout from "./style/style_layout";
 import styles_member from "./style/style_member";
+
 import ServiceApiNet from "./ServiceApiNet";
-import moment from "moment";
-import { Rating, AirbnbRating } from 'react-native-ratings';
 
 export default class Member_list extends React.Component {
   static navigationOptions = {
@@ -40,6 +42,7 @@ export default class Member_list extends React.Component {
       isHidden: false,
       list: "",
       list_rating: 0,
+      star_txt: "請輸入星情指數"
     };
   }
 
@@ -151,6 +154,39 @@ export default class Member_list extends React.Component {
       });
   }
 
+  changeStar(ratings) {
+    var txt = "";
+    switch (ratings) {
+      case 1:
+        txt = "糟透了嗚嗚";
+        break;
+      case 2:
+        txt = "還有進步空間～";
+        break;
+      case 3:
+        txt = "還行啦";
+        break;
+      case 4:
+        txt = "滿不錯的";
+        break;
+      case 5:
+        txt = "感覺不賴";
+        break;
+      case 6:
+        txt = "輕輕鬆鬆";
+        break;
+      case 7:
+        txt = "完美！";
+        break;
+      default:
+        txt = "滿不錯的";
+    }
+    this.setState({
+      star_txt: txt
+    });
+
+  }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -179,16 +215,21 @@ export default class Member_list extends React.Component {
           dialogStyle={styles_member.dialog}
         >
           <View style={styles_member.dialog_div}>
-            <AirbnbRating //使用者勾選待辦事項評分
-              count={7}
-              reviews={["糟透了嗚嗚", "還有進步空間～", "還行啦", "滿不錯的", "感覺不賴", "輕輕鬆鬆", "完美！"]}
-              defaultRating={0}
-              size={31}
-              onFinishRating={(rating) => {
+            <Text style={styles_member.dialog_startxt}>{this.state.star_txt}</Text>
+          </View>
+          <View style={styles_member.dialog_div}>
+            {/* 使用者勾選待辦事項評分 */}
+            <StarRating
+              disabled={false}
+              maxStars={7}
+              rating={this.state.list_rating}
+              selectedStar={(rating) => {
                 this.setState({
                   list_rating: rating
                 });
+                this.changeStar(rating);
               }}
+              fullStarColor={"#FFB700"}
             />
           </View>
           <Button
@@ -198,6 +239,10 @@ export default class Member_list extends React.Component {
             onPress={() => {
               this.ListMoodAJAX(this.state.list, this.state.list_rating);
               this.popupDialog.dismiss();
+              this.setState({
+                list_rating: 0,
+                star_txt: "請輸入星情指數"
+              });
             }}
           />
         </PopupDialog>

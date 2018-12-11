@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
+    "@mindinventory/react-native-tab-bar-interaction": "github:mindinventory/react-native-tab-bar-interaction",
     "axios": "^0.18.0",
     "expo": "^30.0.1",
     "moment": "^2.22.2",
@@ -32,9 +33,9 @@
     "react-native-picker-select": "^5.0.0",
     "react-native-popup-dialog": "^0.15.0",
     "react-native-public-ip": "^1.0.1",
-    "react-native-ratings": "^6.0.0",
     "react-native-really-awesome-button": "^0.8.3",
     "react-native-select-multiple": "^1.2.0",
+    "react-native-star-rating": "^1.1.0",
     "react-native-tab-view": "^1.2.0",
     "react-navigation": "^2.16.0",
     "url-search-params": "^1.1.0"

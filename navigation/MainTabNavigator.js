@@ -30,7 +30,7 @@ MapDiaryStack.navigationOptions = {
   tabBarIcon: ({ focused, tintColor }) => (
     <Icons
       focused={focused}
-      name={"map-pin"
+      name={"map"
         // Platform.OS === "ios" ? `ios-pin${focused ? "" : ""}` : "md-pin"
       }
       color={tintColor}

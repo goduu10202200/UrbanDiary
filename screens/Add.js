@@ -11,8 +11,7 @@ import {
 } from "react-native";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 import axios from "axios";
-import FontIcon from "react-native-vector-icons/FontAwesome";
-import Icon from "react-native-vector-icons/Ionicons";
+import Icon from "react-native-vector-icons/Feather";
 import { Dropdown } from "react-native-material-dropdown";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { Button, ListItem, List } from "../node_modules/react-native-elements";
@@ -45,7 +44,7 @@ export default class Add extends React.Component {
             params.speechOpenClose();
           }}
         >
-          <FontIcon name={"microphone"} style={styles_layout.titleIcon} />
+          <Icon name={"mic"} style={styles_layout.titleIcon} />
         </TouchableOpacity>
       )
     };
@@ -599,7 +598,7 @@ export default class Add extends React.Component {
           <View style={styles_add.listDiv}>
             <Icon
               // name={list_type.value}
-              name={Platform.OS === "ios" ? "ios-pricetag" : "md-pricetag"}
+              name={"tag"}
               style={styles_add.listIcon}
             />
             <View style={styles_add.listDiv_data}>
@@ -618,7 +617,7 @@ export default class Add extends React.Component {
           </View>
           <View style={styles_add.listDiv}>
             <Icon
-              name={Platform.OS === "ios" ? "ios-pin" : "md-pin"}
+              name={"map-pin"}
               style={styles_add.listIcon}
             />
             <View style={styles_add.listDiv_data}>
@@ -641,7 +640,7 @@ export default class Add extends React.Component {
           </View>
           <View style={styles_add.listDiv}>
             <Icon
-              name={Platform.OS === "ios" ? "ios-calendar" : "md-calendar"}
+              name={"calendar"}
               style={styles_add.listIcon}
             />
             <TouchableOpacity onPress={this._showDatePicker}>
@@ -654,7 +653,7 @@ export default class Add extends React.Component {
           </View>
           <View style={styles_add.listDiv}>
             <Icon
-              name={Platform.OS === "ios" ? "ios-time" : "md-time"}
+              name={"clock"}
               style={styles_add.listIcon}
             />
             <TouchableOpacity onPress={this._showTimePicker}>
