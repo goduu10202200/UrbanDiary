@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Alert,
-  Animated,
+  Animated
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Camera, Permissions, ImagePicker, BlurView } from "expo";
@@ -81,7 +81,8 @@ export default class Diary extends React.Component {
         "\n" +
         "中午十二點和很久不見的高中同學聚餐，見到大家好開心，但美中不足的地方是忘記合照了ＱＱ",
       image: null,
-      imagefilename: ""
+      imagefilename: "",
+      animatedValue: new Animated.Value(0)
     };
     this.labelonPress = this.labelonPress.bind(this);
   }
@@ -110,9 +111,7 @@ export default class Diary extends React.Component {
     //     duration: 1000
     // }),
     // ]).start()
-    
   }
-
 
   /* Date */
 
@@ -137,25 +136,16 @@ export default class Diary extends React.Component {
   // This is hidden window function Start
   labelonPress() {
     //this.setState({ isHidden: !this.state.isHidden });
-    if(JSON.stringify(this.state.animatedValue)==120)
-    {
-      Animated.timing(
-        this.state.animatedValue,
-        {
-          toValue: -20,
-          duration: 1000
-        }
-      ).start();
-    }
-    else if(JSON.stringify(this.state.animatedValue)!=120)
-    {
-      Animated.timing(
-        this.state.animatedValue,
-        {
-          toValue: 120,
-          duration: 1000
-        }
-      ).start();
+    if (JSON.stringify(this.state.animatedValue) == 120) {
+      Animated.timing(this.state.animatedValue, {
+        toValue: -20,
+        duration: 1000
+      }).start();
+    } else if (JSON.stringify(this.state.animatedValue) != 120) {
+      Animated.timing(this.state.animatedValue, {
+        toValue: 120,
+        duration: 1000
+      }).start();
     }
   }
   // This is hidden window function End
@@ -385,93 +375,95 @@ export default class Diary extends React.Component {
               <View style={styles_diary.tag_box}>
                 {/* urban diary's  mood tag  Staret*/}
                 <Animated.View
-                    style={{transform: [{translateX: this.state.animatedValue}]}}
-                >
-                <TouchableHighlight
-                  onPress={() => {
-                    this.labelAJAX("love");
-                    this.popupDialog.show();
-                    this.taginput.focus();
+                  style={{
+                    transform: [{ translateX: this.state.animatedValue }]
                   }}
                 >
-                  <Image
-                    style={styles_diary.tag_img}
-                    source={require("../assets/images/tag_love.png")}
-                  />
-                </TouchableHighlight>
-                {/* urban diary's mood tag  End*/}
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.labelAJAX("love");
+                      this.popupDialog.show();
+                      this.taginput.focus();
+                    }}
+                  >
+                    <Image
+                      style={styles_diary.tag_img}
+                      source={require("../assets/images/tag_love.png")}
+                    />
+                  </TouchableHighlight>
+                  {/* urban diary's mood tag  End*/}
 
-                {/* urban diary's weather tag  Start*/}
-                <TouchableHighlight
-                  onPress={() => {
-                    this.labelAJAX("eat");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                >
-                  <Image
-                    style={styles_diary.tag_img}
-                    source={require("../assets/images/tag_eat.png")}
-                  />
-                </TouchableHighlight>
-                {/* urban diary's weather tag  End*/}
+                  {/* urban diary's weather tag  Start*/}
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.labelAJAX("eat");
+                      this.popupDialog.show();
+                      this.taginput.focus();
+                    }}
+                  >
+                    <Image
+                      style={styles_diary.tag_img}
+                      source={require("../assets/images/tag_eat.png")}
+                    />
+                  </TouchableHighlight>
+                  {/* urban diary's weather tag  End*/}
 
-                <TouchableHighlight
-                  onPress={() => {
-                    this.labelAJAX("trip");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                >
-                  <Image
-                    style={styles_diary.tag_img}
-                    source={require("../assets/images/tag_trip.png")}
-                  />
-                </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.labelAJAX("trip");
+                      this.popupDialog.show();
+                      this.taginput.focus();
+                    }}
+                  >
+                    <Image
+                      style={styles_diary.tag_img}
+                      source={require("../assets/images/tag_trip.png")}
+                    />
+                  </TouchableHighlight>
 
-                <TouchableHighlight
-                  onPress={() => {
-                    this.labelAJAX("work");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                >
-                  <Image
-                    style={styles_diary.tag_img}
-                    source={require("../assets/images/tag_work.png")}
-                  />
-                </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.labelAJAX("work");
+                      this.popupDialog.show();
+                      this.taginput.focus();
+                    }}
+                  >
+                    <Image
+                      style={styles_diary.tag_img}
+                      source={require("../assets/images/tag_work.png")}
+                    />
+                  </TouchableHighlight>
 
-                <TouchableHighlight
-                  onPress={() => {
-                    this.labelAJAX("schoolwork");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                >
-                  <Image
-                    style={styles_diary.tag_img}
-                    source={require("../assets/images/tag_homework.png")}
-                  />
-                </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.labelAJAX("schoolwork");
+                      this.popupDialog.show();
+                      this.taginput.focus();
+                    }}
+                  >
+                    <Image
+                      style={styles_diary.tag_img}
+                      source={require("../assets/images/tag_homework.png")}
+                    />
+                  </TouchableHighlight>
 
-                <TouchableHighlight
-                  onPress={() => {
-                    this.labelAJAX("life");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                >
-                  <Image
-                    style={styles_diary.tag_img}
-                    source={require("../assets/images/tag_life.png")}
-                  />
-                </TouchableHighlight>
+                  <TouchableHighlight
+                    onPress={() => {
+                      this.labelAJAX("life");
+                      this.popupDialog.show();
+                      this.taginput.focus();
+                    }}
+                  >
+                    <Image
+                      style={styles_diary.tag_img}
+                      source={require("../assets/images/tag_life.png")}
+                    />
+                  </TouchableHighlight>
                 </Animated.View>
               </View>
             </View>
           ) : null}
-          
+
           <ActionButton
             renderIcon={active =>
               active ? (
@@ -492,13 +484,12 @@ export default class Diary extends React.Component {
             hideShadow={true}
             offsetX={15}
             offsetY={20}
-            onPress={ () =>{
+            onPress={() => {
               this.labelonPress();
               //alert(JSON.stringify(this.state.animatedValue))
               // setTimeout(() => {
               //   alert(JSON.stringify(this.state.animatedValue))
               // }, 1500)
-              
             }}
           >
             <Icon_Ionicons />
