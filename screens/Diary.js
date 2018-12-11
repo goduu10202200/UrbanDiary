@@ -73,7 +73,9 @@ export default class Diary extends React.Component {
       taginput: "",
       isHidden: false,
       diaryContent:
-        "今天早上九點去大安區圖書館，準備開會報告，希望可以順利～ 中午十二去吃要排隊超久的一蘭拉麵，和好久不見的大學同學會聚餐，真開心吃完拉麵後，和小睿一起去台北地下街逛逛，還買了初音未來的模型哦！",
+        "今天一大早十點去教學大樓和通識課組員們準備期末開會報告，過程很順利～" +
+        "\n" +
+        "中午十二點和很久不見的高中同學聚餐，見到大家好開心，但美中不足的地方是忘記合照了ＱＱ",
       image: null,
       imagefilename: ""
     };
