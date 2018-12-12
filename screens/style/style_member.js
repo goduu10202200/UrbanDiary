@@ -9,7 +9,7 @@ var styles_member = {
   },
   container_bottom: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.05)",
+    backgroundColor: "rgba(0,0,0,0.2)",
   },
   userDiv: {
     width: '100%',

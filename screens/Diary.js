@@ -354,7 +354,8 @@ export default class Diary extends React.Component {
               onPress={() => {
                 this.connection_inputtext(this.state.taginput);
                 this.popupDialog.dismiss();
-                this.setState({ isHidden: !this.state.isHidden });
+                //this.setState({ isHidden: !this.state.isHidden });
+                this.labelonPress();
               }}
             />
           </PopupDialog>
