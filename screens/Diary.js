@@ -286,7 +286,8 @@ export default class Diary extends React.Component {
         contentContainerStyle={styles_diary.container}
         scrollEnabled={false}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}
+        >
           <View style={styles_diary.header}>
             <Text style={styles_diary.header_txt}>
               {this.ShowCurrentDate()}
@@ -361,24 +362,24 @@ export default class Diary extends React.Component {
           </PopupDialog>
           {/* Click urban diary's tag => diaplay window */}
 
-          {this.state.isHidden ? (
-            <View style={styles_diary.tag_div}>
-              <TouchableOpacity
+          {/* {this.state.isHidden ? ( */}
+            {/* <View style={styles_diary.tag_div}> */}
+              {/* <TouchableOpacity
                 style={{
                   width: "55%",
                   height: "100%",
                   position: "absolute",
                   top: 0,
-                  right: 0
+                  right: 0,
                 }}
                 //onPress={this.labelonPress}
-              />
-              <View style={styles_diary.tag_box}>
+              /> */}
+              {/* <View style={styles_diary.tag_box}> */}
                 {/* urban diary's  mood tag  Staret*/}
                 <Animated.View
-                  style={{
+                  style={[styles_diary.tag_box,{
                     transform: [{ translateX: this.state.animatedValue }]
-                  }}
+                  }]}
                 >
                   <TouchableHighlight
                     onPress={() => {
@@ -461,9 +462,9 @@ export default class Diary extends React.Component {
                     />
                   </TouchableHighlight>
                 </Animated.View>
-              </View>
-            </View>
-          ) : null}
+              {/* </View> */}
+            {/* </View> */}
+          {/* ) : null} */}
 
           <ActionButton
             renderIcon={active =>
@@ -474,13 +475,13 @@ export default class Diary extends React.Component {
                 />
               ) : (
                 <Icon_Ionicons
-                  name="md-pricetag"
+                  name="md-pricetags"
                   style={styles_diary.actionButtonIcon}
                 />
               )
             }
             position="right"
-            buttonColor="rgba(142, 142, 142, 0.5)"
+            buttonColor="#3b5998"
             btnOutRange="#3b5998"
             hideShadow={true}
             offsetX={15}

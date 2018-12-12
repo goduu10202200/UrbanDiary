@@ -65,7 +65,7 @@ var styles_diary = {
   },
 
   tag_div: {
-    width: "100%",
+    width: 120,
     height: "100%",
     position: "absolute",
     top: 0,
