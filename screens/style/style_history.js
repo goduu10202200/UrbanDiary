@@ -4,7 +4,7 @@ var styles_history = {
     flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.05)",
+    backgroundColor: "rgba(0,0,0,0.2)",
   },
   button: {
     margin: "2.5%",
