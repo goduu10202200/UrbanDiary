@@ -154,7 +154,7 @@ var mapStyle = [
     elementType: "geometry.fill",
     stylers: [
       {
-        color: "#ffffff"
+        color: "#99B7C8"
       }
     ]
   },

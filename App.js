@@ -39,17 +39,20 @@ export default class App extends React.Component {
         require("./assets/images/tag_homework.png"),
         require("./assets/images/tag_eat.png"),
         require("./assets/images/tag_life.png"),
+        require("./assets/images/tag_trip.png"),
+        require("./assets/images/tag_work.png"),
         require("./assets/images/t1.jpg"),
         require("./assets/images/t2.jpg"),
         require("./assets/images/t3.jpg"),
         require("./assets/images/t4.jpg"),
         require("./assets/images/t5.jpg"),
         require("./assets/images/t6.jpg"),
-        require("./assets/images/t7.jpg")
+        require("./assets/images/t7.jpg"),
+        require("./assets/images/enter1.png")
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
-        ...Icon.Ionicons.font,
+        ...Icon.Feather.font,
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
         "space-mono": require("./assets/fonts/SpaceMono-Regular.ttf")

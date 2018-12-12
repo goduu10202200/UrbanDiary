@@ -42,7 +42,7 @@ export default class Login extends React.Component {
         password: password
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         if (response.data == "successfully") {
           this.login();
         } else if (response.data == "0 results") {
@@ -50,7 +50,7 @@ export default class Login extends React.Component {
         }
         //console.log(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -122,12 +122,12 @@ export default class Login extends React.Component {
             >
               ──────────── 或 ────────────
             </Text>
-            // Icon
+            {/* // Icon */}
             <View
               style={{
                 alignItems: "center",
                 justifyContent: "center",
-                marginTop: 25
+                marginTop: 15
               }}
             >
               <SocialIcon
