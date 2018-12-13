@@ -38,7 +38,7 @@ var styles_diary = {
   diary_input: {
     fontSize: 18,
     width: "100%",
-    height: "45%",
+    height: "50%",
     backgroundColor: "#fff",
     padding: 10,
     lineHeight: 30
@@ -82,7 +82,7 @@ var styles_diary = {
     // paddingLeft: "10%",
     paddingTop: "65%",
     zIndex: 100,
-    flex: 1, 
+    flex: 1,
     marginLeft: -120,
   },
   tag: {
