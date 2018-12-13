@@ -382,6 +382,7 @@ export default class Diary extends React.Component {
                   }]}
                 >
                   <TouchableHighlight
+                    underlayColor="transparent"
                     onPress={() => {
                       this.labelAJAX("love");
                       this.popupDialog.show();
@@ -397,6 +398,7 @@ export default class Diary extends React.Component {
 
                   {/* urban diary's weather tag  Start*/}
                   <TouchableHighlight
+                    underlayColor="transparent"
                     onPress={() => {
                       this.labelAJAX("eat");
                       this.popupDialog.show();
@@ -411,6 +413,7 @@ export default class Diary extends React.Component {
                   {/* urban diary's weather tag  End*/}
 
                   <TouchableHighlight
+                    underlayColor="transparent"
                     onPress={() => {
                       this.labelAJAX("trip");
                       this.popupDialog.show();
@@ -424,6 +427,7 @@ export default class Diary extends React.Component {
                   </TouchableHighlight>
 
                   <TouchableHighlight
+                    underlayColor="transparent"
                     onPress={() => {
                       this.labelAJAX("work");
                       this.popupDialog.show();
@@ -437,6 +441,7 @@ export default class Diary extends React.Component {
                   </TouchableHighlight>
 
                   <TouchableHighlight
+                    underlayColor="transparent"
                     onPress={() => {
                       this.labelAJAX("schoolwork");
                       this.popupDialog.show();
@@ -450,6 +455,7 @@ export default class Diary extends React.Component {
                   </TouchableHighlight>
 
                   <TouchableHighlight
+                    underlayColor="transparent"
                     onPress={() => {
                       this.labelAJAX("life");
                       this.popupDialog.show();
