@@ -297,6 +297,12 @@ export default class Member_list extends React.Component {
                   <Text style={styles_member.itemDiv_item}>
                     {rowData.title}
                   </Text>
+                  {rowData.title === "吃嘿．傑克" ? (
+                    <Image
+                      style={styles_member.itemDiv_discount}
+                      source={require("../assets/images/discount.png")}
+                    />
+                  ) : null}
                 </View>
                 <View style={styles_member.itemDiv_bottom}>
                   <Text style={styles_member.itemDiv_time}>{rowData.time}</Text>

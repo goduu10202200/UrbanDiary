@@ -85,6 +85,14 @@ var styles_member = {
     fontSize: 30,
     alignSelf: 'center',
   },
+  itemDiv_discount: {
+    width: 50,
+    height: 50,
+    // fontSize: 30,
+    position: "absolute",
+    bottom: 0,
+    right: 0
+  },
   itemDiv_item: {
     width: "70%",
     fontSize: 18,
