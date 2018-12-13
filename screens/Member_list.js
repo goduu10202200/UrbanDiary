@@ -297,7 +297,7 @@ export default class Member_list extends React.Component {
                   <Text style={styles_member.itemDiv_item}>
                     {rowData.title}
                   </Text>
-                  {rowData.title === "吃嘿．傑克" ? (
+                  {rowData.title === "吃嘿．傑克拉麵" ? (
                     <Image
                       style={styles_member.itemDiv_discount}
                       source={require("../assets/images/discount.png")}
