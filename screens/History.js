@@ -1,7 +1,16 @@
 import React from "react";
-import { StyleSheet, View, Dimensions, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  Image,
+  Text,
+  RefreshControl,
+  ActivityIndicator
+} from "react-native";
 import { TabView, TabBar } from "react-native-tab-view"; // 0.0.67
-
+import Timeline from "react-native-timeline-listview";
+import ServiceApiNet from "./ServiceApiNet";
 // 分頁內容
 import Year from "./History_year";
 import Month from "./History_month";
@@ -30,6 +39,110 @@ export default class History extends React.Component {
     ]
   };
 
+  constructor() {
+    super();
+    this.onEventPress = this.onEventPress.bind(this);
+    this.renderSelected = this.renderSelected.bind(this);
+
+    this.data = [
+      {
+        time: "2018",
+        description: "10月"
+      },
+      {
+        time: "10/21",
+        title: "吃大餐 ヽ(●´∀`●)ﾉ",
+        description: "今天英文考了93分太爽了哈哈哈，晚餐吃大餐",
+        lineColor: "#009688",
+        imageUrl: ServiceApiNet.getimgURL() + "t1.jpg"
+      },
+      {
+        time: "2018",
+        description: "11月"
+      },
+      {
+        time: "11/11",
+        title: "熬夜讀書 (°ཀ°)",
+        description: "明天要考會計院小考，今天要熬夜讀書",
+        lineColor: "#009688",
+        imageUrl: ServiceApiNet.getimgURL() + "t2.jpg"
+      },
+      {
+        time: "2018",
+        description: "12月"
+      },
+      {
+        time: "12/31",
+        title: "My friends (●´ω｀●)ゞ",
+        description: "我想守護我想珍惜的人，希望一切一定會更好",
+        lineColor: "#009688",
+        imageUrl: ServiceApiNet.getimgURL() + "t3.jpg"
+      },
+      {
+        time: "2019",
+        description: "01月"
+      },
+      {
+        time: "01/05",
+        title: "吃肉肉，茂哥胖嘟嘟",
+        description: "今天去朋友家烤肉，吃了好多雞屁股聽到好多八卦哈哈哈哈哈哈",
+        lineColor: "#009688",
+        imageUrl: ServiceApiNet.getimgURL() + "t4.jpg"
+      },
+      {
+        time: "2019",
+        description: "02月"
+      },
+      {
+        time: "02/05",
+        title: "Archery Training",
+        description:
+          "The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ",
+        lineColor: "#009688",
+        imageUrl:
+          "https://cloud.githubusercontent.com/assets/21040043/24240340/c0f96b3a-0fe3-11e7-8964-fe66e4d9be7a.jpg"
+      },
+      {
+        time: "02/28",
+        title: "Archery Training",
+        description:
+          "The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ",
+        lineColor: "#009688",
+        imageUrl:
+          "https://cloud.githubusercontent.com/assets/21040043/24240340/c0f96b3a-0fe3-11e7-8964-fe66e4d9be7a.jpg"
+      },
+      {
+        time: "2019",
+        description: "03月"
+      },
+      {
+        time: "03/09",
+        title: "Archery Training",
+        description:
+          "The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ",
+        lineColor: "#009688",
+        imageUrl:
+          "https://cloud.githubusercontent.com/assets/21040043/24240340/c0f96b3a-0fe3-11e7-8964-fe66e4d9be7a.jpg"
+      }
+    ];
+    this.state = {
+      selected: null
+    };
+  }
+  onEventPress(data) {
+    this.setState({ selected: data });
+  }
+
+  renderSelected() {
+    if (this.state.selected)
+      return (
+        <Text style={{ marginTop: 10 }}>
+          Selected event: {this.state.selected.title} at{" "}
+          {this.state.selected.time}
+        </Text>
+      );
+  }
+
   jumpPage = page => {
     this.props.navigation.navigate(page);
   };
@@ -54,27 +167,182 @@ export default class History extends React.Component {
     }
   };
 
+  renderDetail(rowData, sectionID, rowID) {
+    let title = <Text style={[styles.title]}>{rowData.title}</Text>;
+    var desc = null;
+    var desc_month = (
+      <View>
+        <Text style={{ color: "#e8e8e8" }}>
+          {rowData.description + " ──────────────"}
+        </Text>
+      </View>
+    );
+    switch (rowData.description) {
+      case "01月":
+        desc = desc_month;
+        break;
+      case "02月":
+        desc = desc_month;
+        break;
+      case "03月":
+        desc = desc_month;
+        break;
+      case "04月":
+        desc = desc_month;
+        break;
+      case "05月":
+        desc = desc_month;
+        break;
+      case "06月":
+        desc = desc_month;
+        break;
+      case "07月":
+        desc = desc_month;
+        break;
+      case "08月":
+        desc = desc_month;
+        break;
+      case "09月":
+        desc = desc_month;
+        break;
+      case "10月":
+        desc = desc_month;
+        break;
+      case "11月":
+        desc = desc_month;
+        break;
+      case "12月":
+        desc = desc_month;
+        break;
+      default:
+        desc = (
+          <View
+            style={{
+              marginBottom: 20,
+              marginTop: 20,
+              padding: 10,
+              backgroundColor: "#ffffff",
+              borderColor: "#c4c4c4",
+              borderWidth: 1,
+              borderRadius: 10
+            }}
+          >
+            <Image source={{ uri: rowData.imageUrl }} style={styles.image} />
+            <Text style={[styles.textDescription]}>{rowData.description}</Text>
+          </View>
+        );
+    }
+
+    return (
+      <View style={{ flex: 1 }}>
+        {title}
+        {desc}
+      </View>
+    );
+  }
+  renderTime(rowData, sectionID, rowID) {
+    var time = null;
+    switch (rowData.time) {
+      case "2018":
+        time = (
+          <View
+            style={{
+              width: 60,
+              borderWidth: 1,
+              borderColor: "#f2efef",
+              borderRadius: 200,
+              backgroundColor: "#f2efef",
+              padding: 7
+            }}
+          >
+            <Text style={{ textAlign: "center", color: "#bfbfbf" }}>
+              {rowData.time}
+            </Text>
+          </View>
+        );
+        break;
+      case "2019":
+        time = (
+          <View
+            style={{
+              width: 60,
+              borderWidth: 1,
+              borderColor: "#f2efef",
+              borderRadius: 200,
+              backgroundColor: "#f2efef",
+              padding: 7
+            }}
+          >
+            <Text style={{ textAlign: "center", color: "#bfbfbf" }}>
+              {rowData.time}
+            </Text>
+          </View>
+        );
+        break;
+      default:
+        time = (
+          <View
+            style={{
+              width: 60,
+              borderWidth: 1,
+              borderColor: "#000000",
+              borderRadius: 200,
+              backgroundColor: "#ffffff",
+              padding: 7
+            }}
+          >
+            <Text style={{ textAlign: "center", color: "black" }}>
+              {rowData.time}
+            </Text>
+          </View>
+        );
+    }
+
+    return <View>{time}</View>;
+  }
   render() {
     return (
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
-          <TabView
+          {this.renderSelected()}
+          <Timeline
+            style={styles.list}
+            data={this.data}
+            circleSize={20}
+            circleColor="rgb(45,156,219)"
+            lineColor="rgb(45,156,219)"
+            timeContainerStyle={{
+              minWidth: 52,
+              marginTop: -5
+            }}
+            descriptionStyle={{ color: "gray" }}
+            options={{
+              style: { paddingTop: 5 }
+            }}
+            innerCircle={"icon"}
+            onEventPress={this.onEventPress}
+            separator={false}
+            innerCircle={"dot"}
+            renderDetail={this.renderDetail}
+            renderTime={this.renderTime}
+          />
+          {/* <TabView
             navigationState={this.state}
             renderScene={this._renderScene}
             renderHeader={this._renderHeader}
             onIndexChange={this._handleIndexChange}
             initialLayout={initialLayout}
-            renderTabBar={(props) =>
+            renderTabBar={props => (
               <TabBar
                 {...props}
                 //indicatorStyle={{ backgroundColor: 'white' }}
-                labelStyle={{ color: "#777", fontSize: 15, marginTop: 10}}
-                style={{backgroundColor: "white", height: 50,}}
+                labelStyle={{ color: "#777", fontSize: 15, marginTop: 10 }}
+                style={{ backgroundColor: "white", height: 50 }}
                 renderIcon={this.renderIcon}
-                indicatorStyle={{backgroundColor: "#777", height: 1}}
+                indicatorStyle={{ backgroundColor: "#777", height: 1 }}
               />
-            }
-          />
+            )}
+          /> */}
         </View>
       </View>
     );
@@ -83,5 +351,34 @@ export default class History extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
+    paddingTop: 25,
+    backgroundColor: "white"
+  },
+  list: {
+    flex: 1,
+    marginTop: 20
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  descriptionContainer: {
+    flexDirection: "row",
+    paddingRight: 50
+  },
+  month: {
+    backgroundColor: "white",
+    color: "gray"
+  },
+  image: {
+    width: 70,
+    height: 70,
+    borderRadius: 35
+  },
+  textDescription: {
+    marginTop: 10,
+    marginLeft: 10,
+    color: "gray"
   }
 });
