@@ -40,6 +40,7 @@ export default class Add extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      list: {},
       items: {},
       list_rating: 0,
       star_txt: "請輸入星情指數"
@@ -184,21 +185,6 @@ export default class Add extends Component {
     );
   }
 
-  showlist(list) {
-    //跑資料庫待辦事項筆數並且將對應日期放入陣列中
-    for (let j = 0; j < this.state.list.length; j++) {
-      const listdate = this.state.list[j]["date"];
-      this.state.items[listdate].push({
-        date: this.state.list[j]['date'],
-        title: this.state.list[j]["title"],
-        time: this.state.list[j]['time'],
-        location: this.state.list[j]['location'],
-        status: this.state.list[j]['status'],
-        created_at: this.state.list[j]['created_at'],
-      });
-    }
-
-  }
   // 讀取資料庫資料
   loadItems(day) {
     // alert("1")
@@ -278,10 +264,19 @@ export default class Add extends Component {
     );
   }
 
-  // 我不知道
+  //沒有待辦事項的時候
   renderEmptyDate() {
     return (
-      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+      <View style={styles.emptyDate}>
+        <View
+          style={{
+            width: "95%",
+            height: 10,
+            borderBottomColor: '#ddd',
+            borderBottomWidth: 1,
+          }}
+        />
+      </View>
     );
   }
 
