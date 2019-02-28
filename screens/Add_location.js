@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ScrollView, Image, Text, TouchableOpacity } from "react-native";
+import { HeaderBackButton } from "react-navigation";
 import { View } from "../node_modules/react-native-animatable";
 import { Button } from "../node_modules/react-native-elements";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -12,6 +13,9 @@ export default class Add_location extends React.Component {
     const { params = {} } = navigation.state;
     return {
       title: "地點",
+      headerLeft: (
+        <HeaderBackButton onPress={() => navigation.goBack(null)} />
+      ),
       headerRight: (
         <TouchableOpacity
           onPress={() => {

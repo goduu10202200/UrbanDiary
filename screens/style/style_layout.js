@@ -18,6 +18,14 @@ var styles_layout = {
     color: "#fff",
     letterSpacing: 1,
   },
+  titleTxt_black: {
+    width: "90%",
+    fontSize: 18,
+    textAlign: 'center',
+    alignSelf: 'center',
+    color: "#000",
+    letterSpacing: 1,
+  },
   titleLogo: {
     width: '50%',
     height: '60%',
@@ -46,6 +54,12 @@ var styles_layout = {
     fontSize: 20,
     marginRight: 15,
     color: "#fff",
+    alignSelf: "center",
+  },
+  titleIcon_gray: {
+    fontSize: 20,
+    marginRight: 15,
+    color: "#888",
     alignSelf: "center",
   },
   pagetitle: {

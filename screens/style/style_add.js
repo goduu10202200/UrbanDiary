@@ -178,7 +178,6 @@ var styles_add = {
     borderRadius: 5,
   },
 
-
   //Add_location
   locationInput: {
     flex: 1,
@@ -186,6 +185,45 @@ var styles_add = {
     justifyContent: 'flex-end',
   },
 
+  //dialog_star
+  dialog: {
+    width: "85%",
+    height: "70%",
+    backgroundColor: 'rgb(255, 255, 255)',
+    //opacity: 0.3,
+    position: 'absolute',
+    top: "6%",
+  },
+  dialog_div: {
+    marginTop: "5%",
+    flexDirection: "row",
+    width: "80%",
+    alignSelf: "center",
+    justifyContent: 'center',
+  },
+  dialog_startxt: {
+    fontSize: 20,
+    fontWeight: "bold",
+    letterSpacing: 2,
+    color: "#FFB700",
+    alignSelf: "center",
+  },
+  dialog_txt: {
+    fontSize: 20,
+    marginRight: 10,
+    alignSelf: "center",
+    //fontWeight: 'bold',
+  },
+  dialog_btn: {
+    backgroundColor: "#5b9bd5",
+    width: "100%",
+    height: 50,
+    borderColor: "transparent",
+    borderWidth: 0,
+    borderRadius: 5,
+    marginTop: 30,
+    alignSelf: 'flex-end',
+  },
 
 };
 

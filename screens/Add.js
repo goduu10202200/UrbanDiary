@@ -4,701 +4,338 @@ import {
   ScrollView,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
-  Platform,
-  Alert
 } from "react-native";
-import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 import axios from "axios";
 import Icon from "react-native-vector-icons/Feather";
-import { Dropdown } from "react-native-material-dropdown";
-import DateTimePicker from "react-native-modal-datetime-picker";
-import { Button, ListItem, List } from "../node_modules/react-native-elements";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
+import StarRating from 'react-native-star-rating';
+import { Button, ListItem, List } from "react-native-elements";
 import ServiceApiNet from "./ServiceApiNet";
 // Import file
 import styles_layout from "./style/style_layout";
 import styles_add from "./style/style_add";
 import moment from "moment";
+import { Agenda } from 'react-native-calendars';
 
-export default class Add extends React.Component {
-  //地點回傳資料
-  returnData(location, latitude, longitude) {
-    var self = this;
-    self.setState({
-      location: location,
-      latitude: latitude,
-      longitude: longitude
-    });
-  }
+export default class Add extends Component {
+
   static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
     return {
-      title: "新增待辦事項",
+      title: "行事曆",
       headerStyle: styles_layout.titleDiv,
       headerTitleStyle: styles_layout.titleTxt,
       headerRight: (
         <TouchableOpacity
           onPress={() => {
-            params.speechOpenClose();
+            navigation.navigate("Add_new")
           }}
         >
-          <Icon name={"mic"} style={styles_layout.titleIcon} />
+          <Icon name={"plus"} style={styles_layout.titleIcon} />
         </TouchableOpacity>
       )
     };
   };
 
-  //設定全域變數開啟speechDialog
-  componentDidMount() {
-    this.props.navigation.setParams({ speechOpenClose: this._speechOpenClose });
-  }
-  _speechOpenClose = () => {
-    this.speechDialog.show();
-  };
-
   constructor(props) {
     super(props);
-
     this.state = {
-      title: "",
-      type: " ",
-      location: "",
-      latitude: "",
-      longitude: "",
-      isDatePickerVisible: false,
-      isTimePickerVisible: false,
-      listDate: moment(new Date()).format("YYYY-MM-DD"),
-      listTime: moment(new Date()).format("HH:mm"),
-      id: "",
-      name: "",
-      isHidden: false,
-
-      //speech_Dialog data
-      speechInput_type: "",
-      speechInput_title: "",
-      speechInput_date: moment(new Date()).format("YYYY-MM-DD"),
-      speechInput_time: moment(new Date()).format("HH:mm"),
-      speechInput_location: "",
-      speechInput_latitude: "",
-      speechInput_longitude: "",
-      speech_type: true,
-      speech_title: false,
-      speech_date: false,
-      speech_time: false,
-      speech_location: false
-
-      // speech_hidden: false,
+      items: {},
+      list_rating: 0,
+      star_txt: "請輸入星情指數"
     };
   }
 
-  _showDatePicker = () =>
-    this.setState({
-      isDatePickerVisible: true
-    });
-  _showTimePicker = () =>
-    this.setState({
-      isTimePickerVisible: true
-    });
-  _hideDateTimePicker = () =>
-    this.setState({
-      isDatePickerVisible: false,
-      isTimePickerVisible: false
-    });
-
-  _handleDatePicked = date => {
-    var strDate = moment(date).format("YYYY-MM-DD");
-    this.setState({
-      listDate: strDate,
-      speechInput_date: strDate
-    });
-    this._hideDateTimePicker();
-  };
-  _handleTimePicked = date => {
-    var strTime = moment(date).format("HH:mm");
-    this.setState({
-      listTime: strTime,
-      speechInput_time: strTime
-    });
-    this._hideDateTimePicker();
-  };
-
-  speech_transform = () => {
+  // 修改資料庫勾選狀態
+  ListCheckAJAX(created_at, status) {
     var self = this;
-    var date = self.state.speechInput_date.toString();
-    var time = self.state.speechInput_time.toString();
-
-    if (date !== "") {
-      date = date.replace("年", "-");
-      date = date.replace("月", "-");
-      date = date.replace("日", "");
-      date = date.replace("號", "");
+    if (status == 0) {
+      status = 1;
+    } else {
+      status = 0;
+      self.ListMoodAJAX(created_at, 0);
     }
-
-    if (time !== "") {
-      time = time.replace("點", ":");
-      time = time.replace("分", "");
-    }
-
-    this.setState(
-      {
-        speechInput_date: date,
-        speechInput_time: time
-      },
-      function () {
-        this.InsertDataToServer_speech();
-      }
-    );
-  };
-
-  InsertDataToServer = () => {
-    var self = this;
-    var title = this.state.title;
-    var type = this.state.type;
-    var location = this.state.location;
-    var latitude = this.state.latitude;
-    var longitude = this.state.longitude;
-    var date = this.state.listDate;
-    var time = this.state.listTime;
-
     axios({
-      url: ServiceApiNet.getURL() + "mongo_scheduled.php",
+      url: ServiceApiNet.getURL() + "mongo_checklist.php",
       method: "post",
       data: {
-        title: title,
-        type: type,
-        location: location,
-        latitude: latitude,
-        longitude: longitude,
-        date: date,
-        time: time
+        created_at: created_at,
+        status: status
       }
     })
       .then(function (response) {
-        self.setState({
-          title: "",
-          location: "",
-          latitude: "",
-          longitude: "",
-          listDate: moment(new Date()).format("YYYY-MM-DD"),
-          listTime: moment(new Date()).format("HH:mm")
-        });
-        Alert.alert("新增成功", "", [
-          {
-            text: "OK",
-            onPress: () => self.props.navigation.navigate("Member")
-          }
-        ]);
+        self.loadItemsForMonth(self.loadItems.bind(self))
+
+        self.renderItem(self)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  // 修改資料庫待辦事項完成情緒狀態
+  ListMoodAJAX(created_at, mood) {
+    var self = this;
+    axios({
+      url: ServiceApiNet.getURL() + "mongo_listmood.php",
+      method: "post",
+      data: {
+        created_at: created_at,
+        mood: mood
+      }
+    })
+      .then(function (response) {
         // console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-  };
+  }
 
-  InsertDataToServer_speech = () => {
-    var self = this;
-    var title = this.state.speechInput_title;
-    var type = this.state.speechInput_type;
-    var location = this.state.speechInput_location;
-    var latitude = this.state.speechInput_latitude;
-    var longitude = this.state.speechInput_longitude;
+  changeStar(ratings) {
+    var txt = "";
+    switch (ratings) {
+      case 1:
+        txt = "糟透了嗚嗚";
+        break;
+      case 2:
+        txt = "還有進步空間～";
+        break;
+      case 3:
+        txt = "還行啦";
+        break;
+      case 4:
+        txt = "滿不錯的";
+        break;
+      case 5:
+        txt = "感覺不賴";
+        break;
+      case 6:
+        txt = "輕輕鬆鬆";
+        break;
+      case 7:
+        txt = "完美！";
+        break;
+      default:
+        txt = "滿不錯的";
+    }
+    this.setState({
+      star_txt: txt
+    });
 
-    var date = this.state.speechInput_date;
-    var time = this.state.speechInput_time;
-
-    axios({
-      url: ServiceApiNet.getURL() + "mongo_scheduled.php",
-      method: "post",
-      data: {
-        title: title,
-        type: type,
-        location: location,
-        latitude: latitude,
-        longitude: longitude,
-        date: date,
-        time: time
-      }
-    })
-      .then(function (response) {
-        self.setState({
-          speechInput_type: "",
-          speechInput_title: "",
-          speechInput_location: "",
-          speechInput_latitude: "",
-          speechInput_longitude: "",
-          speechInput_date: moment(new Date()).format("YYYY-MM-DD"),
-          speechInput_time: moment(new Date()).format("HH:mm")
-        });
-        Alert.alert("新增成功", "", [
-          {
-            text: "OK",
-            onPress: () => self.props.navigation.navigate("Member")
-          }
-        ]);
-        //console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
+  }
 
   render() {
-    let list_type = [
-      {
-        label: "感情",
-        tag: "heart",
-        value: "love"
-      },
-      {
-        label: "食記",
-        tag: "pizza",
-        value: "eat"
-      },
-      {
-        label: "旅遊",
-        tag: "bicycle",
-        value: "trip"
-      },
-      {
-        label: "工作",
-        tag: "hammer",
-        value: "work"
-      },
-      {
-        label: "學業",
-        tag: "brush",
-        value: "schoolwork"
-      },
-      {
-        label: "生活",
-        tag: "life",
-        value: "life"
-      }
-    ];
-
     return (
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1 }}
-        keyboardShouldPersistTaps="handled"
+      <View
         style={styles_add.container}
       >
-        {/* 語音輸入  */}
+        <Agenda
+          items={this.state.items}
+          loadItemsForMonth={this.loadItems.bind(this)}
+          selected={moment(new Date()).format("YYYY-MM-DD")}
+          renderItem={this.renderItem.bind(this)}
+          renderEmptyDate={this.renderEmptyDate.bind(this)}
+          rowHasChanged={this.rowHasChanged.bind(this)}
+        />
+
+
         <PopupDialog
           ref={popupDialog => {
-            this.speechDialog = popupDialog;
+            this.popupDialog = popupDialog;
           }}
-          dialogTitle={<DialogTitle title="語音輸入" />}
+          dialogTitle={<DialogTitle title="星情指數" />}
           dialogStyle={styles_add.dialog}
         >
-          {this.state.speech_type && (
-            <View style={styles_add.dialog_content}>
-              <Text style={styles_add.dialog_txt}>請選擇類型</Text>
-              <Dropdown
-                label=""
-                labelFontSize={0}
-                dropdownOffset={{ top: 20, left: 0 }}
-                inputContainerStyle={{ borderBottomColor: "transparent" }}
-                itemCount={list_type.length}
-                data={list_type}
-                onChangeText={data => this.setState({ speechInput_type: data })}
-                fontSize={16}
-                value={"請選擇"}
-                containerStyle={styles_add.dialog_dropCon}
-              // overlayStyle={styles_add.dialog_dropOver}
-              />
-              <View style={styles_add.dialog_btnDiv}>
-                <Button
-                  title="下一步"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnNext}
-                  onPress={() => {
-                    this.setState({
-                      speech_type: false,
-                      speech_title: true
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          )}
-
-          {this.state.speech_title && (
-            <View style={styles_add.dialog_content}>
-              <Text style={styles_add.dialog_txt}>請輸入待辦事項</Text>
-              <TextInput
-                style={styles_add.dialog_input}
-                placeholder="待辦事項"
-                placeholderTextColor="#a3a6a7"
-                ref={el => {
-                  this.speechInput_title = el;
-                }}
-                onChangeText={speechInput_title =>
-                  this.setState({ speechInput_title })
-                }
-                value={this.state.speechInput_title}
-                autoFocus={true}
-              // multiline={true}
-              />
-              <View style={styles_add.dialog_btnDiv}>
-                <Button
-                  title="上一步"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnPre}
-                  onPress={() => {
-                    this.setState({
-                      speech_title: false,
-                      speech_type: true
-                    });
-                  }}
-                />
-                <Button
-                  title="下一步"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnNext}
-                  onPress={() => {
-                    this.setState({
-                      speech_title: false,
-                      speech_date: true
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          )}
-
-          {this.state.speech_date && (
-            <View style={styles_add.dialog_content}>
-              <Text style={styles_add.dialog_txt}>請輸入日期</Text>
-              {/* <TextInput
-                style={styles_add.dialog_input}
-                placeholder="日期"
-                placeholderTextColor="#a3a6a7"
-                ref={el => {
-                  this.speechInput_date = el;
-                }}
-                onChangeText={speechInput_date => this.setState({ speechInput_date })}
-                value={this.state.speechInput_date}
-              // multiline={true}
-              /> */}
-              <TouchableOpacity onPress={this._showDatePicker}>
-                <View style={styles_add.dialog_data}>
-                  <Text style={styles_add.dialog_dataTxt}>
-                    {this.state.speechInput_date}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <View style={styles_add.dialog_btnDiv}>
-                <Button
-                  title="上一步"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnPre}
-                  onPress={() => {
-                    this.setState({
-                      speech_date: false,
-                      speech_title: true
-                    });
-                  }}
-                />
-                <Button
-                  title="下一步"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnNext}
-                  onPress={() => {
-                    this.setState({
-                      speech_date: false,
-                      speech_time: true
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          )}
-
-          {this.state.speech_time && (
-            <View style={styles_add.dialog_content}>
-              <Text style={styles_add.dialog_txt}>請輸入時間</Text>
-              {/* <TextInput
-                style={styles_add.dialog_input}
-                placeholder="時間"
-                placeholderTextColor="#a3a6a7"
-                ref={el => {
-                  this.speechInput_time = el;
-                }}
-                onChangeText={speechInput_time => this.setState({ speechInput_time })}
-                value={this.state.speechInput_time}
-              // multiline={true}
-            /> */}
-              <TouchableOpacity onPress={this._showTimePicker}>
-                <View style={styles_add.dialog_data}>
-                  <Text style={styles_add.dialog_dataTxt}>
-                    {this.state.speechInput_time}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <View style={styles_add.dialog_btnDiv}>
-                <Button
-                  title="上一步"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnPre}
-                  onPress={() => {
-                    this.setState({
-                      speech_time: false,
-                      speech_date: true
-                    });
-                  }}
-                />
-                <Button
-                  title="下一步"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnNext}
-                  onPress={() => {
-                    this.setState({
-                      speech_time: false,
-                      speech_location: true
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          )}
-
-          {this.state.speech_location && (
-            <View style={styles_add.dialog_content}>
-              <Text style={styles_add.dialog_txt}>請輸入地點</Text>
-              <GooglePlacesAutocomplete
-                text={this.state.speechInput_location}
-                placeholder="搜尋地點"
-                minLength={2} // minimum length of text to search
-                autoFocus={false}
-                returnKeyType={"done"} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-                listViewDisplayed="false" // true/false/undefined
-                fetchDetails={true}
-                renderDescription={row => row.description} // custom description render
-                onPress={(data, details = null) => {
-                  // 'details' is provided when fetchDetails = true
-                  //console.log(data, details);
-                  //console.log(data["description"]);
-                  console.log(
-                    details.geometry.location.lat,
-                    details.geometry.location.lng
-                  ); // selected coordinates
-                  this.setState({
-                    speechInput_location: data["description"],
-                    speechInput_latitude: details.geometry.location.lat,
-                    speechInput_longitude: details.geometry.location.lng
-                  });
-                }}
-                getDefaultValue={() => ""}
-                query={{
-                  // available options: https://developers.google.com/places/web-service/autocomplete
-                  key: "AIzaSyDFXYCDMmdsblWgBxcKb65SlDP-wFOSD4M",
-                  language: "zh-TW", // language of the results
-                  types: "" // default: 'geocode'
-                }}
-                styles={{
-                  textInputContainer: {
-                    backgroundColor: "#fff",
-                    borderRadius: 3,
-                    borderWidth: 0.8,
-                    borderColor: "#ddd",
-                    marginTop: 10,
-                    marginBottom: 25
-                  },
-                  listView: {
-                    position: "absolute",
-                    top: 50,
-                    backgroundColor: "#fff",
-                    borderWidth: 0.8,
-                    borderColor: "#ddd",
-                    maxHeight: 100,
-                    zIndex: 1
-                  }
-                }}
-                currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
-                currentLocationLabel="Current location"
-                nearbyPlacesAPI="GooglePlacesSearch" // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-                GoogleReverseGeocodingQuery={
-                  {
-                    // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro
-                  }
-                }
-                GooglePlacesSearchQuery={{
-                  // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search
-                  rankby: "distance",
-                  types: "food"
-                }}
-                filterReverseGeocodingByTypes={[
-                  "locality",
-                  "administrative_area_level_3"
-                ]} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-                //predefinedPlaces={[homePlace, workPlace]}
-                debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-              // renderLeftButton={() => (
-              //   <Image />
-              // )}
-              />
-              <View style={styles_add.dialog_btnDiv}>
-                <Button
-                  title="上一步"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnPre}
-                  onPress={() => {
-                    this.setState({
-                      speech_location: false,
-                      speech_time: true
-                    });
-                  }}
-                />
-                <Button
-                  title="送出"
-                  titleStyle={{ fontWeight: "700" }}
-                  buttonStyle={styles_add.dialog_btnNext}
-                  onPress={() => {
-                    this.speechDialog.dismiss();
-                    this.setState({
-                      speech_type: true,
-                      speech_title: false,
-                      speech_date: false,
-                      speech_time: false,
-                      speech_location: false
-                    });
-                    this.speech_transform();
-                  }}
-                />
-              </View>
-            </View>
-          )}
-        </PopupDialog>
-
-        <View style={styles_add.addDiv}>
-          <TextInput
-            style={styles_add.addInput}
-            multiline={true}
-            placeholder="請輸入待辦事項"
-            ref={el => {
-              this.title = el;
-            }}
-            onChangeText={text => this.setState({ title: text })}
-            value={this.state.title}
-            fontSize={18}
-          />
-          {/* <TextInput
-            style={styles_add.addInput}
-            multiline={true}
-            placeholder="描述"
-            ref={el => {
-              this.content = el;
-            }}
-            onChangeText={text => this.setState({ content: text })}
-          /> */}
-        </View>
-        <View style={styles_add.itemDiv}>
-          <View style={styles_add.listDiv}>
-            <Icon
-              // name={list_type.value}
-              name={"tag"}
-              style={styles_add.listIcon}
-            />
-            <View style={styles_add.listDiv_data}>
-              <Dropdown
-                label=""
-                labelFontSize={0}
-                dropdownOffset={{ top: 20, left: 0 }}
-                inputContainerStyle={{ borderBottomColor: "transparent" }}
-                itemCount={list_type.length}
-                data={list_type}
-                onChangeText={data => this.setState({ type: data })}
-                fontSize={16}
-                value={"請選擇"}
-              />
-            </View>
+          <View style={styles_add.dialog_div}>
+            <Text style={styles_add.dialog_startxt}>{this.state.star_txt}</Text>
           </View>
-          <View style={styles_add.listDiv}>
-            <Icon
-              name={"map-pin"}
-              style={styles_add.listIcon}
+          <View style={styles_add.dialog_div}>
+            {/* 使用者勾選待辦事項評分 */}
+            <StarRating
+              disabled={false}
+              maxStars={7}
+              rating={this.state.list_rating}
+              selectedStar={(rating) => {
+                this.setState({
+                  list_rating: rating
+                });
+                this.changeStar(rating);
+              }}
+              fullStarColor={"#FFB700"}
+              starStyle={{ margin: 2 }}
             />
-            <View style={styles_add.listDiv_data}>
-              <Text
-                style={styles_add.listDiv_dataTxt}
-                onPress={
-                  () =>
-                    this.props.navigation.navigate("Add_location", {
-                      returnData: this.returnData.bind(this),
-                      jump: this.returnData.bind(this.jumpPage)
-                    })
-                  // this.props.navigation.navigate("Add_location")
-                }
-              >
-                {this.state.location === "" ?
-                  "地點" : this.state.location
-                }
-              </Text>
-            </View>
-          </View>
-          <View style={styles_add.listDiv}>
-            <Icon
-              name={"calendar"}
-              style={styles_add.listIcon}
-            />
-            <TouchableOpacity onPress={this._showDatePicker}>
-              <View style={styles_add.listDiv_data}>
-                <Text style={styles_add.listDiv_dataTxt}>
-                  {this.state.listDate}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View style={styles_add.listDiv}>
-            <Icon
-              name={"clock"}
-              style={styles_add.listIcon}
-            />
-            <TouchableOpacity onPress={this._showTimePicker}>
-              <View style={styles_add.listDiv_data}>
-                <Text style={styles_add.listDiv_dataTxt}>
-                  {this.state.listTime}
-                </Text>
-              </View>
-            </TouchableOpacity>
           </View>
           <Button
-            title="新增"
-            textStyle={{
-              fontWeight: "400",
-              letterSpacing: 2,
-              color: "#0b83c4"
+            title="送出"
+            titleStyle={{ fontWeight: "700" }}
+            buttonStyle={styles_add.dialog_btn}
+            onPress={() => {
+              this.ListMoodAJAX(this.state.list_created_at, this.state.list_rating);
+              this.popupDialog.dismiss();
+              this.setState({
+                list_rating: 0,
+                star_txt: "請輸入星情指數"
+              });
             }}
-            buttonStyle={{
-              backgroundColor: "#f7f7f7",
-              height: 50
-            }}
-            containerViewStyle={{
-              width: "100%"
-            }}
-            containerStyle={{
-              marginTop: 20,
-              letterSpacing: 2
-            }}
-            fontSize={20}
-            onPress={this.InsertDataToServer}
           />
-        </View>
-        <DateTimePicker
-          mode="date"
-          isVisible={this.state.isDatePickerVisible}
-          onConfirm={this._handleDatePicked}
-          onCancel={this._hideDateTimePicker}
-        />
-        <DateTimePicker
-          mode="time"
-          isVisible={this.state.isTimePickerVisible}
-          onConfirm={this._handleTimePicked}
-          onCancel={this._hideDateTimePicker}
-        />
-      </ScrollView>
+        </PopupDialog>
+      </View>
     );
   }
+
+  showlist(list) {
+    //跑資料庫待辦事項筆數並且將對應日期放入陣列中
+    for (let j = 0; j < this.state.list.length; j++) {
+      const listdate = this.state.list[j]["date"];
+      this.state.items[listdate].push({
+        date: this.state.list[j]['date'],
+        title: this.state.list[j]["title"],
+        time: this.state.list[j]['time'],
+        location: this.state.list[j]['location'],
+        status: this.state.list[j]['status'],
+        created_at: this.state.list[j]['created_at'],
+      });
+    }
+
+  }
+  // 讀取資料庫資料
+  loadItems(day) {
+    // alert("1")
+    let self = this;
+    axios({
+      url: ServiceApiNet.getURL() + "mongo_viewalllist.php",
+      method: "post"
+    })
+      .then(responseJson => {
+        if (responseJson.data != "No data") {
+          self.setState({
+            list: responseJson.data
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);  //避免頁面直接出錯
+      });
+
+    setTimeout(() => {
+      //列出對應行事曆
+      for (let i = -15; i < 85; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = this.timeToString(time);
+        this.state.items[strTime] = [];
+      }
+      //跑資料庫待辦事項筆數並且將對應日期放入陣列中
+      for (let j = 0; j < this.state.list.length; j++) {
+        const listdate = this.state.list[j]["date"];
+        this.state.items[listdate].push({
+          date: this.state.list[j]['date'],
+          title: this.state.list[j]["title"],
+          time: this.state.list[j]['time'],
+          location: this.state.list[j]['location'],
+          status: this.state.list[j]['status'],
+          created_at: this.state.list[j]['created_at'],
+        });
+      }
+      const newItems = {};
+      Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
+      this.setState({
+        items: newItems
+      });
+    }, 1000);
+  }
+
+  // 顯示資料
+  renderItem(item) {
+    // alert("2")
+    return (
+      <TouchableOpacity
+        style={[
+          item.status == 1
+            ? styles.itemDiv_checked
+            : styles.itemDiv
+        ]}
+        onPress={() => {
+          this.ListCheckAJAX(
+            item.created_at,
+            item.status
+          );
+          this.setState({
+            list_created_at: item.created_at
+          });
+          item.status == 0 ? this.popupDialog.show() : "";
+        }}
+      >
+
+        <Text style={styles.item_title}>{item.title}</Text>
+        <View>
+          <Text style={styles.item_subtitle}>
+            {item.time}
+            {item.location === "" ? "" : "，" + item.location}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  // 我不知道
+  renderEmptyDate() {
+    return (
+      <View style={styles.emptyDate}><Text>This is empty date!</Text></View>
+    );
+  }
+
+  // 立即顯示
+  rowHasChanged(r1, r2) {
+    // return r1.name !== r2.name;
+    // return true
+    return r1 !== r2
+  }
+
+  timeToString(time) {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
+  }
 }
+
+const styles = StyleSheet.create({
+  itemDiv: {
+    height: 70,
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    paddingRight: 15,
+    paddingLeft: 15,
+    marginRight: 10,
+    marginTop: 17
+  },
+  itemDiv_checked: {
+    height: 70,
+    backgroundColor: '#888',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    paddingRight: 15,
+    paddingLeft: 15,
+    marginRight: 10,
+    marginTop: 17
+  },
+  item_title: {
+    fontSize: 18,
+    lineHeight: 34,
+    minHeight: 34,
+    color: "#333",
+  },
+  item_subtitle: {
+    fontSize: 12,
+    lineHeight: 16,
+    color: "#999",
+
+  },
+  emptyDate: {
+    height: 15,
+    flex: 1,
+    paddingTop: 30
+  }
+});
