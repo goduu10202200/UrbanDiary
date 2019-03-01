@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/Feather";
+import Icon_list from "react-native-vector-icons/MaterialCommunityIcons";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
 import StarRating from 'react-native-star-rating';
 import { Button, ListItem, List } from "react-native-elements";
@@ -220,6 +221,7 @@ export default class Add extends Component {
           time: this.state.list[j]['time'],
           location: this.state.list[j]['location'],
           status: this.state.list[j]['status'],
+          kind: this.state.list[j]['kind'],
           created_at: this.state.list[j]['created_at'],
         });
       }
@@ -252,12 +254,38 @@ export default class Add extends Component {
           item.status == 0 ? this.popupDialog.show() : "";
         }}
       >
-
-        <Text style={styles.item_title}>{item.title}</Text>
-        <View>
-          <Text style={styles.item_subtitle}>
-            {item.time}
-            {item.location === "" ? "" : "，" + item.location}
+        <View style={styles_add.itemDiv_top}>
+          {/* <Icon
+            name={this.list_check(item.status)}
+            style={styles_add.itemDiv_check}
+            color="#666"
+            size={30}
+          /> */}
+          {item.kind == "future" ? (
+            <Icon_list
+              name={"star-circle"}
+              style={styles_add.itemDiv_icon}
+              color="#edb900"
+            />
+          ) : (
+              <Icon_list
+                name={"pencil-circle"}
+                style={styles_add.itemDiv_icon}
+                color="#518c73"
+              />
+            )}
+          {item.title === "吃嘿．傑克拉麵" ? (
+            <Image
+              style={styles_add.itemDiv_discount}
+              source={require("../assets/images/discount.png")}
+            />
+          ) : null}
+          <Text style={styles_add.itemDiv_item}>{item.title}</Text>
+        </View>
+        <View style={styles_add.itemDiv_bottom}>
+          <Text style={styles_add.itemDiv_time}>{item.time}</Text>
+          <Text style={styles_add.itemDiv_location}>
+            {item.location}
           </Text>
         </View>
       </TouchableOpacity>

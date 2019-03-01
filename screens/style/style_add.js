@@ -225,6 +225,57 @@ var styles_add = {
     alignSelf: 'flex-end',
   },
 
+  //待辦事項樣式
+  itemDiv_top: {
+    width: "100%",
+    flexDirection: "row",
+  },
+  itemDiv_bottom: {
+    width: "86%",
+    flexDirection: "row",
+    alignSelf: 'flex-end'
+  },
+  itemDiv_check: {
+    width: "10%",
+    padding: 0,
+    alignSelf: 'center',
+    // backgroundColor: 'rgba(211, 211, 211, .3)',
+    // width: 30,
+    // borderWidth: 0,
+  },
+  itemDiv_icon: {
+    width: "10%",
+    fontSize: 30,
+    alignSelf: 'center',
+  },
+  itemDiv_discount: {
+    width: 50,
+    height: 50,
+    // fontSize: 30,
+    position: "absolute",
+    bottom: 0,
+    right: 0
+  },
+  itemDiv_item: {
+    width: "70%",
+    fontSize: 18,
+    color: '#333',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    paddingLeft: 10,
+  },
+  itemDiv_time: {
+    fontSize: 12,
+    color: '#888',
+    alignSelf: 'center',
+    paddingLeft: 0,
+  },
+  itemDiv_location: {
+    fontSize: 12,
+    color: '#888',
+    alignSelf: 'center',
+    paddingLeft: 10,
+  }
 };
 
 export default styles_add;
