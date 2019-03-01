@@ -79,7 +79,7 @@ AddStack.navigationOptions = {
   tabBarIcon: ({ focused, tintColor }) => (
     <Icons
       focused={focused}
-      name={"plus"
+      name={"calendar"
         // Platform.OS === "ios" ? `ios-add${focused ? "" : ""}` : "md-add"
       }
       color={tintColor}
@@ -146,9 +146,9 @@ MemberStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  MemberStack,
-  DiaryStack,
   AddStack,
+  // MemberStack,
+  DiaryStack,
   HistoryStack,
   MapDiaryStack,
 });
