@@ -1,14 +1,6 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Dimensions,
-  Image,
-  Text,
-  RefreshControl,
-  ActivityIndicator
-} from "react-native";
-import { TabView, TabBar } from "react-native-tab-view"; // 0.0.67
+import { StyleSheet, View, Dimensions, Image, Text } from "react-native";
+import { TabBar } from "react-native-tab-view"; // 0.0.67
 import Timeline from "react-native-timeline-listview";
 import ServiceApiNet from "./ServiceApiNet";
 // 分頁內容
@@ -92,37 +84,6 @@ export default class History extends React.Component {
       {
         time: "2019",
         description: "02月"
-      },
-      {
-        time: "02/05",
-        title: "Archery Training",
-        description:
-          "The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ",
-        lineColor: "#009688",
-        imageUrl:
-          "https://cloud.githubusercontent.com/assets/21040043/24240340/c0f96b3a-0fe3-11e7-8964-fe66e4d9be7a.jpg"
-      },
-      {
-        time: "02/28",
-        title: "Archery Training",
-        description:
-          "The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ",
-        lineColor: "#009688",
-        imageUrl:
-          "https://cloud.githubusercontent.com/assets/21040043/24240340/c0f96b3a-0fe3-11e7-8964-fe66e4d9be7a.jpg"
-      },
-      {
-        time: "2019",
-        description: "03月"
-      },
-      {
-        time: "03/09",
-        title: "Archery Training",
-        description:
-          "The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ",
-        lineColor: "#009688",
-        imageUrl:
-          "https://cloud.githubusercontent.com/assets/21040043/24240340/c0f96b3a-0fe3-11e7-8964-fe66e4d9be7a.jpg"
       }
     ];
     this.state = {
@@ -167,6 +128,7 @@ export default class History extends React.Component {
     }
   };
 
+  // 內容
   renderDetail(rowData, sectionID, rowID) {
     let title = <Text style={[styles.title]}>{rowData.title}</Text>;
     var desc = null;
@@ -216,17 +178,7 @@ export default class History extends React.Component {
         break;
       default:
         desc = (
-          <View
-            style={{
-              marginBottom: 20,
-              marginTop: 20,
-              padding: 10,
-              backgroundColor: "#ffffff",
-              borderColor: "#c4c4c4",
-              borderWidth: 1,
-              borderRadius: 10
-            }}
-          >
+          <View style={styles.month_default}>
             <Image source={{ uri: rowData.imageUrl }} style={styles.image} />
             <Text style={[styles.textDescription]}>{rowData.description}</Text>
           </View>
@@ -240,21 +192,13 @@ export default class History extends React.Component {
       </View>
     );
   }
+  // 時間
   renderTime(rowData, sectionID, rowID) {
     var time = null;
     switch (rowData.time) {
       case "2018":
         time = (
-          <View
-            style={{
-              width: 60,
-              borderWidth: 1,
-              borderColor: "#f2efef",
-              borderRadius: 200,
-              backgroundColor: "#f2efef",
-              padding: 7
-            }}
-          >
+          <View style={time}>
             <Text style={{ textAlign: "center", color: "#bfbfbf" }}>
               {rowData.time}
             </Text>
@@ -263,16 +207,7 @@ export default class History extends React.Component {
         break;
       case "2019":
         time = (
-          <View
-            style={{
-              width: 60,
-              borderWidth: 1,
-              borderColor: "#f2efef",
-              borderRadius: 200,
-              backgroundColor: "#f2efef",
-              padding: 7
-            }}
-          >
+          <View style={styles.time}>
             <Text style={{ textAlign: "center", color: "#bfbfbf" }}>
               {rowData.time}
             </Text>
@@ -298,7 +233,7 @@ export default class History extends React.Component {
         );
     }
 
-    return <View>{time}</View>;
+    return <View>{styles.time}</View>;
   }
   render() {
     return (
@@ -326,23 +261,6 @@ export default class History extends React.Component {
             renderDetail={this.renderDetail}
             renderTime={this.renderTime}
           />
-          {/* <TabView
-            navigationState={this.state}
-            renderScene={this._renderScene}
-            renderHeader={this._renderHeader}
-            onIndexChange={this._handleIndexChange}
-            initialLayout={initialLayout}
-            renderTabBar={props => (
-              <TabBar
-                {...props}
-                //indicatorStyle={{ backgroundColor: 'white' }}
-                labelStyle={{ color: "#777", fontSize: 15, marginTop: 10 }}
-                style={{ backgroundColor: "white", height: 50 }}
-                renderIcon={this.renderIcon}
-                indicatorStyle={{ backgroundColor: "#777", height: 1 }}
-              />
-            )}
-          /> */}
         </View>
       </View>
     );
@@ -375,6 +293,23 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35
+  },
+  time: {
+    width: 60,
+    borderWidth: 1,
+    borderColor: "#f2efef",
+    borderRadius: 200,
+    backgroundColor: "#f2efef",
+    padding: 3
+  },
+  month_default: {
+    marginBottom: 20,
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: "#ffffff",
+    borderColor: "#c4c4c4",
+    borderWidth: 1,
+    borderRadius: 10
   },
   textDescription: {
     marginTop: 10,
