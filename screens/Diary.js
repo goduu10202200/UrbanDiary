@@ -322,7 +322,36 @@ export default class Diary extends React.Component {
         contentContainerStyle={styles_diary.container}
         scrollEnabled={false}
       >
-        {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }}> */}
+        {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }}> */}{/* Click urban diary's tag => diaplay window*/}
+        <PopupDialog
+          ref={popupDialog => {
+            this.popupDialog = popupDialog;
+          }}
+          dialogTitle={<DialogTitle title="標籤" />}
+          dialogStyle={styles_diary.dialog}
+        >
+          <TextInput
+            style={styles_diary.dialog_input}
+            placeholderTextColor="#a3a6a7"
+            ref={el => {
+              this.taginput = el;
+            }}
+            onChangeText={taginput => this.setState({ taginput })}
+            value={this.state.taginput}
+          // multiline={true}
+          />
+          <Button
+            title="送出"
+            titleStyle={{ fontWeight: "700" }}
+            buttonStyle={styles_diary.dialog_btn}
+            onPress={() => {
+              this.connection_inputtext(this.state.taginput);
+              this.popupDialog.dismiss();
+              //this.setState({ isHidden: !this.state.isHidden });
+              this.labelonPress();
+            }}
+          />
+        </PopupDialog>
         <View style={styles_diary.header}>
           <Text style={styles_diary.header_txt}>
             {this.ShowCurrentDate()}
@@ -362,36 +391,7 @@ export default class Diary extends React.Component {
             }
             value={this.state.diaryContent}
           />
-          {/* Click urban diary's tag => diaplay window*/}
-          <PopupDialog
-            ref={popupDialog => {
-              this.popupDialog = popupDialog;
-            }}
-            dialogTitle={<DialogTitle title="標籤" />}
-            dialogStyle={styles_diary.dialog}
-          >
-            <TextInput
-              style={styles_diary.dialog_input}
-              placeholderTextColor="#a3a6a7"
-              ref={el => {
-                this.taginput = el;
-              }}
-              onChangeText={taginput => this.setState({ taginput })}
-              value={this.state.taginput}
-            // multiline={true}
-            />
-            <Button
-              title="送出"
-              titleStyle={{ fontWeight: "700" }}
-              buttonStyle={styles_diary.dialog_btn}
-              onPress={() => {
-                this.connection_inputtext(this.state.taginput);
-                this.popupDialog.dismiss();
-                //this.setState({ isHidden: !this.state.isHidden });
-                this.labelonPress();
-              }}
-            />
-          </PopupDialog>
+
 
 
         </View>
@@ -430,6 +430,7 @@ export default class Diary extends React.Component {
               <TouchableOpacity
                 underlayColor="transparent"
                 onPress={() => {
+                  this._toggleSubview()
                   this.labelAJAX("love");
                   this.popupDialog.show();
                   this.taginput.focus();
@@ -442,6 +443,7 @@ export default class Diary extends React.Component {
               <TouchableOpacity
                 underlayColor="transparent"
                 onPress={() => {
+                  this._toggleSubview()
                   this.labelAJAX("life");
                   this.popupDialog.show();
                   this.taginput.focus();
@@ -454,6 +456,7 @@ export default class Diary extends React.Component {
               <TouchableOpacity
                 underlayColor="transparent"
                 onPress={() => {
+                  this._toggleSubview()
                   this.labelAJAX("schoolwork");
                   this.popupDialog.show();
                   this.taginput.focus();
@@ -466,6 +469,7 @@ export default class Diary extends React.Component {
               <TouchableOpacity
                 underlayColor="transparent"
                 onPress={() => {
+                  this._toggleSubview()
                   this.labelAJAX("work");
                   this.popupDialog.show();
                   this.taginput.focus();
@@ -478,6 +482,7 @@ export default class Diary extends React.Component {
               <TouchableOpacity
                 underlayColor="transparent"
                 onPress={() => {
+                  this._toggleSubview()
                   this.labelAJAX("trip");
                   this.popupDialog.show();
                   this.taginput.focus();
@@ -490,6 +495,7 @@ export default class Diary extends React.Component {
               <TouchableOpacity
                 underlayColor="transparent"
                 onPress={() => {
+                  this._toggleSubview()
                   this.labelAJAX("eat");
                   this.popupDialog.show();
                   this.taginput.focus();
