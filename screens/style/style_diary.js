@@ -24,7 +24,7 @@ var styles_diary = {
   },
   diary: {
     width: "100%",
-    height: "94%",
+    height: "97%",
     backgroundColor: "#fff"
   },
   diary_imgDiv: {
@@ -110,10 +110,10 @@ var styles_diary = {
 
   dialog: {
     width: "85%",
-    height: "35%",
+    height: "30%",
     backgroundColor: "#f7f7f7",
     position: "absolute",
-    top: "23%"
+    top: "10%"
   },
   dialog_input: {
     width: "90%",
@@ -136,7 +136,41 @@ var styles_diary = {
     borderWidth: 0,
     borderRadius: 5,
     alignSelf: "flex-end"
-  }
+  },
+
+  //標籤bottom slide
+  tagSlide_header: {
+    width: "100%",
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagSlide_title: {
+    width: "100%",
+    height: 100,
+    backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagSlide_div: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagSlide_row: {
+    width: "100%",
+    height: 100,
+    backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagSlide_item: {
+    width: "100%",
+    height: 100,
+    backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 };
 
 export default styles_diary;

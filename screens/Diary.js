@@ -1,18 +1,22 @@
 import React from "react";
 import axios from "axios";
 import {
-  StyleSheet,
+  styles_diaryheet,
+  Platform,
   ScrollView,
   Text,
   TextInput,
   View,
   Image,
-  TouchableHighlight,
   TouchableOpacity,
   Alert,
-  Animated
+  Animated,
+  Dimensions,
+  StyleSheet,
+  TouchableHighlight
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import SlidingPanel from 'react-native-sliding-up-down-panels';
 import { Camera, Permissions, ImagePicker, BlurView } from "expo";
 import moment from "moment";
 import ActionButton from "react-native-action-button";
@@ -24,6 +28,9 @@ import ServiceApiNet from "./ServiceApiNet";
 
 import styles_layout from "./style/style_layout";
 import styles_diary from "./style/style_diary";
+
+const { width, height } = Dimensions.get('window');
+var isHidden = true;
 
 var photoOptions = {
   //底部彈出框選項
@@ -39,6 +46,7 @@ var photoOptions = {
     path: "images"
   }
 };
+
 
 export default class Diary extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -77,12 +85,13 @@ export default class Diary extends React.Component {
       taginput: "",
       isHidden: true,
       diaryContent:
-        "今天一大早十點去教學大樓和通識課組員們準備期末開會報告，過程很順利～" +
-        "\n" +
-        "中午十二點和很久不見的高中同學聚餐，見到大家好開心，但美中不足的地方是忘記合照了ＱＱ",
+        "今天早上九點去大安區圖書館，準備開會報告，希望可以順利～ 中午十二去吃要排隊超久的一蘭拉麵，和好久不見的大學同學會聚餐，真開心吃完拉麵後，和小睿一起去台北地下街逛逛，還買了初音未來的模型哦！",
       image: null,
       imagefilename: "",
-      animatedValue: new Animated.Value(0)
+      animatedValue: new Animated.Value(0),
+
+      bounceValue: new Animated.Value(500),  //This is the initial position of the subview
+      buttonText: "Show Subview"
     };
     this.labelonPress = this.labelonPress.bind(this);
   }
@@ -165,11 +174,11 @@ export default class Diary extends React.Component {
         type: type
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         self.setState({ taginput: response.data });
         // console.log(response.data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   }
@@ -180,7 +189,7 @@ export default class Diary extends React.Component {
       url: ServiceApiNet.getURL() + "mongo_viewphoto.php",
       method: "post"
     })
-      .then(function(response) {
+      .then(function (response) {
         if (response.data != "No data") {
           self.setState({
             image: ServiceApiNet.getUploadURL() + response.data["name"]
@@ -189,7 +198,7 @@ export default class Diary extends React.Component {
         // console.log(response.data);
         // alert(this.state.image);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -206,12 +215,12 @@ export default class Diary extends React.Component {
         imagefilename: self.imagefilename
       }
     })
-      .then(function(response) {
+      .then(function (response) {
         console.log(response.data);
         // self.setState({ diaryContent: "" });
         Alert.alert("儲存成功", "");
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -270,14 +279,43 @@ export default class Diary extends React.Component {
 
     axios
       .post(ServiceApiNet.getURL() + "mongo_uploadphoto.php", formData)
-      .then(function(response) {
+      .then(function (response) {
         console.log(response.data);
         self.showImgAJAX();
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
+
+
+
+  _toggleSubview() {
+    this.setState({
+      buttonText: !isHidden ? "Show Subview" : "Hide Subview"
+    });
+
+    var toValue = 500;
+
+    if (isHidden) {
+      toValue = 0;
+    }
+
+    //This will animate the transalteY of the subview between 0 & 100 depending on its current state
+    //100 comes from the style below, which is the height of the subview.
+    Animated.spring(
+      this.state.bounceValue,
+      {
+        toValue: toValue,
+        velocity: 3,
+        tension: 2,
+        friction: 8,
+      }
+    ).start();
+
+    isHidden = !isHidden;
+  }
+
 
   render() {
     return (
@@ -286,50 +324,45 @@ export default class Diary extends React.Component {
         contentContainerStyle={styles_diary.container}
         scrollEnabled={false}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}
-        >
-          <View style={styles_diary.header}>
-            <Text style={styles_diary.header_txt}>
-              {this.ShowCurrentDate()}
-            </Text>
-          </View>
-          {this.state.image && (
-            <View style={styles_diary.diary_imgDiv}>
+        <View style={styles_diary.header}>
+          <Text style={styles_diary.header_txt}>
+            {this.ShowCurrentDate()}
+          </Text>
+        </View>
+        {this.state.image && (
+          <View style={styles_diary.diary_imgDiv}>
+            <Image
+              source={{ uri: this.state.image }}
+              style={styles_diary.diary_img}
+            />
+            {/* Adjust the tint and intensity */}
+            <BlurView
+              tint="dark"
+              intensity={50}
+              style={styles_diaryheet.absoluteFill}
+            >
               <Image
                 source={{ uri: this.state.image }}
+                resizeMode={"contain"}
                 style={styles_diary.diary_img}
               />
-              {/* Adjust the tint and intensity */}
-              <BlurView
-                tint="dark"
-                intensity={50}
-                style={StyleSheet.absoluteFill}
-              >
-                <Image
-                  source={{ uri: this.state.image }}
-                  resizeMode={"contain"}
-                  style={styles_diary.diary_img}
-                />
-              </BlurView>
-            </View>
-          )}
-          <View style={styles_diary.diary}>
-            <TextInput
-              style={styles_diary.diary_input}
-              multiline={true}
-              placeholder="今天發生了什麼趣事呢？"
-              ref={el => {
-                this.diaryContent = el;
-              }}
-              onChangeText={diaryContent =>
-                this.setState({ diaryContent: diaryContent })
-              }
-              value={this.state.diaryContent}
-            />
+            </BlurView>
           </View>
+        )}
 
-          {/* This is hidden window */}
-
+        <View style={styles_diary.diary}>
+          <TextInput
+            style={styles_diary.diary_input}
+            multiline={true}
+            placeholder="今天發生了什麼趣事呢？"
+            ref={el => {
+              this.diaryContent = el;
+            }}
+            onChangeText={diaryContent =>
+              this.setState({ diaryContent: diaryContent })
+            }
+            value={this.state.diaryContent}
+          />
           {/* Click urban diary's tag => diaplay window*/}
           <PopupDialog
             ref={popupDialog => {
@@ -346,7 +379,7 @@ export default class Diary extends React.Component {
               }}
               onChangeText={taginput => this.setState({ taginput })}
               value={this.state.taginput}
-              // multiline={true}
+            // multiline={true}
             />
             <Button
               title="送出"
@@ -360,150 +393,230 @@ export default class Diary extends React.Component {
               }}
             />
           </PopupDialog>
-          {/* Click urban diary's tag => diaplay window */}
 
-          {/* {this.state.isHidden ? ( */}
-            {/* <View style={styles_diary.tag_div}> */}
-              {/* <TouchableOpacity
-                style={{
-                  width: "55%",
-                  height: "100%",
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                }}
-                //onPress={this.labelonPress}
-              /> */}
-              {/* <View style={styles_diary.tag_box}> */}
-                {/* urban diary's  mood tag  Staret*/}
-                <Animated.View
-                  style={[styles_diary.tag_box,{
-                    transform: [{ translateX: this.state.animatedValue }]
-                  }]}
+          <View style={styles.tagSlide}>
+            {isHidden ? null : (
+              <BlurView
+                style={{ width, height: 520, backgroundColor: "#333", opacity: 0.7, zIndex: -1, position: "absolute", bottom: 0 }}
+                // viewRef={this.state.viewRef}
+                blurType="prominent"
+                blurAmount={100}
+              />
+            )}
+            <TouchableOpacity style={styles.tagSlide_uparrow} onPress={() => { this._toggleSubview() }}>
+              <Icon_Ionicons
+                name={Platform.OS === "ios" ? `ios-arrow-up` : "md-arrow-dropup"}
+                size={30}
+                color={"#fff"}
+              />
+              <Text style={styles.tagSlide_title}>標籤</Text>
+            </TouchableOpacity>
+            <Animated.View
+              style={[styles.subView,
+              { transform: [{ translateY: this.state.bounceValue }] }]}
+            >
+              <View style={styles.tagSlide_div}>
+                <TouchableOpacity
+                  style={styles.tagSlide_downarrow}
+                  onPress={() => { this._toggleSubview() }}>
+                  <Icon_Ionicons
+                    name={Platform.OS === "ios" ? `ios-arrow-down` : "md-arrow-dropdown"}
+                    size={30}
+                    color={"#fff"}
+                  />
+                  <Text style={styles.tagSlide_title}>標籤</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  underlayColor="transparent"
+                  onPress={() => {
+                    this.labelAJAX("love");
+                    this.popupDialog.show();
+                    this.taginput.focus();
+                  }}
+                  style={styles.tagSlide_item}
                 >
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => {
-                      this.labelAJAX("love");
-                      this.popupDialog.show();
-                      this.taginput.focus();
-                    }}
-                  >
-                    <Image
-                      style={styles_diary.tag_img}
-                      source={require("../assets/images/tag_love.png")}
-                    />
-                  </TouchableHighlight>
-                  {/* urban diary's mood tag  End*/}
-
-                  {/* urban diary's weather tag  Start*/}
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => {
-                      this.labelAJAX("eat");
-                      this.popupDialog.show();
-                      this.taginput.focus();
-                    }}
-                  >
-                    <Image
-                      style={styles_diary.tag_img}
-                      source={require("../assets/images/tag_eat.png")}
-                    />
-                  </TouchableHighlight>
-                  {/* urban diary's weather tag  End*/}
-
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => {
-                      this.labelAJAX("trip");
-                      this.popupDialog.show();
-                      this.taginput.focus();
-                    }}
-                  >
-                    <Image
-                      style={styles_diary.tag_img}
-                      source={require("../assets/images/tag_trip.png")}
-                    />
-                  </TouchableHighlight>
-
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => {
-                      this.labelAJAX("work");
-                      this.popupDialog.show();
-                      this.taginput.focus();
-                    }}
-                  >
-                    <Image
-                      style={styles_diary.tag_img}
-                      source={require("../assets/images/tag_work.png")}
-                    />
-                  </TouchableHighlight>
-
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => {
-                      this.labelAJAX("schoolwork");
-                      this.popupDialog.show();
-                      this.taginput.focus();
-                    }}
-                  >
-                    <Image
-                      style={styles_diary.tag_img}
-                      source={require("../assets/images/tag_homework.png")}
-                    />
-                  </TouchableHighlight>
-
-                  <TouchableHighlight
-                    underlayColor="transparent"
-                    onPress={() => {
-                      this.labelAJAX("life");
-                      this.popupDialog.show();
-                      this.taginput.focus();
-                    }}
-                  >
-                    <Image
-                      style={styles_diary.tag_img}
-                      source={require("../assets/images/tag_life.png")}
-                    />
-                  </TouchableHighlight>
-                </Animated.View>
-              {/* </View> */}
-            {/* </View> */}
-          {/* ) : null} */}
-
-          <ActionButton
-            renderIcon={active =>
-              active ? (
-                <Icon_Ionicons
-                  name="md-pricetags"
-                  style={styles_diary.actionButtonIcon}
-                />
-              ) : (
-                <Icon_Ionicons
-                  name="md-pricetags"
-                  style={styles_diary.actionButtonIcon}
-                />
-              )
-            }
-            position="right"
-            buttonColor="#3b5998"
-            btnOutRange="#3b5998"
-            hideShadow={true}
-            offsetX={15}
-            offsetY={20}
-            onPress={() => {
-              this.labelonPress();
-              //alert(JSON.stringify(this.state.animatedValue))
-              // setTimeout(() => {
-              //   alert(JSON.stringify(this.state.animatedValue))
-              // }, 1500)
-            }}
-          >
-            <Icon_Ionicons />
-          </ActionButton>
-        </ScrollView>
+                  <Icon name="heart" size={20} color={"#922B21"} />
+                  <Text style={[styles.tagSlide_itemtxt, { color: "#922B21" }]}>感情</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  underlayColor="transparent"
+                  onPress={() => {
+                    this.labelAJAX("life");
+                    this.popupDialog.show();
+                    this.taginput.focus();
+                  }}
+                  style={styles.tagSlide_item}
+                >
+                  <Icon name="activity" size={20} color={"#D4AC0D"} />
+                  <Text style={[styles.tagSlide_itemtxt, { color: "#D4AC0D" }]}>生活</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  underlayColor="transparent"
+                  onPress={() => {
+                    this.labelAJAX("schoolwork");
+                    this.popupDialog.show();
+                    this.taginput.focus();
+                  }}
+                  style={styles.tagSlide_item}
+                >
+                  <Icon name="book" size={20} color={"#E67E22"} />
+                  <Text style={[styles.tagSlide_itemtxt, { color: "#E67E22" }]}>學業</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  underlayColor="transparent"
+                  onPress={() => {
+                    this.labelAJAX("work");
+                    this.popupDialog.show();
+                    this.taginput.focus();
+                  }}
+                  style={styles.tagSlide_item}
+                >
+                  <Icon name="briefcase" size={20} color={"#1B4F72"} />
+                  <Text style={[styles.tagSlide_itemtxt, { color: "#1B4F72" }]}>工作</Text>
+                </TouchableOpacity>
+                {/* </View>
+                <View style={styles.tagSlide_row}> */}
+                <TouchableOpacity
+                  underlayColor="transparent"
+                  onPress={() => {
+                    this.labelAJAX("trip");
+                    this.popupDialog.show();
+                    this.taginput.focus();
+                  }}
+                  style={styles.tagSlide_item}
+                >
+                  <Icon name="compass" size={20} color={"#0E6251"} />
+                  <Text style={[styles.tagSlide_itemtxt, { color: "#0E6251" }]}>旅遊</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  underlayColor="transparent"
+                  onPress={() => {
+                    this.labelAJAX("eat");
+                    this.popupDialog.show();
+                    this.taginput.focus();
+                  }}
+                  style={styles.tagSlide_item}
+                >
+                  <Icon name="compass" size={20} color={"#5B2C6F"} />
+                  <Text style={[styles.tagSlide_itemtxt, { color: "#5B2C6F" }]}>食記</Text>
+                </TouchableOpacity>
+                <View style={styles.tagSlide_row}>
+                  <View style={styles.tagSlide_additem}>
+                    <Icon name="plus-circle" size={40} color={"#aaa"} />
+                  </View>
+                </View>
+              </View>
+            </Animated.View>
+          </View>
+        </View>
       </KeyboardAwareScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  //上拉標籤樣式
+  tagSlide: {
+    // flex: 1,
+    position: "absolute",
+    bottom: 0,
+    width,
+    height: 90,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subView: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#fff",
+    height: 430,
+  },
+  tagSlide_uparrow: {
+    width: width,
+    // height: 70,
+    flexDirection: 'row',
+    backgroundColor: '#5F6A6A',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+  },
+  tagSlide_downarrow: {
+    width: width,
+    // height: 70,
+    flexDirection: 'row',
+    backgroundColor: '#5F6A6A',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
+  },
+  tagSlide_title: {
+    lineHeight: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#fff',
+    fontSize: 20,
+    letterSpacing: 10,
+    marginLeft: 18,
+  },
+  tagSlide_div: {
+    width,
+    height: 400,
+    // backgroundColor: '#eee',
+    justifyContent: 'center',
+    // alignItems: 'center',
+    alignItems: 'flex-start'
+  },
+  tagSlide_row: {
+    width,
+    // height: 100,
+    // backgroundColor: 'red',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  tagSlide_item: {
+    width,
+    height: 50,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#ddd',
+  },
+  tagSlide_itemL: {
+    width: width / 2,
+    height: 100,
+    backgroundColor: '#F9EBEA',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagSlide_itemD: {
+    width: width / 2,
+    height: 100,
+    backgroundColor: '#FFFBEA',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tagSlide_itemtxt: {
+    fontSize: 20,
+    marginLeft: 15,
+    letterSpacing: 8
+  },
+  tagSlide_additem: {
+    width: width,
+    height: 70,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+  },
+
+});
