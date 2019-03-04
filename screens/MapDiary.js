@@ -61,7 +61,7 @@ export default class MapDiary extends React.Component {
   }
 
   render() {
-    // this.marker();
+    this.marker();
     return (
       <View style={styles.container}>
         <MapView

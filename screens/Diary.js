@@ -1,9 +1,8 @@
 import React from "react";
 import axios from "axios";
 import {
-  styles_diaryheet,
+  StyleSheet,
   Platform,
-  ScrollView,
   Text,
   TextInput,
   View,
@@ -11,9 +10,7 @@ import {
   TouchableOpacity,
   Alert,
   Animated,
-  Dimensions,
-  StyleSheet,
-  TouchableHighlight
+  Dimensions
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import SlidingPanel from 'react-native-sliding-up-down-panels';
@@ -339,7 +336,7 @@ export default class Diary extends React.Component {
             <BlurView
               tint="dark"
               intensity={50}
-              style={styles_diaryheet.absoluteFill}
+              style={StyleSheet.absoluteFill}
             >
               <Image
                 source={{ uri: this.state.image }}
@@ -474,8 +471,6 @@ export default class Diary extends React.Component {
                   <Icon name="briefcase" size={20} color={"#1B4F72"} />
                   <Text style={[styles.tagSlide_itemtxt, { color: "#1B4F72" }]}>工作</Text>
                 </TouchableOpacity>
-                {/* </View>
-                <View style={styles.tagSlide_row}> */}
                 <TouchableOpacity
                   underlayColor="transparent"
                   onPress={() => {

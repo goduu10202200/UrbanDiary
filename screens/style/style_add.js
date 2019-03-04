@@ -188,14 +188,14 @@ var styles_add = {
   //dialog_star
   dialog: {
     width: "85%",
-    height: "70%",
+    height: "40%",
     backgroundColor: 'rgb(255, 255, 255)',
     //opacity: 0.3,
     position: 'absolute',
-    top: "6%",
+    top: "15%",
   },
   dialog_div: {
-    marginTop: "5%",
+    marginTop: "7%",
     flexDirection: "row",
     width: "80%",
     alignSelf: "center",
