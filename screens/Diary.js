@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import {
+  // ScrollView,
   StyleSheet,
   Platform,
   Text,
@@ -321,6 +322,7 @@ export default class Diary extends React.Component {
         contentContainerStyle={styles_diary.container}
         scrollEnabled={false}
       >
+        {/* <ScrollView contentContainerStyle={{ flexGrow: 1 }}> */}
         <View style={styles_diary.header}>
           <Text style={styles_diary.header_txt}>
             {this.ShowCurrentDate()}
@@ -391,119 +393,121 @@ export default class Diary extends React.Component {
             />
           </PopupDialog>
 
-          <View style={styles.tagSlide}>
-            {isHidden ? null : (
-              <BlurView
-                style={{ width, height: 520, backgroundColor: "#333", opacity: 0.7, zIndex: -1, position: "absolute", bottom: 0 }}
-                // viewRef={this.state.viewRef}
-                blurType="prominent"
-                blurAmount={100}
-              />
-            )}
-            <TouchableOpacity style={styles.tagSlide_uparrow} onPress={() => { this._toggleSubview() }}>
-              <Icon_Ionicons
-                name={Platform.OS === "ios" ? `ios-arrow-up` : "md-arrow-dropup"}
-                size={30}
-                color={"#fff"}
-              />
-              <Text style={styles.tagSlide_title}>標籤</Text>
-            </TouchableOpacity>
-            <Animated.View
-              style={[styles.subView,
-              { transform: [{ translateY: this.state.bounceValue }] }]}
-            >
-              <View style={styles.tagSlide_div}>
-                <TouchableOpacity
-                  style={styles.tagSlide_downarrow}
-                  onPress={() => { this._toggleSubview() }}>
-                  <Icon_Ionicons
-                    name={Platform.OS === "ios" ? `ios-arrow-down` : "md-arrow-dropdown"}
-                    size={30}
-                    color={"#fff"}
-                  />
-                  <Text style={styles.tagSlide_title}>標籤</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  underlayColor="transparent"
-                  onPress={() => {
-                    this.labelAJAX("love");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                  style={styles.tagSlide_item}
-                >
-                  <Icon name="heart" size={20} color={"#922B21"} />
-                  <Text style={[styles.tagSlide_itemtxt, { color: "#922B21" }]}>感情</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  underlayColor="transparent"
-                  onPress={() => {
-                    this.labelAJAX("life");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                  style={styles.tagSlide_item}
-                >
-                  <Icon name="activity" size={20} color={"#D4AC0D"} />
-                  <Text style={[styles.tagSlide_itemtxt, { color: "#D4AC0D" }]}>生活</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  underlayColor="transparent"
-                  onPress={() => {
-                    this.labelAJAX("schoolwork");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                  style={styles.tagSlide_item}
-                >
-                  <Icon name="book" size={20} color={"#E67E22"} />
-                  <Text style={[styles.tagSlide_itemtxt, { color: "#E67E22" }]}>學業</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  underlayColor="transparent"
-                  onPress={() => {
-                    this.labelAJAX("work");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                  style={styles.tagSlide_item}
-                >
-                  <Icon name="briefcase" size={20} color={"#1B4F72"} />
-                  <Text style={[styles.tagSlide_itemtxt, { color: "#1B4F72" }]}>工作</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  underlayColor="transparent"
-                  onPress={() => {
-                    this.labelAJAX("trip");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                  style={styles.tagSlide_item}
-                >
-                  <Icon name="compass" size={20} color={"#0E6251"} />
-                  <Text style={[styles.tagSlide_itemtxt, { color: "#0E6251" }]}>旅遊</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  underlayColor="transparent"
-                  onPress={() => {
-                    this.labelAJAX("eat");
-                    this.popupDialog.show();
-                    this.taginput.focus();
-                  }}
-                  style={styles.tagSlide_item}
-                >
-                  <Icon name="compass" size={20} color={"#5B2C6F"} />
-                  <Text style={[styles.tagSlide_itemtxt, { color: "#5B2C6F" }]}>食記</Text>
-                </TouchableOpacity>
-                <View style={styles.tagSlide_row}>
-                  <View style={styles.tagSlide_additem}>
-                    <Icon name="plus-circle" size={40} color={"#aaa"} />
-                  </View>
+
+        </View>
+        <View style={styles.tagSlide}>
+          {isHidden ? null : (
+            <BlurView
+              style={{ width, height, backgroundColor: "#333", opacity: 0.7, zIndex: -1, position: "absolute", bottom: 0 }}
+              // viewRef={this.state.viewRef}
+              blurType="prominent"
+              blurAmount={100}
+            />
+          )}
+          <TouchableOpacity style={styles.tagSlide_uparrow} onPress={() => { this._toggleSubview() }}>
+            <Icon_Ionicons
+              name={Platform.OS === "ios" ? `ios-arrow-up` : "md-arrow-dropup"}
+              size={30}
+              color={"#fff"}
+            />
+            <Text style={styles.tagSlide_title}>標籤</Text>
+          </TouchableOpacity>
+          <Animated.View
+            style={[styles.subView,
+            { transform: [{ translateY: this.state.bounceValue }] }]}
+          >
+            <View style={styles.tagSlide_div}>
+              <TouchableOpacity
+                style={styles.tagSlide_downarrow}
+                onPress={() => { this._toggleSubview() }}>
+                <Icon_Ionicons
+                  name={Platform.OS === "ios" ? `ios-arrow-down` : "md-arrow-dropdown"}
+                  size={30}
+                  color={"#fff"}
+                />
+                <Text style={styles.tagSlide_title}>標籤</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                underlayColor="transparent"
+                onPress={() => {
+                  this.labelAJAX("love");
+                  this.popupDialog.show();
+                  this.taginput.focus();
+                }}
+                style={styles.tagSlide_item}
+              >
+                <Icon name="heart" size={20} color={"#922B21"} />
+                <Text style={[styles.tagSlide_itemtxt, { color: "#922B21" }]}>感情</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                underlayColor="transparent"
+                onPress={() => {
+                  this.labelAJAX("life");
+                  this.popupDialog.show();
+                  this.taginput.focus();
+                }}
+                style={styles.tagSlide_item}
+              >
+                <Icon name="activity" size={20} color={"#D4AC0D"} />
+                <Text style={[styles.tagSlide_itemtxt, { color: "#D4AC0D" }]}>生活</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                underlayColor="transparent"
+                onPress={() => {
+                  this.labelAJAX("schoolwork");
+                  this.popupDialog.show();
+                  this.taginput.focus();
+                }}
+                style={styles.tagSlide_item}
+              >
+                <Icon name="book" size={20} color={"#E67E22"} />
+                <Text style={[styles.tagSlide_itemtxt, { color: "#E67E22" }]}>學業</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                underlayColor="transparent"
+                onPress={() => {
+                  this.labelAJAX("work");
+                  this.popupDialog.show();
+                  this.taginput.focus();
+                }}
+                style={styles.tagSlide_item}
+              >
+                <Icon name="briefcase" size={20} color={"#1B4F72"} />
+                <Text style={[styles.tagSlide_itemtxt, { color: "#1B4F72" }]}>工作</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                underlayColor="transparent"
+                onPress={() => {
+                  this.labelAJAX("trip");
+                  this.popupDialog.show();
+                  this.taginput.focus();
+                }}
+                style={styles.tagSlide_item}
+              >
+                <Icon name="compass" size={20} color={"#0E6251"} />
+                <Text style={[styles.tagSlide_itemtxt, { color: "#0E6251" }]}>旅遊</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                underlayColor="transparent"
+                onPress={() => {
+                  this.labelAJAX("eat");
+                  this.popupDialog.show();
+                  this.taginput.focus();
+                }}
+                style={styles.tagSlide_item}
+              >
+                <Icon name="compass" size={20} color={"#5B2C6F"} />
+                <Text style={[styles.tagSlide_itemtxt, { color: "#5B2C6F" }]}>食記</Text>
+              </TouchableOpacity>
+              <View style={styles.tagSlide_row}>
+                <View style={styles.tagSlide_additem}>
+                  <Icon name="plus-circle" size={40} color={"#aaa"} />
                 </View>
               </View>
-            </Animated.View>
-          </View>
+            </View>
+          </Animated.View>
         </View>
+        {/* </ScrollView> */}
       </KeyboardAwareScrollView>
     );
   }
@@ -516,8 +520,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     width,
-    height: 90,
-    justifyContent: 'center',
+    height: 80,
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
   subView: {
