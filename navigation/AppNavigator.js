@@ -39,9 +39,9 @@ const RootStack = createStackNavigator(
     Add_location: Add_location,
     Diary_old: Diary_old,
   },
-  {
-    initialRouteName: "Main"
-  }
+  // {
+  //   initialRouteName: "Main"
+  // }
 );
 
 export default class App extends React.Component {
