@@ -390,11 +390,10 @@ export default class Diary extends React.Component {
               this.setState({ diaryContent: diaryContent })
             }
             value={this.state.diaryContent}
+            scrollEnabled={true}
           />
-
-
-
         </View>
+
         <View style={styles.tagSlide}>
           {isHidden ? null : (
             <BlurView

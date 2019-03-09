@@ -24,7 +24,7 @@ var styles_diary = {
   },
   diary: {
     width: "100%",
-    height: "97%",
+    height: "90%",
     backgroundColor: "#fff"
   },
   diary_imgDiv: {
@@ -110,10 +110,10 @@ var styles_diary = {
 
   dialog: {
     width: "85%",
-    height: "30%",
+    height: "35%",
     backgroundColor: "#f7f7f7",
     position: "absolute",
-    top: "10%"
+    top: "6%"
   },
   dialog_input: {
     width: "90%",

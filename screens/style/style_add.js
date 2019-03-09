@@ -102,7 +102,7 @@ var styles_add = {
   },
   dialog: {
     width: "85%",
-    height: "38%",
+    height: "40%",
     backgroundColor: '#f7f7f7',
     position: 'absolute',
     top: "15%",
@@ -186,15 +186,15 @@ var styles_add = {
   },
 
   //dialog_star
-  dialog: {
+  dialog_star: {
     width: "85%",
-    height: "40%",
+    height: "45%",
     backgroundColor: 'rgb(255, 255, 255)',
     //opacity: 0.3,
     position: 'absolute',
     top: "15%",
   },
-  dialog_div: {
+  dialog_star_div: {
     marginTop: "7%",
     flexDirection: "row",
     width: "80%",
@@ -208,13 +208,7 @@ var styles_add = {
     color: "#FFB700",
     alignSelf: "center",
   },
-  dialog_txt: {
-    fontSize: 20,
-    marginRight: 10,
-    alignSelf: "center",
-    //fontWeight: 'bold',
-  },
-  dialog_btn: {
+  dialog_star_btn: {
     backgroundColor: "#5b9bd5",
     width: "100%",
     height: 50,

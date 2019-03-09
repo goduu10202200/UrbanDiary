@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Dimensions, Image, Text } from "react-native";
+import { StyleSheet, View, Dimensions, Image, Text, ImageBackground } from "react-native";
 import { TabBar } from "react-native-tab-view"; // 0.0.67
 import Timeline from "react-native-timeline-listview";
 import ServiceApiNet from "./ServiceApiNet";
@@ -134,7 +134,7 @@ export default class History extends React.Component {
     var desc = null;
     var desc_month = (
       <View>
-        <Text style={{ color: "#e8e8e8" }}>
+        <Text style={{ color: "#666" }}>
           {rowData.description + " ──────────────"}
         </Text>
       </View>
@@ -238,30 +238,33 @@ export default class History extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1 }}>
-          {this.renderSelected()}
-          <Timeline
-            style={styles.list}
-            data={this.data}
-            circleSize={20}
-            circleColor="rgb(45,156,219)"
-            lineColor="rgb(45,156,219)"
-            timeContainerStyle={{
-              minWidth: 52,
-              marginTop: -5
-            }}
-            descriptionStyle={{ color: "gray" }}
-            options={{
-              style: { paddingTop: 5 }
-            }}
-            innerCircle={"icon"}
-            onEventPress={this.onEventPress}
-            separator={false}
-            innerCircle={"dot"}
-            renderDetail={this.renderDetail}
-            renderTime={this.renderTime}
-          />
-        </View>
+
+        <ImageBackground source={require('../assets/images/urbanbg.png')} style={{ flex: 1 }}>
+          <View style={{ flex: 1, padding: 20, paddingTop: 25, }}>
+            {this.renderSelected()}
+            <Timeline
+              style={styles.list}
+              data={this.data}
+              circleSize={20}
+              circleColor="rgb(45,156,219)"
+              lineColor="rgb(45,156,219)"
+              timeContainerStyle={{
+                minWidth: 52,
+                marginTop: -5
+              }}
+              descriptionStyle={{ color: "gray" }}
+              options={{
+                style: { paddingTop: 5 }
+              }}
+              innerCircle={"icon"}
+              onEventPress={this.onEventPress}
+              separator={false}
+              innerCircle={"dot"}
+              renderDetail={this.renderDetail}
+              renderTime={this.renderTime}
+            />
+          </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -269,9 +272,7 @@ export default class History extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    paddingTop: 25,
-    backgroundColor: "white"
+    // backgroundColor: "white"
   },
   list: {
     flex: 1,

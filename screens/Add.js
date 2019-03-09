@@ -147,12 +147,12 @@ export default class Add extends Component {
             this.popupDialog = popupDialog;
           }}
           dialogTitle={<DialogTitle title="星情指數" />}
-          dialogStyle={styles_add.dialog}
+          dialogStyle={styles_add.dialog_star}
         >
-          <View style={styles_add.dialog_div}>
+          <View style={styles_add.dialog_star_div}>
             <Text style={styles_add.dialog_startxt}>{this.state.star_txt}</Text>
           </View>
-          <View style={styles_add.dialog_div}>
+          <View style={styles_add.dialog_star_div}>
             {/* 使用者勾選待辦事項評分 */}
             <StarRating
               disabled={false}
@@ -165,13 +165,13 @@ export default class Add extends Component {
                 this.changeStar(rating);
               }}
               fullStarColor={"#FFB700"}
-              starStyle={{ margin: 2 }}
+              starStyle={{ margin: 1 }}
             />
           </View>
           <Button
             title="送出"
             titleStyle={{ fontWeight: "700" }}
-            buttonStyle={styles_add.dialog_btn}
+            buttonStyle={styles_add.dialog_star_btn}
             onPress={() => {
               this.ListMoodAJAX(this.state.list_created_at, this.state.list_rating);
               this.popupDialog.dismiss();
@@ -192,7 +192,11 @@ export default class Add extends Component {
     let self = this;
     axios({
       url: ServiceApiNet.getURL() + "mongo_viewalllist.php",
-      method: "post"
+      method: "post",
+      data: {
+        today: moment(new Date()).format("YYYY-MM-DD")
+      }
+
     })
       .then(responseJson => {
         if (responseJson.data != "No data") {
