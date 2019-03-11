@@ -1,26 +1,19 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import axios from "axios";
 import Icon from "react-native-vector-icons/Feather";
 import Icon_list from "react-native-vector-icons/MaterialCommunityIcons";
 import PopupDialog, { DialogTitle } from "react-native-popup-dialog";
-import StarRating from 'react-native-star-rating';
+import StarRating from "react-native-star-rating";
 import { Button, ListItem, List } from "react-native-elements";
 import ServiceApiNet from "./ServiceApiNet";
 // Import file
 import styles_layout from "./style/style_layout";
 import styles_add from "./style/style_add";
 import moment from "moment";
-import { Agenda } from 'react-native-calendars';
+import { Agenda } from "react-native-calendars";
 
 export default class Add extends Component {
-
   static navigationOptions = ({ navigation }) => {
     return {
       title: "行事曆",
@@ -29,7 +22,7 @@ export default class Add extends Component {
       headerRight: (
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("Add_new")
+            navigation.navigate("Add_new");
           }}
         >
           <Icon name={"plus"} style={styles_layout.titleIcon} />
@@ -65,12 +58,12 @@ export default class Add extends Component {
         status: status
       }
     })
-      .then(function (response) {
-        self.loadItemsForMonth(self.loadItems.bind(self))
+      .then(function(response) {
+        self.loadItemsForMonth(self.loadItems.bind(self));
 
-        self.renderItem(self)
+        self.renderItem(self);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
@@ -86,10 +79,10 @@ export default class Add extends Component {
         mood: mood
       }
     })
-      .then(function (response) {
+      .then(function(response) {
         // console.log(response.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
@@ -124,14 +117,11 @@ export default class Add extends Component {
     this.setState({
       star_txt: txt
     });
-
   }
 
   render() {
     return (
-      <View
-        style={styles_add.container}
-      >
+      <View style={styles_add.container}>
         <Agenda
           items={this.state.items}
           loadItemsForMonth={this.loadItems.bind(this)}
@@ -140,7 +130,6 @@ export default class Add extends Component {
           renderEmptyDate={this.renderEmptyDate.bind(this)}
           rowHasChanged={this.rowHasChanged.bind(this)}
         />
-
 
         <PopupDialog
           ref={popupDialog => {
@@ -158,7 +147,7 @@ export default class Add extends Component {
               disabled={false}
               maxStars={7}
               rating={this.state.list_rating}
-              selectedStar={(rating) => {
+              selectedStar={rating => {
                 this.setState({
                   list_rating: rating
                 });
@@ -173,7 +162,10 @@ export default class Add extends Component {
             titleStyle={{ fontWeight: "700" }}
             buttonStyle={styles_add.dialog_star_btn}
             onPress={() => {
-              this.ListMoodAJAX(this.state.list_created_at, this.state.list_rating);
+              this.ListMoodAJAX(
+                this.state.list_created_at,
+                this.state.list_rating
+              );
               this.popupDialog.dismiss();
               this.setState({
                 list_rating: 0,
@@ -196,7 +188,6 @@ export default class Add extends Component {
       data: {
         today: moment(new Date()).format("YYYY-MM-DD")
       }
-
     })
       .then(responseJson => {
         if (responseJson.data != "No data") {
@@ -206,7 +197,7 @@ export default class Add extends Component {
         }
       })
       .catch(error => {
-        console.log(error);  //避免頁面直接出錯
+        console.log(error); //避免頁面直接出錯
       });
 
     setTimeout(() => {
@@ -220,17 +211,19 @@ export default class Add extends Component {
       for (let j = 0; j < this.state.list.length; j++) {
         const listdate = this.state.list[j]["date"];
         this.state.items[listdate].push({
-          date: this.state.list[j]['date'],
+          date: this.state.list[j]["date"],
           title: this.state.list[j]["title"],
-          time: this.state.list[j]['time'],
-          location: this.state.list[j]['location'],
-          status: this.state.list[j]['status'],
-          kind: this.state.list[j]['kind'],
-          created_at: this.state.list[j]['created_at'],
+          time: this.state.list[j]["time"],
+          location: this.state.list[j]["location"],
+          status: this.state.list[j]["status"],
+          kind: this.state.list[j]["kind"],
+          created_at: this.state.list[j]["created_at"]
         });
       }
       const newItems = {};
-      Object.keys(this.state.items).forEach(key => { newItems[key] = this.state.items[key]; });
+      Object.keys(this.state.items).forEach(key => {
+        newItems[key] = this.state.items[key];
+      });
       this.setState({
         items: newItems
       });
@@ -242,16 +235,9 @@ export default class Add extends Component {
     // alert("2")
     return (
       <TouchableOpacity
-        style={[
-          item.status == 1
-            ? styles.itemDiv_checked
-            : styles.itemDiv
-        ]}
+        style={[item.status == 1 ? styles.itemDiv_checked : styles.itemDiv]}
         onPress={() => {
-          this.ListCheckAJAX(
-            item.created_at,
-            item.status
-          );
+          this.ListCheckAJAX(item.created_at, item.status);
           this.setState({
             list_created_at: item.created_at
           });
@@ -272,12 +258,12 @@ export default class Add extends Component {
               color="#edb900"
             />
           ) : (
-              <Icon_list
-                name={"pencil-circle"}
-                style={styles_add.itemDiv_icon}
-                color="#518c73"
-              />
-            )}
+            <Icon_list
+              name={"pencil-circle"}
+              style={styles_add.itemDiv_icon}
+              color="#518c73"
+            />
+          )}
           {item.title === "吃嘿．傑克拉麵" ? (
             <Image
               style={styles_add.itemDiv_discount}
@@ -288,9 +274,7 @@ export default class Add extends Component {
         </View>
         <View style={styles_add.itemDiv_bottom}>
           <Text style={styles_add.itemDiv_time}>{item.time}</Text>
-          <Text style={styles_add.itemDiv_location}>
-            {item.location}
-          </Text>
+          <Text style={styles_add.itemDiv_location}>{item.location}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -304,8 +288,8 @@ export default class Add extends Component {
           style={{
             width: "95%",
             height: 10,
-            borderBottomColor: '#ddd',
-            borderBottomWidth: 1,
+            borderBottomColor: "#ddd",
+            borderBottomWidth: 1
           }}
         />
       </View>
@@ -316,19 +300,19 @@ export default class Add extends Component {
   rowHasChanged(r1, r2) {
     // return r1.name !== r2.name;
     // return true
-    return r1 !== r2
+    return r1 !== r2;
   }
 
   timeToString(time) {
     const date = new Date(time);
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   }
 }
 
 const styles = StyleSheet.create({
   itemDiv: {
     height: 70,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     flex: 1,
     borderRadius: 5,
     padding: 10,
@@ -339,7 +323,7 @@ const styles = StyleSheet.create({
   },
   itemDiv_checked: {
     height: 70,
-    backgroundColor: '#888',
+    backgroundColor: "#888",
     flex: 1,
     borderRadius: 5,
     padding: 10,
@@ -352,13 +336,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 34,
     minHeight: 34,
-    color: "#333",
+    color: "#333"
   },
   item_subtitle: {
     fontSize: 12,
     lineHeight: 16,
-    color: "#999",
-
+    color: "#999"
   },
   emptyDate: {
     height: 15,
